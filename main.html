@@ -33,7 +33,7 @@
         {team: "Leicester City", lat: 52.620291, lon: -1.142289},
         {team: "Coventry City", lat: 52.448352, lon: -1.496622},
         {team: "Sheffield Wednesday", lat: 53.411435, lon: -1.500710},
-        {team: "Wimbledon", lat: 51.398310, lon: -0.086575},
+        // {team: "Wimbledon", lat: 51.398310, lon: -0.086575},
         {team: "West Bromwich Albion", lat: 52.509037, lon: -1.963951},
         {team: "Stoke City", lat: 52.988073, lon: -2.176630},
         {team: "Charlton Athletic", lat: 51.486263, lon: 0.036446},
@@ -60,14 +60,32 @@
         {team: "Swindon Town", lat: 51.564864, lon: -1.771346},
         {team: "Preston North End", lat: 53.772219, lon: -2.688362},
         {team: "Huddersfield Town", lat: 53.654271, lon: -1.768374}
-    ];
+    ].filter(t => t.team !== "Swansea City" && t.team !== "Cardiff City"); // Filter out Welsh teams
 
     const chartDom = document.getElementById('chart-container');
     const myChart = echarts.init(chartDom);
 
-    fetch("lad.json")
+    fetch("gb.json")
         .then(response => response.json())
         .then(geoData => {
+            // IDs of districts in Scotland, Wales, and Northern Ireland to exclude
+            const nonEnglishIds = new Set([
+                // Scotland
+                "GBABD", "GBABE", "GBAGB", "GBANS", "GBCLK", "GBDGY", "GBDND", "GBEAY", "GBEDH", "GBEDU", 
+                "GBELN", "GBELS", "GBFAL", "GBFIF", "GBGLG", "GBHLD", "GBIVC", "GBMLN", "GBMRY", "GBNAY", 
+                "GBNLK", "GBORK", "GBPKN", "GBRFW", "GBSAY", "GBSCB", "GBSLK", "GBSTG", "GBWDU", "GBWLN", "GBZET","GBERW",
+                // Wales
+                "GBAGY", "GBBGE", "GBBGW", "GBCAY", "GBCGN", "GBCMN", "GBCRF", "GBCWY", "GBDEN", "GBFLN", 
+                "GBGWN", "GBMON", "GBMTY", "GBNTL", "GBNWP", "GBPEM", "GBPOW", "GBRCT", "GBSWA", "GBTOF", 
+                "GBVGL", "GBWRX",
+                // Northern Ireland
+                "GBANT", "GBARD", "GBARM", "GBBLA", "GBBLY", "GBBNB", "GBBFS", "GBCKF", "GBCSR", "GBCKT", 
+                "GBCLR", "GBCGV", "GBDGN", "GBDOW", "GBDRY", "GBFER", "GBLMV", "GBLRN", "GBLSB", "GBMFT", 
+                "GBMYL", "GBNDN", "GBNTA", "GBNYM", "GBOMH", "GBSTB"
+            ]);
+
+            geoData.features = geoData.features.filter(feature => !nonEnglishIds.has(feature.properties.id));
+
             echarts.registerMap('UK', geoData);
 
             const option = {
@@ -75,9 +93,13 @@
                 geo: {
                     map: 'UK',
                     roam: true,
-                    label: { show: false },
+                    label: {
+                        show: true,
+                        color: '#999',
+                        fontSize: 8
+                    },
                     itemStyle: {
-                        areaColor: '#ccc',
+                        areaColor: '#e0e0e0',
                         borderColor: '#fff',
                         borderWidth: 0.5
                     },
@@ -85,7 +107,10 @@
                         itemStyle: {
                             areaColor: '#bbb'
                         },
-                        label: { show: false }
+                        label: {
+                            show: true,
+                            color: '#000'
+                        }
                     }
                 },
                 series: [
@@ -97,7 +122,7 @@
                             name: item.team,
                             value: [item.lon, item.lat]
                         })),
-                        symbolSize: 10,
+                        symbolSize: 5,
                         itemStyle: {
                             color: 'red',
                             borderColor: '#fff',
@@ -108,7 +133,7 @@
                             formatter: '{b}',
                             position: 'top',
                             color: '#333',
-                            fontSize: 10,
+                            fontSize: 7,
                             textBorderColor: '#fff',
                             textBorderWidth: 2
                         },
