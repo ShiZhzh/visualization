@@ -127,8 +127,7 @@
 
             myChart.on('click', function(params) {
                 if (params.componentType === 'series') {
-                    const filename = params.name.replace(/\s+/g, '') + ".html";
-                    window.location.href = filename;
+                    window.location.href = params.name.replace(/\s+/g, '') + ".html";
                 }
             });
         });
