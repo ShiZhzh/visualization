@@ -158,13 +158,20 @@
                             textBorderWidth: 2
                         },
                         emphasis: {
-                            scale: true
+                            scale: true,
+                            label: {
+                                show: true,
+                                fontSize: 7, // 设置悬停时的字体大小
+                            }
                         }
                     }
                 ],
                 tooltip: {
                     trigger: 'item',
-                    formatter: '{b}'
+                    formatter: '{b}',
+                    textStyle: {
+                        fontSize: 7
+                    }
                 }
             };
 
