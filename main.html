@@ -86,7 +86,80 @@
                 "GBMYL", "GBNDN", "GBNTA", "GBNYM", "GBOMH", "GBSTB"
             ]);
 
+            // 定义英格兰9大区的 ID 集合和对应颜色
+            const regionConfig = [
+                {
+                    name: "North East",
+                    color: "#87CEEB", // SkyBlue
+                    ids: new Set(["GBNBL","GBNET","GBGAT","GBNTY","GBSTY","GBSND","GBDUR","GBDAL","GBHPL","GBSTT","GBRCC","GBMDB"])
+                },
+                {
+                    name: "North West",
+                    color: "#4682B4", // SteelBlue
+                    ids: new Set(["GBCMA","GBLAN","GBBPL","GBBBD","GBBOL","GBBUR","GBMAN","GBOLD","GBROC","GBSAL","GBSKP",
+                        "GBTAM","GBTRA","GBWIG","GBKNO","GBLIV","GBSEF","GBWIR","GBHAL","GBWRT","GBCHE","GBCWC","GBCHW",
+                        "GBTRF","GBSFT","GBKWL","GBSHN","GBWGN","GBSLF","GBRCH",])},
+                {
+                    name: "Yorkshire and the Humber",
+                    color: "#32CD32", // LimeGreen
+                    ids: new Set(["GBNYK","GBYOR","GBERY","GBKHU","GBBRD","GBCLD","GBKIR","GBLDS","GBWKF","GBBNS","GBDNC",
+                        "GBROT","GBSHF","GBNLN","GBNEL","GBKHL",])
+                },
+                {
+                    name: "East Midlands",
+                    color: "#FFD700", // Gold
+                    ids: new Set(["GBDBY","GBDER","GBNTT","GBNGM","GBLIN","GBLEC","GBLCE","GBRUT","GBNTH","GBNNH","GBWNH"])
+                },
+                {
+                    name: "West Midlands",
+                    color: "#FFA500", // Orange
+                    ids: new Set(["GBSTS","GBSTO","GBSHR","GBTEL","GBWAR","GBWOR","GBHEF","GBBIR","GBCOV","GBDUD","GBSAN","GBSOL",
+                        "GBWAL","GBWLV","GBWLL","GBSAW","GBTFW","GBSTE",])
+                },
+                {
+                    name: "East of England",
+                    color: "#DA70D6", // Orchid
+                    ids: new Set(["GBNFK","GBSFK","GBCAM","GBPET","GBESS","GBSOU","GBTHR","GBHRT","GBBDF","GBLUT","GBCEN","GBCBF",
+                        "GBPTE","GBSOS",])
+                },
+                {
+                    name: "London",
+                    color: "#FF4500", // OrangeRed
+                    ids: new Set(["GBLND","GBBKI","GBBNE","GBBEX","GBBRN","GBBRO","GBCAM","GBCRO","GBEAL","GBENF","GBGRE","GBHCK",
+                        "GBHMF","GBHRG","GBHRW","GBHAV","GBHIL","GBHNS","GBISL","GBKEC","GBKTT","GBLBH","GBLEW","GBMRT","GBNWM",
+                        "GBRDB","GBRIC","GBSWK","GBSUT","GBTOW","GBWFT","GBWND","GBWSM","GBSTN","GBCRY","GBBRY","GBBEN","GBBDG",
+                        "GBTWH","GBCMD","GBHRY",])
+                },
+                {
+                    name: "South East",
+                    color: "#40E0D0", // Turquoise
+                    ids: new Set(["GBBKM","GBMKN","GBOXF","GBSUR","GBWSX","GBESX","GBBHM","GBKEN","GBMDW","GBHAM","GBPOR","GBSOU",
+                        "GBIOW","GBBRK","GBBRA","GBREA","GBSLO","GBWNM","GBWIN","GBSTH","GBWBK","GBSRY","GBRDG","GBWOK", "GBBRC",
+                        "GBSLG","GBMIK","GBBNH", ])
+                },
+                {
+                    name: "South West",
+                    color: "#1E90FF", // DodgerBlue
+                    ids: new Set(["GBGLO","GBSGC","GBWIL","GBSWI","GBDOR","GBBOU","GBPOO","GBSOM","GBBAS","GBNSM","GBDEV","GBPLY",
+                        "GBTOR","GBCRN","GBIOS","GBTOB","GBBST","GBCON","GBPOL","GBBMH","GBGLS", "GBSWD",  ])
+                }
+            ];
+
             geoData.features = geoData.features.filter(feature => !nonEnglishIds.has(feature.properties.id));
+
+            const specialRegions = [];
+            geoData.features.forEach(feature => {
+                // 遍历配置，找到当前 feature 所属的区域
+                const region = regionConfig.find(r => r.ids.has(feature.properties.id));
+                if (region) {
+                    specialRegions.push({
+                        name: feature.properties.name,
+                        itemStyle: {
+                            areaColor: region.color
+                        }
+                    });
+                }
+            });
 
             echarts.registerMap('UK', geoData);
 
@@ -114,6 +187,7 @@
                 backgroundColor: '#f0f0f0',
                 geo: {
                     map: 'UK',
+                    regions: specialRegions,
                     roam: true,
                     label: {
                         show: false, // 初始不显示地区名称，防止太挤
