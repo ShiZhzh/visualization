@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yorkshire and the Humber Region</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #f0f0f0; }
+        #chart-container { width: 100vw; height: 100vh; }
+        .back-button {
+            position: absolute; top: 20px; left: 20px; z-index: 1000;
+            padding: 5px 15px; background-color: #fff; border: 1px solid #ccc;
+            cursor: pointer; font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+<button class="back-button" onclick="window.location.href='main.html'">Back to UK Map</button>
+<div id="chart-container"></div>
+<script>
+    // Yorkshire and the Humber Teams
+    const teamsData = [
+        {team: "Leeds United", lat: 53.777829, lon: -1.572155},
+        {team: "Sheffield Wednesday", lat: 53.411435, lon: -1.500710},
+        {team: "Sheffield United", lat: 53.370355, lon: -1.470873},
+        {team: "Bradford City", lat: 53.804418, lon: -1.759326}
+    ];
+
+    const chartDom = document.getElementById('chart-container');
+    const myChart = echarts.init(chartDom);
+
+    fetch("gb.json")
+        .then(response => response.json())
+        .then(geoData => {
+            // Yorkshire and the Humber District IDs
+            const regionIds = new Set(["GBNYK","GBYOR","GBERY","GBKHU","GBBRD","GBCLD","GBKIR","GBLDS","GBWKF","GBBNS","GBDNC","GBROT","GBSHF","GBNLN","GBNEL","GBKHL"]);
+
+            geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
+
+            echarts.registerMap('Yorkshire', geoData);
+
+            const option = {
+                backgroundColor: '#f0f0f0',
+                title: { text: 'Yorkshire and the Humber', left: 'center', top: 20 },
+                geo: {
+                    map: 'Yorkshire',
+                    roam: true,
+                    label: { show: true, color: '#999', fontSize: 10 },
+                    itemStyle: {
+                        areaColor: '#32CD32', // LimeGreen
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        itemStyle: { areaColor: '#90EE90' },
+                        label: { show: true, color: '#000' }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Stadiums',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        data: teamsData.map(item => ({
+                            name: item.team,
+                            value: [item.lon, item.lat]
+                        })),
+                        symbolSize: 10,
+                        itemStyle: { color: 'red', borderColor: '#fff', borderWidth: 1 },
+                        label: {
+                            show: true, formatter: '{b}', position: 'right',
+                            color: '#333', fontSize: 10, backgroundColor: 'rgba(255,255,255,0.7)', padding: [2, 4]
+                        },
+                        emphasis: { scale: true }
+                    }
+                ],
+                tooltip: { trigger: 'item', formatter: '{b}' }
+            };
+
+            myChart.setOption(option);
+            myChart.on('click', function(params) {
+                if (params.componentType === 'series') {
+                    window.location.href = params.name.replace(/\s+/g, '') + ".html";
+                }
+            });
+        });
+    window.addEventListener('resize', myChart.resize);
+</script>
+</body>
+</html>

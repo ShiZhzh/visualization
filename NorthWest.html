@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>North West Region</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #f0f0f0; }
+        #chart-container { width: 100vw; height: 100vh; }
+        .back-button {
+            position: absolute; top: 20px; left: 20px; z-index: 1000;
+            padding: 5px 15px; background-color: #fff; border: 1px solid #ccc;
+            cursor: pointer; font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+<button class="back-button" onclick="window.location.href='main.html'">Back to UK Map</button>
+<div id="chart-container"></div>
+<script>
+    // North West Teams
+    const teamsData = [
+        {team: "Manchester United", lat: 53.463060, lon: -2.291332},
+        {team: "Liverpool", lat: 53.430827, lon: -2.960836},
+        {team: "Everton", lat: 53.438788, lon: -2.966320},
+        {team: "Manchester City", lat: 53.483137, lon: -2.200395},
+        {team: "Burnley", lat: 53.788987, lon: -2.230198}
+    ];
+
+    const chartDom = document.getElementById('chart-container');
+    const myChart = echarts.init(chartDom);
+
+    fetch("gb.json")
+        .then(response => response.json())
+        .then(geoData => {
+            // North West District IDs (Copied from main.html)
+            const regionIds = new Set(["GBCMA","GBLAN","GBBPL","GBBBD","GBBOL","GBBUR","GBMAN","GBOLD","GBROC","GBSAL","GBSKP",
+                "GBTAM","GBTRA","GBWIG","GBKNO","GBLIV","GBSEF","GBWIR","GBHAL","GBWRT","GBCHE","GBCWC","GBCHW",
+                "GBTRF","GBSFT","GBKWL","GBSHN","GBWGN","GBSLF","GBRCH"]);
+
+            // Filter map data for this region
+            geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
+
+            echarts.registerMap('NorthWest', geoData);
+
+            const option = {
+                backgroundColor: '#f0f0f0',
+                title: { text: 'North West', left: 'center', top: 20 },
+                geo: {
+                    map: 'NorthWest',
+                    roam: true,
+                    label: { show: true, color: '#999', fontSize: 10 },
+                    itemStyle: {
+                        areaColor: '#4682B4', // SteelBlue
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        itemStyle: { areaColor: '#5F9EA0' },
+                        label: { show: true, color: '#000' }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Stadiums',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        data: teamsData.map(item => ({
+                            name: item.team,
+                            value: [item.lon, item.lat]
+                        })),
+                        symbolSize: 10,
+                        itemStyle: { color: 'red', borderColor: '#fff', borderWidth: 1 },
+                        label: {
+                            show: true, formatter: '{b}', position: 'right',
+                            color: '#333', fontSize: 10, backgroundColor: 'rgba(255,255,255,0.7)', padding: [2, 4]
+                        },
+                        emphasis: { scale: true }
+                    }
+                ],
+                tooltip: { trigger: 'item', formatter: '{b}' }
+            };
+
+            myChart.setOption(option);
+
+            myChart.on('click', function(params) {
+                if (params.componentType === 'series') {
+                    window.location.href = params.name.replace(/\s+/g, '') + ".html";
+                }
+            });
+        });
+
+    window.addEventListener('resize', myChart.resize);
+</script>
+</body>
+</html>

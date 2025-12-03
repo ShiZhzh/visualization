@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>North East Region</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #f0f0f0; }
+        #chart-container { width: 100vw; height: 100vh; }
+        .back-button {
+            position: absolute; top: 20px; left: 20px; z-index: 1000;
+            padding: 5px 15px; background-color: #fff; border: 1px solid #ccc;
+            cursor: pointer; font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+<button class="back-button" onclick="window.location.href='main.html'">Back to UK Map</button>
+<div id="chart-container"></div>
+<script>
+    // North East Teams
+    const teamsData = [
+        {team: "Newcastle United", lat: 54.975561, lon: -1.621679},
+        {team: "Sunderland", lat: 54.914586, lon: -1.388307}
+    ];
+
+    const chartDom = document.getElementById('chart-container');
+    const myChart = echarts.init(chartDom);
+
+    fetch("gb.json")
+        .then(response => response.json())
+        .then(geoData => {
+            // North East District IDs
+            const regionIds = new Set(["GBNBL","GBNET","GBGAT","GBNTY","GBSTY","GBSND","GBDUR","GBDAL","GBHPL","GBSTT","GBRCC","GBMDB"]);
+
+            geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
+
+            echarts.registerMap('NorthEast', geoData);
+
+            const option = {
+                backgroundColor: '#f0f0f0',
+                title: { text: 'North East', left: 'center', top: 20 },
+                geo: {
+                    map: 'NorthEast',
+                    roam: true,
+                    label: { show: true, color: '#999', fontSize: 10 },
+                    itemStyle: {
+                        areaColor: '#87CEEB', // SkyBlue
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    emphasis: {
+                        itemStyle: { areaColor: '#B0E0E6' },
+                        label: { show: true, color: '#000' }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Stadiums',
+                        type: 'scatter',
+                        coordinateSystem: 'geo',
+                        data: teamsData.map(item => ({
+                            name: item.team,
+                            value: [item.lon, item.lat]
+                        })),
+                        symbolSize: 10,
+                        itemStyle: { color: 'red', borderColor: '#fff', borderWidth: 1 },
+                        label: {
+                            show: true, formatter: '{b}', position: 'right',
+                            color: '#333', fontSize: 10, backgroundColor: 'rgba(255,255,255,0.7)', padding: [2, 4]
+                        },
+                        emphasis: { scale: true }
+                    }
+                ],
+                tooltip: { trigger: 'item', formatter: '{b}' }
+            };
+
+            myChart.setOption(option);
+            myChart.on('click', function(params) {
+                if (params.componentType === 'series') {
+                    window.location.href = params.name.replace(/\s+/g, '') + ".html";
+                }
+            });
+        });
+    window.addEventListener('resize', myChart.resize);
+</script>
+</body>
+</html>
