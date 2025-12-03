@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    font-family: sans-serif;
+    font-size: 14px; /* 统一的基础字体大小 */
+}
+
+#chart-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    padding: 5px 10px; /* 统一的按键内边距 */
+    font-size: 7px;   /* 统一的按键字体大小 */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: sans-serif;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+}
