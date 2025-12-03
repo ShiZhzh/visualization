@@ -79,6 +79,9 @@
 
             myChart.on('click', function(params) {
                 if (params.componentType === 'series') {
+                    // 修改跳转路径：进入 team 目录，并将文件名转为小写
+                    window.location.href = "./team/" + params.name.replace(/\s+/g, '').toLowerCase() + ".html";
+                }else if (params.componentType === 'series') {
                     window.location.href = params.name.replace(/\s+/g, '') + ".html";
                 }
             });
