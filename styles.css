@@ -16,8 +16,8 @@ body {
     top: 20px;
     left: 20px;
     z-index: 1000;
-    padding: 5px 10px; /* 统一的按键内边距 */
-    font-size: 7px;   /* 统一的按键字体大小 */
+    padding: 10px 20px; /* 统一的按键内边距 */
+    font-size: 14px;   /* 统一的按键字体大小 */
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
