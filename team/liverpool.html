@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>利物浦 FC | Liverpool FC</title>
     <style>
-        /* 基础样式 - 利物浦主题色（红军红+利物浦红辅助色） */
+       
         :root {
-            --team-primary: #C8102E; /* 利物浦主红 */
-            --team-secondary: #00A398; /* 利物浦绿（辅助色） */
-            --team-secondary-dark: #008981; /* 深色辅助色 */
+            --team-primary: #C8102E; 
+            --team-secondary: #00A398; 
+            --team-secondary-dark: #008981;
             --text-main: #333;
             --text-secondary: #555;
             --bg-light: #f4f4f4;
@@ -58,7 +58,7 @@
             margin-bottom: 1rem;
         }
 
-        /* 基础信息模块 */
+ 
         .basic-info {
             text-align: left;
             margin-top: 1rem;
@@ -74,7 +74,7 @@
             color: var(--text-main);
         }
 
-        /* 列表类模块（事件、荣誉、传奇人物） */
+      
         .list-section {
             text-align: left;
             margin-top: 0.5rem;
@@ -95,7 +95,7 @@
             color: var(--text-main);
         }
 
-        /* 战绩表格 */
+       
         table {
             width: 100%;
             border-collapse: collapse;
@@ -122,7 +122,6 @@
             background-color: #f9f9f9;
         }
 
-        /* 按钮通用样式 */
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -134,7 +133,7 @@
             border: none;
         }
 
-        /* 语言切换按钮（固定在页面右上角） */
+     
         .lang-btn {
             position: fixed;
             top: 12px;
@@ -153,7 +152,7 @@
             background-color: #b00e27;
         }
 
-        /* 返回按钮 */
+       
         .back-btn {
             background-color: var(--team-secondary);
             color: white;
@@ -164,7 +163,7 @@
             background-color: var(--team-secondary-dark);
         }
 
-        /* 响应式适配 */
+       
         @media (max-width: 768px) {
             .card {
                 padding: 1.8rem;
@@ -186,15 +185,15 @@
     </style>
 </head>
 <body>
-    <!-- 语言切换按钮（固定在页面右上角） -->
+
     <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
     <div class="card">
-    <!-- 球队logo（替换为利物浦logo路径） -->
+
     <img src="./image/liverpool.jpg" alt="利物浦队徽" class="team-logo">
-    <!-- 球队名称（默认中文） -->
+
     <h1 id="teamName">利物浦足球俱乐部</h1>
 
-    <!-- 基础信息（默认中文） -->
+
     <div class="basic-info" id="basicInfo">
         <p><strong>昵称：</strong>红军 / 利物浦</p>
         <p><strong>主场：</strong>安菲尔德球场</p>
@@ -203,13 +202,13 @@
         <p><strong>地理坐标：</strong>53.430833, -2.966667</p>
     </div>
 
-    <!-- 俱乐部背景（默认中文） -->
+
     <h2 id="titleBackground">俱乐部背景</h2>
     <div class="list-section" id="clubBackground">
         <p>利物浦成立于1892年3月15日，由约翰·霍丁因与埃弗顿俱乐部的场地纠纷创立，主场安菲尔德球场自成立起沿用至今。俱乐部以“你永远不会独行（You'll Never Walk Alone）”为队歌和精神内核，希尔斯堡惨案后形成独特的球迷文化；克洛普执教时期（2015-2024）打造了极具压迫性的“重金属足球”，重回欧洲顶级行列。</p>
     </div>
 
-    <!-- 标志性事件（默认中文） -->
+
     <h2 id="titleEvents">标志性事件</h2>
     <div class="list-section" id="iconicEvents">
         <ul>
@@ -220,7 +219,7 @@
         </ul>
     </div>
 
-    <!-- 各项荣誉（默认中文） -->
+
     <h2 id="titleHonours">荣誉成就</h2>
     <div class="list-section" id="honours">
         <ul>
@@ -236,7 +235,7 @@
         </ul>
     </div>
 
-    <!-- 传奇人物（默认中文） -->
+
     <h2 id="titleLegends">传奇人物</h2>
     <div class="list-section" id="legends">
         <ul>
@@ -249,7 +248,7 @@
         </ul>
     </div>
 
-    <!-- 战绩表格（默认中文，2023-24赛季英超数据） -->
+
     <h2 id="titleStats">本赛季战绩</h2>
     <table>
         <thead>
@@ -278,12 +277,12 @@
         </tbody>
     </table>
 
-    <!-- 返回按钮（默认中文） -->
+
     <a  onclick="window.location.href='../main.html#chart'" class="btn back-btn" id="backBtn">返回地图</a>
 </div>
 
 <script>
-    // 定义中英双语文本数据（利物浦专属）
+
     const langData = {
         zh: {
             teamName: "利物浦足球俱乐部",
@@ -405,10 +404,9 @@
         }
     };
 
-    // 当前语言状态（默认中文）
+
     let currentLang = "zh";
 
-    // 获取DOM元素
     const langToggleBtn = document.getElementById("langToggle");
     const teamName = document.getElementById("teamName");
     const basicInfo = document.getElementById("basicInfo");
@@ -431,13 +429,12 @@
     const thGD = document.getElementById("thGD");
     const backBtn = document.getElementById("backBtn");
 
-    // 切换语言函数
     function toggleLanguage() {
-        // 切换语言状态
+
         currentLang = currentLang === "zh" ? "en" : "zh";
         const targetLang = langData[currentLang];
 
-        // 更新所有文本内容
+
         langToggleBtn.textContent = targetLang.langBtnText;
         teamName.textContent = targetLang.teamName;
         basicInfo.innerHTML = targetLang.basicInfo;
@@ -460,11 +457,11 @@
         thGD.textContent = targetLang.thGD;
         backBtn.textContent = targetLang.backBtn;
 
-        // 更新页面lang属性
+
         document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
     }
 
-    // 绑定按钮点击事件
+
     langToggleBtn.addEventListener("click", toggleLanguage);
 </script>
 </body>

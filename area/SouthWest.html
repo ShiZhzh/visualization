@@ -11,7 +11,7 @@
 <button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // South West Teams
+
     const regionTeams = new Set(["AFC Bournemouth"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
@@ -21,7 +21,7 @@
     fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // South West District IDs
+
             const regionIds = new Set(["GBGLO","GBSGC","GBWIL","GBSWI","GBDOR","GBBOU","GBPOO","GBSOM","GBBAS","GBNSM","GBDEV","GBPLY","GBTOR","GBCRN","GBIOS","GBTOB","GBBST","GBCON","GBPOL","GBBMH","GBGLS", "GBSWD"]);
 
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));

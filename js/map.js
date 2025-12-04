@@ -8,33 +8,33 @@
     fetch("gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // IDs of districts in Scotland, Wales, and Northern Ireland to exclude
+    
             const nonEnglishIds = new Set([
-                // Scotland
+             
                 "GBABD", "GBABE", "GBAGB", "GBANS", "GBCLK", "GBDGY", "GBDND", "GBEAY", "GBEDH", "GBEDU",
                 "GBELN", "GBELS", "GBFAL", "GBFIF", "GBGLG", "GBHLD", "GBIVC", "GBMLN", "GBMRY", "GBNAY",
                 "GBNLK", "GBORK", "GBPKN", "GBRFW", "GBSAY", "GBSCB", "GBSLK", "GBSTG", "GBWDU", "GBWLN",
                 "GBZET","GBERW",
-                // Wales
+             
                 "GBAGY", "GBBGE", "GBBGW", "GBCAY", "GBCGN", "GBCMN", "GBCRF", "GBCWY", "GBDEN", "GBFLN",
                 "GBGWN", "GBMON", "GBMTY", "GBNTL", "GBNWP", "GBPEM", "GBPOW", "GBRCT", "GBSWA", "GBTOF",
                 "GBVGL", "GBWRX",
-                // Northern Ireland
+              
                 "GBANT", "GBARD", "GBARM", "GBBLA", "GBBLY", "GBBNB", "GBBFS", "GBCKF", "GBCSR", "GBCKT",
                 "GBCLR", "GBCGV", "GBDGN", "GBDOW", "GBDRY", "GBFER", "GBLMV", "GBLRN", "GBLSB", "GBMFT",
                 "GBMYL", "GBNDN", "GBNTA", "GBNYM", "GBOMH", "GBSTB"
             ]);
 
-            // 定义英格兰9大区的 ID 集合和对应颜色
+
             const regionConfig = [
                 {
                     name: "North East",
-                    color: "#87CEEB", // SkyBlue
+                    color: "#87CEEB", 
                     ids: new Set(["GBNBL","GBNET","GBGAT","GBNTY","GBSTY","GBSND","GBDUR","GBDAL","GBHPL","GBSTT","GBRCC","GBMDB"])
                 },
                 {
                     name: "North West",
-                    color: "#4682B4", // SteelBlue
+                    color: "#4682B4", 
                     ids: new Set(["GBCMA","GBLAN","GBBPL","GBBBD","GBBOL","GBBUR","GBMAN","GBOLD","GBROC","GBSAL","GBSKP",
                         "GBTAM","GBTRA","GBWIG","GBKNO","GBLIV","GBSEF","GBWIR","GBHAL","GBWRT","GBCHE","GBCWC","GBCHW",
                         "GBTRF","GBSFT","GBKWL","GBSHN","GBWGN","GBSLF","GBRCH",])},
@@ -46,12 +46,12 @@
                 },
                 {
                     name: "East Midlands",
-                    color: "#FFD700", // Gold
+                    color: "#FFD700", 
                     ids: new Set(["GBDBY","GBDER","GBNTT","GBNGM","GBLIN","GBLEC","GBLCE","GBRUT","GBNTH","GBNNH","GBWNH"])
                 },
                 {
                     name: "West Midlands",
-                    color: "#FFA500", // Orange
+                    color: "#FFA500", 
                     ids: new Set(["GBSTS","GBSTO","GBSHR","GBTEL","GBWAR","GBWOR","GBHEF","GBBIR","GBCOV","GBDUD","GBSAN","GBSOL",
                         "GBWAL","GBWLV","GBWLL","GBSAW","GBTFW","GBSTE",])
                 },
@@ -63,7 +63,7 @@
                 },
                 {
                     name: "London",
-                    color: "#FF9999", // OrangeRed
+                    color: "#FF9999", 
                     ids: new Set(["GBLND","GBBKI","GBBNE","GBBEX","GBBRN","GBBRO","GBCRO","GBEAL","GBENF","GBGRE","GBHCK",
                         "GBHMF","GBHRG","GBHRW","GBHAV","GBHIL","GBHNS","GBISL","GBKEC","GBKTT","GBLBH","GBLEW","GBMRT","GBNWM",
                         "GBRDB","GBRIC","GBSWK","GBSUT","GBTOW","GBWFT","GBWND","GBWSM","GBSTN","GBCRY","GBBRY","GBBEN","GBBDG",
@@ -71,14 +71,14 @@
                 },
                 {
                     name: "South East",
-                    color: "#40E0D0", // Turquoise
+                    color: "#40E0D0", 
                     ids: new Set(["GBBKM","GBMKN","GBOXF","GBSUR","GBWSX","GBESX","GBBHM","GBKEN","GBMDW","GBHAM","GBPOR","GBSOU",
                         "GBIOW","GBBRK","GBBRA","GBREA","GBSLO","GBWNM","GBWIN","GBSTH","GBWBK","GBSRY","GBRDG","GBWOK", "GBBRC",
                         "GBSLG","GBMIK","GBBNH", ])
                 },
                 {
                     name: "South West",
-                    color: "#66B2FF", // DodgerBlue
+                    color: "#66B2FF", 
                     ids: new Set(["GBGLO","GBSGC","GBWIL","GBSWI","GBDOR","GBBOU","GBPOO","GBSOM","GBBAS","GBNSM","GBDEV","GBPLY",
                         "GBTOR","GBCRN","GBIOS","GBTOB","GBBST","GBCON","GBPOL","GBBMH","GBGLS", "GBSWD",  ])
                 }
@@ -87,13 +87,13 @@
             geoData.features = geoData.features.filter(feature => !nonEnglishIds.has(feature.properties.id));
 
             const specialRegions = [];
-            const districtToRegionMap = {}; // 新增：用于映射行政区名到大区名
+            const districtToRegionMap = {};
 
             geoData.features.forEach(feature => {
-                // 遍历配置，找到当前 feature 所属的区域
+       
                 const region = regionConfig.find(r => r.ids.has(feature.properties.id));
                 if (region) {
-                    districtToRegionMap[feature.properties.name] = region.name; // 记录映射关系
+                    districtToRegionMap[feature.properties.name] = region.name; 
                     specialRegions.push({
                         name: feature.properties.name,
                         itemStyle: {
@@ -105,53 +105,51 @@
 
             echarts.registerMap('UK', geoData);
 
-            // 根据缩放级别动态生成数据，控制标签显示数量
             function getSeriesData(zoom) {
                 let limit;
                 if (zoom < 1.5) {
-                    limit = 11; // 缩放很小时，只显示前5个
+                    limit = 11;
                 } else if (zoom < 2) {
-                    limit = 20; // 中等缩放时，显示前20个
+                    limit = 20; 
                 } else {
-                    limit = teamsData.length; // 放大后显示全部
+                    limit = teamsData.length;
                 }
 
                 return teamsData.map((item, index) => ({
                     name: item.team,
                     value: [item.lon, item.lat],
-                    info: item, // 传递完整信息以便 tooltip 使用
+                    info: item,
                     label: {
-                        show: index < limit // 只有在前 limit 个球队中才显示标签
+                        show: index < limit 
                     }
                 }));
             }
 
             const option = {
-                backgroundColor: 'transparent', // 背景透明，让 CSS drop-shadow 生效
+                backgroundColor: 'transparent', 
                 geo: {
                     map: 'UK',
                     regions: specialRegions,
                     roam: true,
                     label: {
-                        show: false, // 初始不显示地区名称，防止太挤
+                        show: false, 
                         color: '#999',
                         fontSize: 16
                     },
                     itemStyle: {
-                        areaColor: '#f4f4f4', // 浅灰色区域
+                        areaColor: '#f4f4f4', 
                         borderColor: '#fff',
                         borderWidth: 1
                     },
                     emphasis: {
                         itemStyle: {
-                            areaColor: '#e0e0e0', // 悬浮颜色加深
-                            // 悬浮时可以保留一点微弱的阴影
+                            areaColor: '#e0e0e0', 
                             shadowBlur: 5,
                             shadowColor: 'rgba(0,0,0,0.2)'
                         },
                         label: {
                             show: true,
-                            color: '#37003c' // 悬浮文字紫色
+                            color: '#37003c'
                         }
                     }
                 },
@@ -160,10 +158,10 @@
                         name: 'Stadiums',
                         type: 'scatter',
                         coordinateSystem: 'geo',
-                        data: getSeriesData(1), // 初始数据，假设默认缩放为1
+                        data: getSeriesData(1),
                         symbolSize: 15,
                         itemStyle: {
-                            color: '#ff2882', // 英超粉色点
+                            color: '#ff2882', 
                             borderColor: '#fff',
                             borderWidth: 2,
                             shadowBlur: 8,
@@ -173,10 +171,10 @@
                             show: true,
                             formatter: '{b}',
                             position: 'top',
-                            color: '#37003c', // 标签文字紫色
+                            color: '#37003c', 
                             fontWeight: 'bold',
                             fontSize: 14,
-                            backgroundColor: 'rgba(255,255,255,0.8)', // 标签背景半透明白
+                            backgroundColor: 'rgba(255,255,255,0.8)', 
                             padding: [4, 8],
                             borderRadius: 4
                         },
@@ -191,44 +189,43 @@
                 ],
                 tooltip: {
                     trigger: 'item',
-                    enterable: true, // 允许鼠标进入 tooltip
+                    enterable: true,
                     formatter: getTooltipFormatter()
                 }
             };
 
             myChart.setOption(option);
 
-            // 监听地图漫游（缩放/平移）事件
+            
             myChart.on('georoam', function () {
-                // 获取当前缩放级别
+                
                 const zoom = myChart.getModel().getComponent('geo').coordinateSystem.getZoom();
-                // 更新数据以显示/隐藏标签
+                
                 myChart.setOption({
                     geo: {
                         label: {
-                            show: zoom > 2.5 // 当缩放大于3时显示地区名称
+                            show: zoom > 2.5 
                         }
                     },
                     series: [{
                         data: getSeriesData(zoom)
                     }]
                 });
-                // console.log('Current Zoom Level:', zoom);
             });
 
             myChart.on('click', function(params) {
                 console.log(params.componentType);
                 if (params.componentType === 'series') {
-                    // 进入 team 目录，并将文件名转为小写
+             
                     window.location.href = "./team/" + params.name.replace(/\s+/g, '').toLowerCase() + ".html";
                 } else if (params.componentType === 'geo') {
-                    // 获取点击的行政区名称
+                    
                     const districtName = params.name;
-                    // 查找所属的大区
+             
                     const regionName = districtToRegionMap[districtName];
 
                     if (regionName) {
-                        // 跳转到对应大区的页面，例如 "NorthWest.html"
+                        
                         window.location.href = "./area/"+regionName.replace(/\s+/g, '') + ".html";
                     }
                 }

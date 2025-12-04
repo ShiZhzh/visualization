@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>阿森纳 FC | Arsenal FC</title>
     <style>
-        /* 基础样式 - 通用化，适配不同球队仅需修改主题色 */
+        
         :root {
-            --team-primary: #EF0107; /* 阿森纳红 - 其他球队可替换 */
-            --team-secondary: #023474; /* 阿森纳蓝 - 其他球队可替换 */
-            --team-secondary-dark: #012046; /* 深色辅助色 */
+            --team-primary: #EF0107; 
+            --team-secondary: #023474; 
+            --team-secondary-dark: #012046; 
             --text-main: #333;
             --text-secondary: #555;
             --bg-light: #f4f4f4;
@@ -21,10 +21,10 @@
             background-color: var(--bg-light);
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* 改为顶部对齐，适配更多内容 */
-            min-height: 100vh; /* 最小高度，避免内容溢出 */
+            align-items: flex-start; 
+            min-height: 100vh; 
             margin: 0;
-            padding: 2rem 1rem; /* 增加上下左右内边距 */
+            padding: 2rem 1rem; 
         }
 
         .card {
@@ -33,7 +33,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             text-align: center;
-            max-width: 800px; /* 加宽适配新增内容 */
+            max-width: 800px; 
             width: 100%;
         }
 
@@ -58,7 +58,7 @@
             margin-bottom: 1rem;
         }
 
-        /* 基础信息模块 */
+      
         .basic-info {
             text-align: left;
             margin-top: 1rem;
@@ -74,7 +74,7 @@
             color: var(--text-main);
         }
 
-        /* 列表类模块（事件、荣誉、传奇人物） */
+       
         .list-section {
             text-align: left;
             margin-top: 0.5rem;
@@ -95,7 +95,7 @@
             color: var(--text-main);
         }
 
-        /* 战绩表格 */
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -122,7 +122,7 @@
             background-color: #f9f9f9;
         }
 
-        /* 按钮通用样式 */
+
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -134,7 +134,7 @@
             border: none;
         }
 
-        /* 语言切换按钮（固定在页面右上角、尺寸较小，不影响页面图片布局） */
+        
         .lang-btn {
             position: fixed;
             top: 12px;
@@ -146,14 +146,14 @@
             color: white;
             z-index: 9999;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            margin: 0; /* 移除原来的外边距，避免影响布局 */
+            margin: 0; 
         }
 
         .lang-btn:hover {
             background-color: #c80006;
         }
 
-        /* 返回按钮 */
+        
         .back-btn {
             background-color: var(--team-secondary);
             color: white;
@@ -164,7 +164,7 @@
             background-color: var(--team-secondary-dark);
         }
 
-        /* 响应式适配 */
+      
         @media (max-width: 768px) {
             .card {
                 padding: 1.8rem;
@@ -186,15 +186,15 @@
     </style>
 </head>
 <body>
-    <!-- 语言切换按钮（固定在页面右上角） -->
+    
     <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
     <div class="card">
-    <!-- 球队logo -->
+ 
     <img src="./image/arsenal.jpg" alt="阿森纳队徽" class="team-logo">
-    <!-- 球队名称（默认中文） -->
+   
     <h1 id="teamName">阿森纳足球俱乐部</h1>
 
-    <!-- 基础信息（默认中文） -->
+
     <div class="basic-info" id="basicInfo">
         <p><strong>昵称：</strong>枪手 / 兵工厂</p>
         <p><strong>主场：</strong>酋长球场</p>
@@ -203,13 +203,13 @@
         <p><strong>地理坐标：</strong>51.554877, -0.108435</p>
     </div>
 
-    <!-- 俱乐部背景（默认中文） -->
+
     <h2 id="titleBackground">俱乐部背景</h2>
     <div class="list-section" id="clubBackground">
         <p>阿森纳成立于1886年，由伦敦东南部伍尔维奇兵工厂的工人创立，最初名为Dial Square FC，后先后更名为皇家阿森纳、伍尔维奇阿森纳，1914年迁至北伦敦后去掉“伍尔维奇”前缀。阿森纳是英格兰足坛最成功的俱乐部之一，以极具观赏性的进攻足球和完善的青训体系著称。</p>
     </div>
 
-    <!-- 标志性事件（默认中文） -->
+
     <h2 id="titleEvents">标志性事件</h2>
     <div class="list-section" id="iconicEvents">
         <ul>
@@ -220,7 +220,7 @@
         </ul>
     </div>
 
-    <!-- 各项荣誉（默认中文） -->
+
     <h2 id="titleHonours">荣誉成就</h2>
     <div class="list-section" id="honours">
         <ul>
@@ -232,7 +232,7 @@
         </ul>
     </div>
 
-    <!-- 传奇人物（默认中文） -->
+
     <h2 id="titleLegends">传奇人物</h2>
     <div class="list-section" id="legends">
         <ul>
@@ -244,7 +244,7 @@
         </ul>
     </div>
 
-    <!-- 战绩表格（默认中文） -->
+
     <h2 id="titleStats">本赛季战绩</h2>
     <table>
         <thead>
@@ -273,12 +273,12 @@
         </tbody>
     </table>
 
-    <!-- 返回按钮（默认中文） -->
+
     <a  onclick="window.location.href='../main.html#chart'" class="btn back-btn" id="backBtn">返回地图</a>
 </div>
 
 <script>
-    // 定义中英双语文本数据
+
     const langData = {
         zh: {
             teamName: "阿森纳足球俱乐部",
@@ -390,10 +390,9 @@
         }
     };
 
-    // 当前语言状态（默认中文）
+
     let currentLang = "zh";
 
-    // 获取DOM元素
     const langToggleBtn = document.getElementById("langToggle");
     const teamName = document.getElementById("teamName");
     const basicInfo = document.getElementById("basicInfo");
@@ -416,13 +415,13 @@
     const thGD = document.getElementById("thGD");
     const backBtn = document.getElementById("backBtn");
 
-    // 切换语言函数
+
     function toggleLanguage() {
-        // 切换语言状态
+
         currentLang = currentLang === "zh" ? "en" : "zh";
         const targetLang = langData[currentLang];
 
-        // 更新所有文本内容
+
         langToggleBtn.textContent = targetLang.langBtnText;
         teamName.textContent = targetLang.teamName;
         basicInfo.innerHTML = targetLang.basicInfo;
@@ -445,11 +444,9 @@
         thGD.textContent = targetLang.thGD;
         backBtn.textContent = targetLang.backBtn;
 
-        // 更新页面lang属性
         document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
     }
 
-    // 绑定按钮点击事件
     langToggleBtn.addEventListener("click", toggleLanguage);
 </script>
 </body>

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>曼联 FC | Manchester United FC</title>
     <style>
-        /* 基础样式 - 曼联主题色（红魔红+黑色） */
+
         :root {
-            --team-primary: #DA291C; /* 曼联红 */
-            --team-secondary: #000000; /* 曼联黑 */
-            --team-secondary-dark: #1A1A1A; /* 深色辅助色 */
+            --team-primary: #DA291C; 
+            --team-secondary: #000000;
+            --team-secondary-dark: #1A1A1A; 
             --text-main: #333;
             --text-secondary: #555;
             --bg-light: #f4f4f4;
@@ -58,7 +58,6 @@
             margin-bottom: 1rem;
         }
 
-        /* 基础信息模块 */
         .basic-info {
             text-align: left;
             margin-top: 1rem;
@@ -74,7 +73,7 @@
             color: var(--text-main);
         }
 
-        /* 列表类模块（事件、荣誉、传奇人物） */
+   
         .list-section {
             text-align: left;
             margin-top: 0.5rem;
@@ -95,7 +94,6 @@
             color: var(--text-main);
         }
 
-        /* 战绩表格 */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -122,7 +120,7 @@
             background-color: #f9f9f9;
         }
 
-        /* 按钮通用样式 */
+
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -134,7 +132,7 @@
             border: none;
         }
 
-        /* 语言切换按钮（固定在页面右上角） */
+
         .lang-btn {
             position: fixed;
             top: 12px;
@@ -153,7 +151,7 @@
             background-color: #b91e13;
         }
 
-        /* 返回按钮 */
+
         .back-btn {
             background-color: var(--team-secondary);
             color: white;
@@ -164,7 +162,7 @@
             background-color: var(--team-secondary-dark);
         }
 
-        /* 响应式适配 */
+        
         @media (max-width: 768px) {
             .card {
                 padding: 1.8rem;
@@ -186,15 +184,15 @@
     </style>
 </head>
 <body>
-    <!-- 语言切换按钮（固定在页面右上角） -->
+
     <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
     <div class="card">
-    <!-- 球队logo（替换为曼联logo路径） -->
+
     <img src="./image/manchesterunited.jpg" alt="曼联队徽" class="team-logo">
     <!-- 球队名称（默认中文） -->
     <h1 id="teamName">曼彻斯特联足球俱乐部</h1>
 
-    <!-- 基础信息（默认中文） -->
+
     <div class="basic-info" id="basicInfo">
         <p><strong>昵称：</strong>红魔 / 曼联</p>
         <p><strong>主场：</strong>老特拉福德球场</p>
@@ -203,13 +201,12 @@
         <p><strong>地理坐标：</strong>53.463056, -2.291389</p>
     </div>
 
-    <!-- 俱乐部背景（默认中文） -->
     <h2 id="titleBackground">俱乐部背景</h2>
     <div class="list-section" id="clubBackground">
         <p>曼联成立于1878年，最初名为牛顿希斯LYR（Newton Heath LYR），1902年因财政危机重组并更名曼彻斯特联。1945年马特·巴斯比接任主教练，打造“巴斯比宝贝”；1991年格雷泽家族收购俱乐部，弗格森执教期间（1986-2013）率队缔造英超王朝，曼联是英格兰足坛最具影响力的俱乐部之一，全球球迷数量居首。</p>
     </div>
 
-    <!-- 标志性事件（默认中文） -->
+
     <h2 id="titleEvents">标志性事件</h2>
     <div class="list-section" id="iconicEvents">
         <ul>
@@ -219,8 +216,6 @@
             <li><strong>2013年：</strong>弗格森退休，曼联结束27年的弗格森时代，此后历经多任教练更迭，2023年滕哈赫执教后逐步重建。</li>
         </ul>
     </div>
-
-    <!-- 各项荣誉（默认中文） -->
     <h2 id="titleHonours">荣誉成就</h2>
     <div class="list-section" id="honours">
         <ul>
@@ -236,7 +231,7 @@
         </ul>
     </div>
 
-    <!-- 传奇人物（默认中文） -->
+
     <h2 id="titleLegends">传奇人物</h2>
     <div class="list-section" id="legends">
         <ul>
@@ -249,7 +244,7 @@
         </ul>
     </div>
 
-    <!-- 战绩表格（默认中文，2023-24赛季英超数据） -->
+
     <h2 id="titleStats">本赛季战绩</h2>
     <table>
         <thead>
@@ -278,12 +273,11 @@
         </tbody>
     </table>
 
-    <!-- 返回按钮（默认中文） -->
     <a  onclick="window.location.href='../main.html#chart'" class="btn back-btn" id="backBtn">返回地图</a>
 </div>
 
 <script>
-    // 定义中英双语文本数据（曼联专属）
+
     const langData = {
         zh: {
             teamName: "曼彻斯特联足球俱乐部",
@@ -405,10 +399,8 @@
         }
     };
 
-    // 当前语言状态（默认中文）
     let currentLang = "zh";
 
-    // 获取DOM元素
     const langToggleBtn = document.getElementById("langToggle");
     const teamName = document.getElementById("teamName");
     const basicInfo = document.getElementById("basicInfo");
@@ -431,13 +423,12 @@
     const thGD = document.getElementById("thGD");
     const backBtn = document.getElementById("backBtn");
 
-    // 切换语言函数
+
     function toggleLanguage() {
-        // 切换语言状态
+
         currentLang = currentLang === "zh" ? "en" : "zh";
         const targetLang = langData[currentLang];
 
-        // 更新所有文本内容
         langToggleBtn.textContent = targetLang.langBtnText;
         teamName.textContent = targetLang.teamName;
         basicInfo.innerHTML = targetLang.basicInfo;
@@ -460,11 +451,11 @@
         thGD.textContent = targetLang.thGD;
         backBtn.textContent = targetLang.backBtn;
 
-        // 更新页面lang属性
+
         document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
     }
 
-    // 绑定按钮点击事件
+
     langToggleBtn.addEventListener("click", toggleLanguage);
 </script>
 </body>

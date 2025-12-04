@@ -11,7 +11,6 @@
 <button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // East Midlands Teams
     const regionTeams = new Set(["Leicester City", "Nottingham Forest"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
@@ -21,7 +20,6 @@
     fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // East Midlands District IDs
             const regionIds = new Set(["GBDBY","GBDER","GBNTT","GBNGM","GBLIN","GBLEC","GBLCE","GBRUT","GBNTH","GBNNH","GBWNH"]);
 
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
@@ -36,7 +34,7 @@
                     roam: true,
                     label: { show: true, color: '#777', fontSize: 16 },
                     itemStyle: {
-                        areaColor: '#FFD700', // Gold
+                        areaColor: '#FFD700', 
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,

@@ -11,7 +11,7 @@
 <button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // Yorkshire and the Humber Teams
+
     const regionTeams = new Set(["Leeds United", "Sheffield Wednesday", "Sheffield United", "Bradford City"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
@@ -21,7 +21,7 @@
     fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // Yorkshire and the Humber District IDs
+            
             const regionIds = new Set(["GBNYK","GBYOR","GBERY","GBKHU","GBBRD","GBCLD","GBKIR","GBLDS","GBWKF","GBBNS","GBDNC","GBROT","GBSHF","GBNLN","GBNEL","GBKHL"]);
 
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
@@ -36,7 +36,7 @@
                     roam: true,
                     label: { show: true, color: '#777', fontSize: 16 },
                     itemStyle: {
-                        areaColor: '#33FF99', // LimeGreen
+                        areaColor: '#33FF99', 
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,

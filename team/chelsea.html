@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>切尔西 FC | Chelsea FC</title>
     <style>
-        /* 基础样式 - 切尔西主题色（皇家蓝+深蓝） */
+       
         :root {
-            --team-primary: #034694; /* 切尔西皇家蓝 */
-            --team-secondary: #001C58; /* 切尔西深蓝 */
-            --team-secondary-dark: #001440; /* 深色辅助色 */
+            --team-primary: #034694;
+            --team-secondary: #001C58; 
+            --team-secondary-dark: #001440; 
             --text-main: #333;
             --text-secondary: #555;
             --bg-light: #f4f4f4;
@@ -58,7 +58,7 @@
             margin-bottom: 1rem;
         }
 
-        /* 基础信息模块 */
+   
         .basic-info {
             text-align: left;
             margin-top: 1rem;
@@ -74,7 +74,7 @@
             color: var(--text-main);
         }
 
-        /* 列表类模块（事件、荣誉、传奇人物） */
+        
         .list-section {
             text-align: left;
             margin-top: 0.5rem;
@@ -95,7 +95,6 @@
             color: var(--text-main);
         }
 
-        /* 战绩表格 */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -122,7 +121,7 @@
             background-color: #f9f9f9;
         }
 
-        /* 按钮通用样式 */
+       
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -134,7 +133,7 @@
             border: none;
         }
 
-        /* 语言切换按钮（固定在页面右上角） */
+       
         .lang-btn {
             position: fixed;
             top: 12px;
@@ -153,7 +152,7 @@
             background-color: #023a7c;
         }
 
-        /* 返回按钮 */
+        
         .back-btn {
             background-color: var(--team-secondary);
             color: white;
@@ -164,7 +163,7 @@
             background-color: var(--team-secondary-dark);
         }
 
-        /* 响应式适配 */
+       
         @media (max-width: 768px) {
             .card {
                 padding: 1.8rem;
@@ -186,15 +185,15 @@
     </style>
 </head>
 <body>
-    <!-- 语言切换按钮（固定在页面右上角） -->
+    
     <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
     <div class="card">
-    <!-- 球队logo（替换为切尔西logo路径） -->
+
     <img src="./image/chelsea.jpg" alt="切尔西队徽" class="team-logo">
-    <!-- 球队名称（默认中文） -->
+
     <h1 id="teamName">切尔西足球俱乐部</h1>
 
-    <!-- 基础信息（默认中文） -->
+
     <div class="basic-info" id="basicInfo">
         <p><strong>昵称：</strong>蓝军 / 切尔西</p>
         <p><strong>主场：</strong>斯坦福桥球场</p>
@@ -203,13 +202,12 @@
         <p><strong>地理坐标：</strong>51.481667, -0.191944</p>
     </div>
 
-    <!-- 俱乐部背景（默认中文） -->
+ 
     <h2 id="titleBackground">俱乐部背景</h2>
     <div class="list-section" id="clubBackground">
         <p>切尔西成立于1905年3月10日，由亨利·安古斯图斯·米尔斯创立，最初主场便定在斯坦福桥球场。2003年被俄罗斯富豪罗曼·阿布拉莫维奇收购后，俱乐部投入巨额资金引援，迅速跻身英超顶级行列；2022年伯利财团完成收购，延续了俱乐部的高投入策略，切尔西以铁血防守和杯赛强势著称。</p>
     </div>
 
-    <!-- 标志性事件（默认中文） -->
     <h2 id="titleEvents">标志性事件</h2>
     <div class="list-section" id="iconicEvents">
         <ul>
@@ -220,7 +218,7 @@
         </ul>
     </div>
 
-    <!-- 各项荣誉（默认中文） -->
+
     <h2 id="titleHonours">荣誉成就</h2>
     <div class="list-section" id="honours">
         <ul>
@@ -235,7 +233,7 @@
         </ul>
     </div>
 
-    <!-- 传奇人物（默认中文） -->
+
     <h2 id="titleLegends">传奇人物</h2>
     <div class="list-section" id="legends">
         <ul>
@@ -246,8 +244,6 @@
             <li><strong>约翰·特里：</strong>后卫（1998-2017）——队长（2004-2016），铁血队长，为切尔西夺得17座奖杯，是球队精神象征。</li>
         </ul>
     </div>
-
-    <!-- 战绩表格（默认中文，2023-24赛季英超数据） -->
     <h2 id="titleStats">本赛季战绩</h2>
     <table>
         <thead>
@@ -276,12 +272,12 @@
         </tbody>
     </table>
 
-    <!-- 返回按钮（默认中文） -->
+
     <a  onclick="window.location.href='../main.html#chart'" class="btn back-btn" id="backBtn">返回地图</a>
 </div>
 
 <script>
-    // 定义中英双语文本数据（切尔西专属）
+
     const langData = {
         zh: {
             teamName: "切尔西足球俱乐部",
@@ -399,10 +395,10 @@
         }
     };
 
-    // 当前语言状态（默认中文）
+
     let currentLang = "zh";
 
-    // 获取DOM元素
+
     const langToggleBtn = document.getElementById("langToggle");
     const teamName = document.getElementById("teamName");
     const basicInfo = document.getElementById("basicInfo");
@@ -425,13 +421,13 @@
     const thGD = document.getElementById("thGD");
     const backBtn = document.getElementById("backBtn");
 
-    // 切换语言函数
+
     function toggleLanguage() {
-        // 切换语言状态
+
         currentLang = currentLang === "zh" ? "en" : "zh";
         const targetLang = langData[currentLang];
 
-        // 更新所有文本内容
+
         langToggleBtn.textContent = targetLang.langBtnText;
         teamName.textContent = targetLang.teamName;
         basicInfo.innerHTML = targetLang.basicInfo;
@@ -454,11 +450,10 @@
         thGD.textContent = targetLang.thGD;
         backBtn.textContent = targetLang.backBtn;
 
-        // 更新页面lang属性
+
         document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
     }
 
-    // 绑定按钮点击事件
     langToggleBtn.addEventListener("click", toggleLanguage);
 </script>
 </body>

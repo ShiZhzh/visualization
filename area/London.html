@@ -11,7 +11,7 @@
 <button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // London Teams
+    
     const regionTeams = new Set(["Chelsea", "West Ham United", "Arsenal", "Tottenham Hotspur", "Fulham", "Crystal Palace"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
@@ -21,13 +21,13 @@
     fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // London District IDs (Copied from main.html)
+            
             const regionIds = new Set(["GBLND","GBBKI","GBBNE","GBBEX","GBBRN","GBBRO","GBCRO","GBEAL","GBENF","GBGRE","GBHCK",
                 "GBHMF","GBHRG","GBHRW","GBHAV","GBHIL","GBHNS","GBISL","GBKEC","GBKTT","GBLBH","GBLEW","GBMRT","GBNWM",
                 "GBRDB","GBRIC","GBSWK","GBSUT","GBTOW","GBWFT","GBWND","GBWSM","GBSTN","GBCRY","GBBRY","GBBEN","GBBDG",
                 "GBTWH","GBCMD","GBHRY"]);
 
-            // Filter map data for this region
+           
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
             echarts.registerMap('London', geoData);
@@ -40,7 +40,7 @@
                     roam: true,
                     label: { show: true, color: '#777', fontSize: 16 },
                     itemStyle: {
-                        areaColor: '#FF9999', // OrangeRed
+                        areaColor: '#FF9999', 
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
@@ -81,7 +81,7 @@
 
             myChart.on('click', function(params) {
                 if (params.componentType === 'series') {
-                    // 修改跳转路径：进入 team 目录，并将文件名转为小写
+                    
                     window.location.href = "../team/" + params.name.replace(/\s+/g, '').toLowerCase() + ".html";
                 }
             });

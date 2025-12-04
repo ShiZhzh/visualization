@@ -21,12 +21,12 @@
     fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // North West District IDs (Copied from main.html)
+           
             const regionIds = new Set(["GBCMA","GBLAN","GBBPL","GBBBD","GBBOL","GBBUR","GBMAN","GBOLD","GBROC","GBSAL","GBSKP",
                 "GBTAM","GBTRA","GBWIG","GBKNO","GBLIV","GBSEF","GBWIR","GBHAL","GBWRT","GBCHE","GBCWC","GBCHW",
                 "GBTRF","GBSFT","GBKWL","GBSHN","GBWGN","GBSLF","GBRCH"]);
 
-            // Filter map data for this region
+          
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
             echarts.registerMap('NorthWest', geoData);
@@ -39,7 +39,7 @@
                     roam: true,
                     label: { show: true, color: '#ddd', fontSize: 12 },
                     itemStyle: {
-                        areaColor: '#4682B4', // SteelBlue
+                        areaColor: '#4682B4', 
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
@@ -80,7 +80,7 @@
 
             myChart.on('click', function(params) {
                 if (params.componentType === 'series') {
-                    // 修改跳转路径：进入 team 目录，并将文件名转为小写
+                   
                     window.location.href = "../team/" + params.name.replace(/\s+/g, '').toLowerCase() + ".html";
                 }
             });

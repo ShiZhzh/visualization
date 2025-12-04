@@ -27,7 +27,7 @@
         data.forEach(d => { if (d.FTR in resultCounts) resultCounts[d.FTR]++; });
         renderResultPie(resultCounts, resultCounts.H + resultCounts.D + resultCounts.A);
 
-        // 2. Goals by Team
+
         const goalsByTeam = new Map();
         data.forEach(d => {
             if (d.HomeTeam) {
@@ -44,7 +44,7 @@
         goalsArray.sort((a, b) => b.goals - a.goals);
         renderGoalsBar(goalsArray);
 
-        // 3. Sort Event
+   
         let sortByGoals = true;
         d3.select('#sort-goals').on('click', function() {
             sortByGoals = !sortByGoals;
@@ -80,7 +80,7 @@
         svg.append('text').attr('text-anchor', 'middle').attr('dy', '-6').style('font-size', '14px').text('比赛结果');
         svg.append('text').attr('text-anchor', 'middle').attr('dy', '16').style('font-size', '12px').style('fill', '#666').text(`共 ${total} 场`);
 
-        // Legend
+       
         const legend = container.append('div').style('margin-top', '12px');
         ['H', 'D', 'A'].forEach(k => {
             const item = legend.append('div').style('display', 'inline-block').style('margin-right', '16px');

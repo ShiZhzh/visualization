@@ -33,7 +33,7 @@
 
     let radarSelected = ["曼城"], radarMode = "single", radarChartInstance = null;
 
-    // Initialize Radar Chart
+
     (function initRadar(){
         const btns = document.getElementById("teamButtons");
         if (!btns) return;
