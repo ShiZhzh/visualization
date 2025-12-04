@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <title>North West Region</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
+    <script src="data.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<button class="back-button" onclick="window.location.href='main.html'">Back to UK Map</button>
-<div id="chart-container"></div>
+<button class="back-button" onclick="window.location.href='main.html#chart'">Back to UK Map</button>
+<div id="subchart-container"></div>
 <script>
     // North West Teams
-    const teamsData = [
-        {team: "Manchester United", lat: 53.463060, lon: -2.291332},
-        {team: "Liverpool", lat: 53.430827, lon: -2.960836},
-        {team: "Everton", lat: 53.438788, lon: -2.966320},
-        {team: "Manchester City", lat: 53.483137, lon: -2.200395},
-        {team: "Burnley", lat: 53.788987, lon: -2.230198}
-    ];
+    const regionTeams = new Set(["Manchester United", "Liverpool", "Everton", "Manchester City", "Burnley"]);
+    const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
-    const chartDom = document.getElementById('chart-container');
+    const chartDom = document.getElementById('subchart-container');
     const myChart = echarts.init(chartDom);
 
     fetch("gb.json")
@@ -41,7 +37,7 @@
                 geo: {
                     map: 'NorthWest',
                     roam: true,
-                    label: { show: true, color: '#999', fontSize: 16 },
+                    label: { show: true, color: '#ddd', fontSize: 12 },
                     itemStyle: {
                         areaColor: '#4682B4', // SteelBlue
                         borderColor: '#fff',
@@ -59,18 +55,23 @@
                         coordinateSystem: 'geo',
                         data: teamsData.map(item => ({
                             name: item.team,
-                            value: [item.lon, item.lat]
+                            value: [item.lon, item.lat],
+                            info: item
                         })),
                         symbolSize: 10,
                         itemStyle: { color: 'red', borderColor: '#fff', borderWidth: 1 },
                         label: {
                             show: true, formatter: '{b}', position: 'right',
-                            color: '#333', fontSize: 16, backgroundColor: 'rgba(255,255,255,0.7)', padding: [2, 4]
+                            color: '#000', fontSize: 16, backgroundColor: 'rgba(255,255,255,1)', padding: [2, 4]
                         },
                         emphasis: { scale: true }
                     }
                 ],
-                tooltip: { trigger: 'item', formatter: '{b}' }
+                tooltip: { 
+                    trigger: 'item', 
+                    enterable: true,
+                    formatter: getTooltipFormatter() 
+                }
             };
 
             myChart.setOption(option);

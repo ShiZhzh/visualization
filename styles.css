@@ -1,14 +1,35 @@
 body {
-    margin: 0;
-    overflow: hidden;
-    background-color: #f0f0f0;
-    font-family: sans-serif;
+    margin: 0 10%; /* 左右空出20% */
+    position: relative; /* 确保绝对定位元素相对于body定位 */
+    overflow-y: auto; /* 修改此处：允许垂直滚动 */
+    background-color: #37003c; /* 英超紫背景 */
+    background-image: radial-gradient(circle at 50% 0%, #500057 0%, #37003c 70%); /* 添加微妙的渐变 */
+    font-family: "Premier Sans", "Microsoft YaHei", sans-serif; /* 优先使用英超风格字体 */
     font-size: 14px; /* 统一的基础字体大小 */
+    color: #fff; /* 全局文字白色 */
 }
 
 #chart-container {
-    width: 100vw;
+    position: relative; /* 添加定位使top生效 */
+    top:990px;
+    width: 100%; /* 宽度改为100% */
     height: 100vh;
+    border: 4px solid #00ff85; /* 英超绿边框 */
+    border-radius: 12px; /* 圆角 */
+    background-color: #fff; /* 容器背景白色 */
+    box-sizing: border-box; /* 确保边框计入宽高，防止出现滚动条 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 增加阴影提升层次感 */
+}
+#subchart-container {
+    position: relative; /* 添加定位使top生效 */
+    top:100px;
+    width: 100%; /* 宽度改为100% */
+    height: 100vh;
+    border: 4px solid #00ff85; /* 英超绿边框 */
+    border-radius: 12px; /* 圆角 */
+    background-color: #fff; /* 容器背景白色 */
+    box-sizing: border-box; /* 确保边框计入宽高，防止出现滚动条 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 增加阴影提升层次感 */
 }
 
 .back-button {
@@ -18,14 +39,181 @@ body {
     z-index: 1000;
     padding: 10px 20px; /* 统一的按键内边距 */
     font-size: 14px;   /* 统一的按键字体大小 */
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: #00ff85; /* 英超绿 */
+    color: #37003c; /* 紫色文字 */
+    font-weight: bold;
+    border: none;
     border-radius: 4px;
     cursor: pointer;
     font-family: sans-serif;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
 }
 
 .back-button:hover {
-    background-color: #e0e0e0;
+    background-color: #fff;
+    color: #37003c;
+}
+
+#pl-logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 500px;
+    z-index: 1; /* 位于地图之上，但在标题之下 */
+    opacity: 0.8; /* 设置透明度作为水印背景，避免干扰内容 */
+    pointer-events: none; /* 允许点击穿透，不影响地图交互 */
+}
+
+#title {
+    position: absolute;
+    top: 520px; /* 调整顶部距离 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    font-size: 42px; /* 加大字体 */
+    font-weight: 900; /* 特粗字体 */
+    color: #fff;
+    text-transform: uppercase; /* 全大写 */
+    text-shadow: none;
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    letter-spacing: 1px;
+    pointer-events: none; /* 防止文字遮挡地图交互 */
+    text-align: center;
+    animation: fadeInDown 1s ease-out; /* 添加进场动画 */
+}
+
+#intro-text {
+    position: absolute;
+    top: 620px; /* 起始位置在600px左右 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%; /* 限制宽度以保证阅读体验 */
+    height: 300px; /* 占据约300px的高度 */
+    z-index: 999;
+    font-size: 18px; /* 适中的正文字体大小 */
+    line-height: 1.8; /* 增加行高提升可读性 */
+    color: #e0e0e0; /* 浅灰色文字，与深紫背景对比 */
+    text-align: center; /* 居中对齐 */
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 增加文字阴影 */
+    animation: fadeInUp 1s ease-out 0.5s backwards; /* 延迟进场动画 */
+}
+
+#chart {
+    position: absolute;
+    top: 1010px; /* 调整位置，与标题拉开距离 */
+    left: 10%;
+    transform: translateX(-50%);
+    z-index: 999;
+    font-size: 25px;
+    font-weight: bold;
+    color: #37003c;
+    background-color: #00ff85; /* 英超绿 */
+    padding: 20px 30px;
+    border-radius: 4px; /* 微圆角 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none; /* 防止文字遮挡地图交互 */
+    text-align: center;
+    white-space: nowrap; /* 防止文字换行 */
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: fadeInUp 1s ease-out 0.3s backwards; /* 添加进场动画，带延迟 */
+}
+
+/* 添加悬停交互效果 */
+#chart:hover {
+    background-color: #fff;
+    transform: translateX(-50%) scale(1.05);
+}
+
+#data {
+    position: absolute;
+    top: 2000px; /* 调整位置，与标题拉开距离 */
+    left: 10%;
+    transform: translateX(-50%);
+    z-index: 999;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #ff2882; /* 英超粉 */
+    padding: 10px 25px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none; /* 防止文字遮挡地图交互 */
+    text-align: center;
+    white-space: nowrap; /* 防止文字换行 */
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: fadeInUp 1s ease-out 0.3s backwards; /* 添加进场动画，带延迟 */
+}
+
+#radarChart {
+    position: absolute;
+    top: 2100px; /* 调整位置，与标题拉开距离 */
+    left: 10%;
+    transform: translateX(-50%);
+    z-index: 999;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3ddad7; /* 英超蓝 */
+    padding: 10px 25px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none; /* 防止文字遮挡地图交互 */
+    text-align: center;
+    white-space: nowrap; /* 防止文字换行 */
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: fadeInUp 1s ease-out 0.3s backwards; /* 添加进场动画，带延迟 */
+}
+
+/* 动画关键帧定义 */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -30px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
