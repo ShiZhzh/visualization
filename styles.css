@@ -390,3 +390,194 @@ body {
     border-radius: 8px;
     border-left: 4px solid #3b82f6;
 }
+
+#resultsChart {
+    position: absolute;
+    top: 3400px; /* Positioned below the Radar chart section */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3ddad7;
+    padding: 10px 35px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: fadeInUp 1s ease-out 0.3s backwards;
+}
+
+#results-section-container {
+    position: absolute;
+    top: 3480px;
+    width: 100%;
+    max-width: 1200px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 100px;
+    color: #222;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    #results-section-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.results-card { 
+    background: white; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); 
+    padding: 24px; 
+    border: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+}
+
+.results-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.chart-header {
+    font-size: 18px;
+    color: #37003c;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid #ff2882;
+}
+
+.d3-chart-container { 
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d3-tooltip { 
+    position: absolute; 
+    pointer-events: none; 
+    background: rgba(55, 0, 60, 0.9); /* Dark Purple bg */
+    color: white; 
+    padding: 8px 12px; 
+    border-radius: 6px; 
+    font-size: 12px; 
+    display: none; 
+    z-index: 10000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.hint { 
+    font-size: 13px; 
+    color: #666; 
+    margin-top: 10px; 
+    line-height: 1.6;
+}
+
+.control-group {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.control-label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 14px;
+}
+
+.axis text { 
+    font-size: 12px; 
+    fill: #666;
+}
+
+.axis path, .axis line { 
+    stroke: #ddd; 
+}
+
+.bar:hover { 
+    opacity: 0.85; 
+    cursor: pointer;
+}
+
+.btn { 
+    padding: 10px 15px; 
+    border-radius: 6px; 
+    border: none; 
+    background: #37003c; 
+    color: #fff;
+    cursor: pointer; 
+    font-size: 14px;
+    width: 100%;
+    transition: background 0.3s;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #500057;
+}
+
+/* Historical Rankings Section */
+#rankChartLabel {
+    position: absolute;
+    top: 4600px; /* Positioned below the Results section */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3ddad7; /* Man Utd Red */
+    padding: 10px 35px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: fadeInUp 1s ease-out 0.3s backwards;
+}
+
+#rank-chart-container {
+    position: absolute;
+    top: 4680px;
+    width: 96vw;
+    max-width: 1200px;
+    height: 80vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-bottom: 100px;
+}
+
+#rank-chart-header {
+    text-align: center;
+    color: #222;
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+#rank-chart-visual {
+    width: 100%;
+    height: calc(100% - 50px);
+}
