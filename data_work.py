@@ -1,8 +1,9 @@
 
-import pandas as pd
-import numpy as np
 import json
 import os
+
+import pandas as pd
+
 
 def calculate_football_metrics(data_path, output_dir="football_results"):
     
