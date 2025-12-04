@@ -2,48 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>South West Region</title>
+    <title>North West Region</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
-    <script src="data.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="../data.js"></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<button class="back-button" onclick="window.location.href='main.html#chart'">Back to UK Map</button>
+<button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // South West Teams
-    const regionTeams = new Set(["AFC Bournemouth"]);
+    // North West Teams
+    const regionTeams = new Set(["Manchester United", "Liverpool", "Everton", "Manchester City", "Burnley"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
     const chartDom = document.getElementById('subchart-container');
     const myChart = echarts.init(chartDom);
 
-    fetch("gb.json")
+    fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // South West District IDs
-            const regionIds = new Set(["GBGLO","GBSGC","GBWIL","GBSWI","GBDOR","GBBOU","GBPOO","GBSOM","GBBAS","GBNSM","GBDEV","GBPLY","GBTOR","GBCRN","GBIOS","GBTOB","GBBST","GBCON","GBPOL","GBBMH","GBGLS", "GBSWD"]);
+            // North West District IDs (Copied from main.html)
+            const regionIds = new Set(["GBCMA","GBLAN","GBBPL","GBBBD","GBBOL","GBBUR","GBMAN","GBOLD","GBROC","GBSAL","GBSKP",
+                "GBTAM","GBTRA","GBWIG","GBKNO","GBLIV","GBSEF","GBWIR","GBHAL","GBWRT","GBCHE","GBCWC","GBCHW",
+                "GBTRF","GBSFT","GBKWL","GBSHN","GBWGN","GBSLF","GBRCH"]);
 
+            // Filter map data for this region
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
-            echarts.registerMap('SouthWest', geoData);
+            echarts.registerMap('NorthWest', geoData);
 
             const option = {
                 backgroundColor: 'transparent',
-                title: { text: 'South West', left: 'center', top: 20 },
+                title: { text: 'North West', left: 'center', top: 20 },
                 geo: {
-                    map: 'SouthWest',
+                    map: 'NorthWest',
                     roam: true,
-                    label: { show: true, color: '#555', fontSize: 16},
+                    label: { show: true, color: '#ddd', fontSize: 12 },
                     itemStyle: {
-                        areaColor: '#66B2FF',
+                        areaColor: '#4682B4', // SteelBlue
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
                         shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
-                        itemStyle: { areaColor: '#87CEFA' },
+                        itemStyle: { areaColor: '#5F9EA0' },
                         label: { show: true, color: '#000' }
                     }
                 },
@@ -74,12 +77,15 @@
             };
 
             myChart.setOption(option);
+
             myChart.on('click', function(params) {
                 if (params.componentType === 'series') {
-                    window.location.href = params.name.replace(/\s+/g, '') + ".html";
+                    // 修改跳转路径：进入 team 目录，并将文件名转为小写
+                    window.location.href = "../team/" + params.name.replace(/\s+/g, '').toLowerCase() + ".html";
                 }
             });
         });
+
     window.addEventListener('resize', myChart.resize);
 </script>
 </body>

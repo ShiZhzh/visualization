@@ -2,48 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>West Midlands Region</title>
+    <title>Yorkshire and the Humber Region</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
-    <script src="data.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="../data.js"></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<button class="back-button" onclick="window.location.href='main.html#chart'">Back to UK Map</button>
+<button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // West Midlands Teams
-    const regionTeams = new Set(["Aston Villa", "Coventry City", "Birmingham City", "Wolves"]);
+    // Yorkshire and the Humber Teams
+    const regionTeams = new Set(["Leeds United", "Sheffield Wednesday", "Sheffield United", "Bradford City"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
     const chartDom = document.getElementById('subchart-container');
     const myChart = echarts.init(chartDom);
 
-    fetch("gb.json")
+    fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // West Midlands District IDs
-            const regionIds = new Set(["GBSTS","GBSTO","GBSHR","GBTEL","GBWAR","GBWOR","GBHEF","GBBIR","GBCOV","GBDUD","GBSAN","GBSOL","GBWAL","GBWLV","GBWLL","GBSAW","GBTFW","GBSTE"]);
+            // Yorkshire and the Humber District IDs
+            const regionIds = new Set(["GBNYK","GBYOR","GBERY","GBKHU","GBBRD","GBCLD","GBKIR","GBLDS","GBWKF","GBBNS","GBDNC","GBROT","GBSHF","GBNLN","GBNEL","GBKHL"]);
 
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
-            echarts.registerMap('WestMidlands', geoData);
+            echarts.registerMap('Yorkshire', geoData);
 
             const option = {
                 backgroundColor: 'transparent',
-                title: { text: 'West Midlands', left: 'center', top: 20 },
+                title: { text: 'Yorkshire and the Humber', left: 'center', top: 20 },
                 geo: {
-                    map: 'WestMidlands',
+                    map: 'Yorkshire',
                     roam: true,
-                    label: { show: true, color: '#555', fontSize: 16 },
+                    label: { show: true, color: '#777', fontSize: 16 },
                     itemStyle: {
-                        areaColor: '#FFA500', // Orange
+                        areaColor: '#33FF99', // LimeGreen
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
                         shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
-                        itemStyle: { areaColor: '#FFDAB9' },
+                        itemStyle: { areaColor: '#90EE90' },
                         label: { show: true, color: '#000' }
                     }
                 },

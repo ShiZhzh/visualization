@@ -2,49 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>East Midlands Region</title>
+    <title>London Region</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
-    <script src="data.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="../data.js"></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<button class="back-button" onclick="window.location.href='main.html#chart'">Back to UK Map</button>
+<button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // East Midlands Teams
-    const regionTeams = new Set(["Leicester City", "Nottingham Forest"]);
+    // London Teams
+    const regionTeams = new Set(["Chelsea", "West Ham United", "Arsenal", "Tottenham Hotspur", "Fulham", "Crystal Palace"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
     const chartDom = document.getElementById('subchart-container');
     const myChart = echarts.init(chartDom);
 
-    fetch("gb.json")
+    fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // East Midlands District IDs
-            const regionIds = new Set(["GBDBY","GBDER","GBNTT","GBNGM","GBLIN","GBLEC","GBLCE","GBRUT","GBNTH","GBNNH","GBWNH"]);
+            // London District IDs (Copied from main.html)
+            const regionIds = new Set(["GBLND","GBBKI","GBBNE","GBBEX","GBBRN","GBBRO","GBCRO","GBEAL","GBENF","GBGRE","GBHCK",
+                "GBHMF","GBHRG","GBHRW","GBHAV","GBHIL","GBHNS","GBISL","GBKEC","GBKTT","GBLBH","GBLEW","GBMRT","GBNWM",
+                "GBRDB","GBRIC","GBSWK","GBSUT","GBTOW","GBWFT","GBWND","GBWSM","GBSTN","GBCRY","GBBRY","GBBEN","GBBDG",
+                "GBTWH","GBCMD","GBHRY"]);
 
+            // Filter map data for this region
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
-            echarts.registerMap('EastMidlands', geoData);
+            echarts.registerMap('London', geoData);
 
             const option = {
                 backgroundColor: 'transparent',
-                title: { text: 'East Midlands', left: 'center', top: 20 },
+                title: { text: 'London', left: 'center', top: 20 },
                 geo: {
-                    map: 'EastMidlands',
+                    map: 'London',
                     roam: true,
                     label: { show: true, color: '#777', fontSize: 16 },
                     itemStyle: {
-                        areaColor: '#FFD700', // Gold
+                        areaColor: '#FF9999', // OrangeRed
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
                         shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
-                        itemStyle: {
-                            areaColor: '#F0E68C',},
+                        itemStyle: { areaColor: '#FF6347' },
                         label: { show: true, color: '#000' }
                     }
                 },
@@ -75,12 +78,15 @@
             };
 
             myChart.setOption(option);
+
             myChart.on('click', function(params) {
                 if (params.componentType === 'series') {
-                    window.location.href = params.name.replace(/\s+/g, '') + ".html";
+                    // 修改跳转路径：进入 team 目录，并将文件名转为小写
+                    window.location.href = "../team/" + params.name.replace(/\s+/g, '').toLowerCase() + ".html";
                 }
             });
         });
+
     window.addEventListener('resize', myChart.resize);
 </script>
 </body>

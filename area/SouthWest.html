@@ -2,51 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>North West Region</title>
+    <title>South West Region</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
-    <script src="data.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="../data.js"></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<button class="back-button" onclick="window.location.href='main.html#chart'">Back to UK Map</button>
+<button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // North West Teams
-    const regionTeams = new Set(["Manchester United", "Liverpool", "Everton", "Manchester City", "Burnley"]);
+    // South West Teams
+    const regionTeams = new Set(["AFC Bournemouth"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
     const chartDom = document.getElementById('subchart-container');
     const myChart = echarts.init(chartDom);
 
-    fetch("gb.json")
+    fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // North West District IDs (Copied from main.html)
-            const regionIds = new Set(["GBCMA","GBLAN","GBBPL","GBBBD","GBBOL","GBBUR","GBMAN","GBOLD","GBROC","GBSAL","GBSKP",
-                "GBTAM","GBTRA","GBWIG","GBKNO","GBLIV","GBSEF","GBWIR","GBHAL","GBWRT","GBCHE","GBCWC","GBCHW",
-                "GBTRF","GBSFT","GBKWL","GBSHN","GBWGN","GBSLF","GBRCH"]);
+            // South West District IDs
+            const regionIds = new Set(["GBGLO","GBSGC","GBWIL","GBSWI","GBDOR","GBBOU","GBPOO","GBSOM","GBBAS","GBNSM","GBDEV","GBPLY","GBTOR","GBCRN","GBIOS","GBTOB","GBBST","GBCON","GBPOL","GBBMH","GBGLS", "GBSWD"]);
 
-            // Filter map data for this region
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
-            echarts.registerMap('NorthWest', geoData);
+            echarts.registerMap('SouthWest', geoData);
 
             const option = {
                 backgroundColor: 'transparent',
-                title: { text: 'North West', left: 'center', top: 20 },
+                title: { text: 'South West', left: 'center', top: 20 },
                 geo: {
-                    map: 'NorthWest',
+                    map: 'SouthWest',
                     roam: true,
-                    label: { show: true, color: '#ddd', fontSize: 12 },
+                    label: { show: true, color: '#555', fontSize: 16},
                     itemStyle: {
-                        areaColor: '#4682B4', // SteelBlue
+                        areaColor: '#66B2FF',
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
                         shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
-                        itemStyle: { areaColor: '#5F9EA0' },
+                        itemStyle: { areaColor: '#87CEFA' },
                         label: { show: true, color: '#000' }
                     }
                 },
@@ -77,14 +74,12 @@
             };
 
             myChart.setOption(option);
-
             myChart.on('click', function(params) {
                 if (params.componentType === 'series') {
                     window.location.href = params.name.replace(/\s+/g, '') + ".html";
                 }
             });
         });
-
     window.addEventListener('resize', myChart.resize);
 </script>
 </body>

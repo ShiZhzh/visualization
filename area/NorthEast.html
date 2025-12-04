@@ -2,48 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>South East Region</title>
+    <title>North East Region</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
-    <script src="data.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="../data.js"></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<button class="back-button" onclick="window.location.href='main.html#chart'">Back to UK Map</button>
+<button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // South East Teams
-    const regionTeams = new Set(["Southampton", "Portsmouth"]);
+    // North East Teams
+    const regionTeams = new Set(["Newcastle United", "Sunderland"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
     const chartDom = document.getElementById('subchart-container');
     const myChart = echarts.init(chartDom);
 
-    fetch("gb.json")
+    fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // South East District IDs
-            const regionIds = new Set(["GBBKM","GBMKN","GBOXF","GBSUR","GBWSX","GBESX","GBBHM","GBKEN","GBMDW","GBHAM","GBPOR","GBSOU","GBIOW","GBBRK","GBBRA","GBREA","GBSLO","GBWNM","GBWIN","GBSTH","GBWBK","GBSRY","GBRDG","GBWOK", "GBBRC","GBSLG","GBMIK","GBBNH"]);
+            // North East District IDs
+            const regionIds = new Set(["GBNBL","GBNET","GBGAT","GBNTY","GBSTY","GBSND","GBDUR","GBDAL","GBHPL","GBSTT","GBRCC","GBMDB"]);
 
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
-            echarts.registerMap('SouthEast', geoData);
+            echarts.registerMap('NorthEast', geoData);
 
             const option = {
                 backgroundColor: 'transparent',
-                title: { text: 'South East', left: 'center', top: 20 },
+                title: { text: 'North East', left: 'center', top: 20 },
                 geo: {
-                    map: 'SouthEast',
+                    map: 'NorthEast',
                     roam: true,
-                    label: { show: true, color: '#555', fontSize: 16 },
+                    label: { show: true, color: '#777', fontSize: 16 },
                     itemStyle: {
-                        areaColor: '#40E0D0', // Turquoise
+                        areaColor: '#87CEEB', // SkyBlue
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
                         shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
-                        itemStyle: { areaColor: '#AFEEEE' },
+                        itemStyle: { areaColor: '#B0E0E6' },
                         label: { show: true, color: '#000' }
                     }
                 },

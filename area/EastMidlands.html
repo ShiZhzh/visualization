@@ -2,48 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>East of England Region</title>
+    <title>East Midlands Region</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
-    <script src="data.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <script src="../data.js"></script>
+    <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<button class="back-button" onclick="window.location.href='main.html#chart'">Back to UK Map</button>
+<button class="back-button" onclick="window.location.href='../main.html#chart'">Back to UK Map</button>
 <div id="subchart-container"></div>
 <script>
-    // East of England Teams
-    const regionTeams = new Set(["Norwich City", "Ipswich Town", "Watford"]);
+    // East Midlands Teams
+    const regionTeams = new Set(["Leicester City", "Nottingham Forest"]);
     const teamsData = allTeamsData.filter(t => regionTeams.has(t.team));
 
     const chartDom = document.getElementById('subchart-container');
     const myChart = echarts.init(chartDom);
 
-    fetch("gb.json")
+    fetch("../gb.json")
         .then(response => response.json())
         .then(geoData => {
-            // East of England District IDs
-            const regionIds = new Set(["GBNFK","GBSFK","GBCAM","GBPET","GBESS","GBSOU","GBTHR","GBHRT","GBBDF","GBLUT","GBCEN","GBCBF","GBPTE","GBSOS"]);
+            // East Midlands District IDs
+            const regionIds = new Set(["GBDBY","GBDER","GBNTT","GBNGM","GBLIN","GBLEC","GBLCE","GBRUT","GBNTH","GBNNH","GBWNH"]);
 
             geoData.features = geoData.features.filter(feature => regionIds.has(feature.properties.id));
 
-            echarts.registerMap('EastofEngland', geoData);
+            echarts.registerMap('EastMidlands', geoData);
 
             const option = {
                 backgroundColor: 'transparent',
-                title: { text: 'East of England', left: 'center', top: 20 },
+                title: { text: 'East Midlands', left: 'center', top: 20 },
                 geo: {
-                    map: 'EastofEngland',
+                    map: 'EastMidlands',
                     roam: true,
-                    label: { show: true, color: '#444', fontSize: 16 },
+                    label: { show: true, color: '#777', fontSize: 16 },
                     itemStyle: {
-                        areaColor: '#9999FF', // Orchid
+                        areaColor: '#FFD700', // Gold
                         borderColor: '#fff',
                         borderWidth: 1,
                         shadowBlur: 5,
                         shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
-                        itemStyle: { areaColor: '#D8BFD8' },
+                        itemStyle: {
+                            areaColor: '#F0E68C',},
                         label: { show: true, color: '#000' }
                     }
                 },
