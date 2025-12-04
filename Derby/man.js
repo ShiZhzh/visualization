@@ -1,19 +1,8 @@
 // 曼市德比：Manchester City vs Manchester United （近10赛季：2015/16 - 2024/25）
-// 字段说明：
-// season: 赛季（主年份/次年份）
-// matches: 当赛季两队在英超的联赛场次列表
-//   - date: YYYY-MM-DD
-//   - venue: 主场（Etihad Stadium/Old Trafford）
-//   - score: "主队比分-客队比分"
-//   - yellow_cards: { home: n, away: n }  // 该场黄牌数
-//   - red_cards: { home: n, away: n }     // 该场红牌数
-//   - source: 数据来源引用ID（可选）
-// seasonSummary: 该赛季两队英超整体数据
-//   - team: "Manchester City" 或 "Manchester United"
-//   - leaguePos: 联赛最终排名（2024/25为截至2025.01的暂排）
-//   - record: { W:胜, D:平, L:负, Pts:积分 }
-//   - avg_yellow_per_game: 全赛季场均黄牌数
-//   - avg_red_per_game: 全赛季场均红牌数
+// 新增字段说明：
+// matches 新增 - possession: { home: n, away: n }  // 该场双方控球率（百分比，保留1位小数）
+// seasonSummary 新增 - avg_possession: number      // 球队当赛季英超场均控球率（百分比，保留1位小数）
+// 原有字段说明不变
 const manCityDerbyData = [
     // 2024/25（截至2025.01未结束，数据为当前进度）
     {
@@ -25,6 +14,7 @@ const manCityDerbyData = [
                 score: "Man Utd 0-3 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 41.3, away: 58.7 }, // 曼联主场控球率41.3%
                 source: ["turn1search82", "turn1search83"]
             },
             {
@@ -33,6 +23,7 @@ const manCityDerbyData = [
                 score: "Man City vs Man Utd", // 未赛占位
                 yellow_cards: { home: null, away: null },
                 red_cards: { home: null, away: null },
+                possession: { home: null, away: null }, // 未赛占位
                 source: ["turn1search84", "turn1search85"]
             }
         ],
@@ -42,14 +33,16 @@ const manCityDerbyData = [
                 leaguePos: 3, // 截至2025.01暂排
                 record: { W: 14, D: 3, L: 3, Pts: 45 }, // 截至20轮
                 avg_yellow_per_game: 1.5,
-                avg_red_per_game: 0.05
+                avg_red_per_game: 0.05,
+                avg_possession: 60.3 // 曼城2024/25场均控球率
             },
             {
                 team: "Manchester United",
                 leaguePos: 7, // 截至2025.01暂排
                 record: { W: 9, D: 6, L: 5, Pts: 33 }, // 截至20轮
                 avg_yellow_per_game: 2.0,
-                avg_red_per_game: 0.10
+                avg_red_per_game: 0.10,
+                avg_possession: 47.8 // 曼联2024/25场均控球率
             }
         ],
     },
@@ -63,6 +56,7 @@ const manCityDerbyData = [
                 score: "Man City 3-0 Man Utd",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 62.1, away: 37.9 },
                 source: ["turn1search86", "turn1search87"]
             },
             {
@@ -71,6 +65,7 @@ const manCityDerbyData = [
                 score: "Man Utd 1-2 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 44.5, away: 55.5 },
                 source: ["turn1search88", "turn1search89"]
             }
         ],
@@ -80,14 +75,16 @@ const manCityDerbyData = [
                 leaguePos: 2,
                 record: { W: 28, D: 5, L: 5, Pts: 89 },
                 avg_yellow_per_game: 1.4,
-                avg_red_per_game: 0.06
+                avg_red_per_game: 0.06,
+                avg_possession: 59.8
             },
             {
                 team: "Manchester United",
                 leaguePos: 8,
                 record: { W: 17, D: 10, L: 11, Pts: 61 },
                 avg_yellow_per_game: 2.1,
-                avg_red_per_game: 0.10
+                avg_red_per_game: 0.10,
+                avg_possession: 46.9
             }
         ],
     },
@@ -101,6 +98,7 @@ const manCityDerbyData = [
                 score: "Man Utd 0-6 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 38.2, away: 61.8 },
                 source: ["turn1search90", "turn1search91"]
             },
             {
@@ -109,6 +107,7 @@ const manCityDerbyData = [
                 score: "Man City 2-1 Man Utd",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 63.4, away: 36.6 },
                 source: ["turn1search92", "turn1search93"]
             }
         ],
@@ -118,14 +117,16 @@ const manCityDerbyData = [
                 leaguePos: 1,
                 record: { W: 28, D: 5, L: 5, Pts: 89 },
                 avg_yellow_per_game: 1.6,
-                avg_red_per_game: 0.07
+                avg_red_per_game: 0.07,
+                avg_possession: 59.5
             },
             {
                 team: "Manchester United",
                 leaguePos: 3,
                 record: { W: 23, D: 6, L: 9, Pts: 75 },
                 avg_yellow_per_game: 1.9,
-                avg_red_per_game: 0.11
+                avg_red_per_game: 0.11,
+                avg_possession: 47.2
             }
         ],
     },
@@ -139,6 +140,7 @@ const manCityDerbyData = [
                 score: "Man Utd 0-2 Man City",
                 yellow_cards: { home: 1, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 42.7, away: 57.3 },
                 source: ["turn1search94", "turn1search95"]
             },
             {
@@ -147,6 +149,7 @@ const manCityDerbyData = [
                 score: "Man City 4-1 Man Utd",
                 yellow_cards: { home: 2, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 60.9, away: 39.1 },
                 source: ["turn1search96", "turn1search97"]
             }
         ],
@@ -156,14 +159,16 @@ const manCityDerbyData = [
                 leaguePos: 1,
                 record: { W: 29, D: 6, L: 3, Pts: 93 },
                 avg_yellow_per_game: 1.5,
-                avg_red_per_game: 0.05
+                avg_red_per_game: 0.05,
+                avg_possession: 60.1
             },
             {
                 team: "Manchester United",
                 leaguePos: 6,
                 record: { W: 21, D: 11, L: 6, Pts: 74 },
                 avg_yellow_per_game: 1.8,
-                avg_red_per_game: 0.10
+                avg_red_per_game: 0.10,
+                avg_possession: 48.5
             }
         ],
     },
@@ -177,6 +182,7 @@ const manCityDerbyData = [
                 score: "Man City 1-0 Man Utd",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 58.6, away: 41.4 },
                 source: ["turn1search98", "turn1search99"]
             },
             {
@@ -185,6 +191,7 @@ const manCityDerbyData = [
                 score: "Man Utd 2-0 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 47.9, away: 52.1 },
                 source: ["turn1search100", "turn1search101"]
             }
         ],
@@ -194,14 +201,16 @@ const manCityDerbyData = [
                 leaguePos: 1,
                 record: { W: 27, D: 5, L: 6, Pts: 86 },
                 avg_yellow_per_game: 1.7,
-                avg_red_per_game: 0.08
+                avg_red_per_game: 0.08,
+                avg_possession: 58.7
             },
             {
                 team: "Manchester United",
                 leaguePos: 2,
                 record: { W: 21, D: 11, L: 6, Pts: 74 },
                 avg_yellow_per_game: 1.7,
-                avg_red_per_game: 0.11
+                avg_red_per_game: 0.11,
+                avg_possession: 49.8
             }
         ],
     },
@@ -215,6 +224,7 @@ const manCityDerbyData = [
                 score: "Man Utd 1-2 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 43.8, away: 56.2 },
                 source: ["turn1search102", "turn1search103"]
             },
             {
@@ -223,6 +233,7 @@ const manCityDerbyData = [
                 score: "Man City 2-0 Man Utd",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 61.3, away: 38.7 },
                 source: ["turn1search104", "turn1search105"]
             }
         ],
@@ -232,14 +243,16 @@ const manCityDerbyData = [
                 leaguePos: 2,
                 record: { W: 26, D: 3, L: 9, Pts: 81 },
                 avg_yellow_per_game: 1.6,
-                avg_red_per_game: 0.07
+                avg_red_per_game: 0.07,
+                avg_possession: 57.9
             },
             {
                 team: "Manchester United",
                 leaguePos: 3,
                 record: { W: 18, D: 12, L: 8, Pts: 66 },
                 avg_yellow_per_game: 1.8,
-                avg_red_per_game: 0.09
+                avg_red_per_game: 0.09,
+                avg_possession: 48.3
             }
         ],
     },
@@ -253,6 +266,7 @@ const manCityDerbyData = [
                 score: "Man City 3-1 Man Utd",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 62.5, away: 37.5 },
                 source: ["turn1search106", "turn1search107"]
             },
             {
@@ -261,6 +275,7 @@ const manCityDerbyData = [
                 score: "Man Utd 0-2 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 41.6, away: 58.4 },
                 source: ["turn1search108", "turn1search109"]
             }
         ],
@@ -270,14 +285,16 @@ const manCityDerbyData = [
                 leaguePos: 1,
                 record: { W: 32, D: 2, L: 4, Pts: 98 },
                 avg_yellow_per_game: 1.4,
-                avg_red_per_game: 0.06
+                avg_red_per_game: 0.06,
+                avg_possession: 60.5
             },
             {
                 team: "Manchester United",
                 leaguePos: 6,
                 record: { W: 19, D: 9, L: 10, Pts: 66 },
                 avg_yellow_per_game: 1.7,
-                avg_red_per_game: 0.10
+                avg_red_per_game: 0.10,
+                avg_possession: 47.1
             }
         ],
     },
@@ -291,6 +308,7 @@ const manCityDerbyData = [
                 score: "Man City 2-1 Man Utd",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 59.8, away: 40.2 },
                 source: ["turn1search110", "turn1search111"]
             },
             {
@@ -299,6 +317,7 @@ const manCityDerbyData = [
                 score: "Man Utd 2-3 Man City",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 45.2, away: 54.8 },
                 source: ["turn1search112", "turn1search113"]
             }
         ],
@@ -308,14 +327,16 @@ const manCityDerbyData = [
                 leaguePos: 1,
                 record: { W: 32, D: 4, L: 2, Pts: 100 },
                 avg_yellow_per_game: 1.5,
-                avg_red_per_game: 0.05
+                avg_red_per_game: 0.05,
+                avg_possession: 61.2 // 近10年曼城最高场均控球率
             },
             {
                 team: "Manchester United",
                 leaguePos: 2,
                 record: { W: 25, D: 6, L: 7, Pts: 81 },
                 avg_yellow_per_game: 1.5,
-                avg_red_per_game: 0.08
+                avg_red_per_game: 0.08,
+                avg_possession: 49.2
             }
         ],
     },
@@ -329,6 +350,7 @@ const manCityDerbyData = [
                 score: "Man Utd 1-2 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 48.3, away: 51.7 },
                 source: ["turn1search114", "turn1search115"]
             },
             {
@@ -337,6 +359,7 @@ const manCityDerbyData = [
                 score: "Man City 0-0 Man Utd",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 57.4, away: 42.6 },
                 source: ["turn1search116", "turn1search117"]
             }
         ],
@@ -346,14 +369,16 @@ const manCityDerbyData = [
                 leaguePos: 3,
                 record: { W: 23, D: 9, L: 6, Pts: 78 },
                 avg_yellow_per_game: 1.8,
-                avg_red_per_game: 0.09
+                avg_red_per_game: 0.09,
+                avg_possession: 56.8
             },
             {
                 team: "Manchester United",
                 leaguePos: 6,
                 record: { W: 18, D: 15, L: 5, Pts: 69 },
                 avg_yellow_per_game: 1.6,
-                avg_red_per_game: 0.05
+                avg_red_per_game: 0.05,
+                avg_possession: 48.9
             }
         ],
     },
@@ -367,6 +392,7 @@ const manCityDerbyData = [
                 score: "Man City 0-0 Man Utd",
                 yellow_cards: { home: 1, away: 2 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 55.2, away: 44.8 },
                 source: ["turn1search118", "turn1search119"]
             },
             {
@@ -375,6 +401,7 @@ const manCityDerbyData = [
                 score: "Man Utd 1-0 Man City",
                 yellow_cards: { home: 2, away: 1 },
                 red_cards: { home: 0, away: 0 },
+                possession: { home: 49.5, away: 50.5 },
                 source: ["turn1search120", "turn1search121"]
             }
         ],
@@ -384,14 +411,16 @@ const manCityDerbyData = [
                 leaguePos: 4,
                 record: { W: 19, D: 9, L: 10, Pts: 66 },
                 avg_yellow_per_game: 1.7,
-                avg_red_per_game: 0.08
+                avg_red_per_game: 0.08,
+                avg_possession: 55.4
             },
             {
                 team: "Manchester United",
                 leaguePos: 5,
                 record: { W: 19, D: 9, L: 10, Pts: 66 },
                 avg_yellow_per_game: 1.8,
-                avg_red_per_game: 0.08
+                avg_red_per_game: 0.08,
+                avg_possession: 49.3
             }
         ],
     }

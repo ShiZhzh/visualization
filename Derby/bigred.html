@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>北伦敦德比</title>
+<title>双红会：曼联 vs 利物浦</title>
 
 <!-- ECharts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
 <!-- 引入外部 CSS -->
-<link rel="stylesheet" href="london.css">
+<link rel="stylesheet" href="bigred.css">
 
 </head>
 <body>
@@ -20,40 +20,37 @@
   <div class="page-wrap">
     <div class="panel">
 
-      <!-- 顶部 Banner：两队队徽 + 中央标题 -->
+      <!-- 顶部 Banner -->
       <div class="top-banner">
-        <div class="team-badge" title="阿森纳">
-          <img src="./pic/arsenal.svg" alt="Arsenal Badge">
-
+        <div class="team-badge" title="Manchester United">
+          <img src="./pic/manu.svg" alt="Man Utd Badge">
         </div>
 
         <div class="banner-center">
-          <div class="banner-title">北伦敦德比</div>
-            <div class="banner-sub">Arsenal vs Tottenham</div>
+          <div class="banner-title">双红会</div>
+          <div class="banner-sub">Manchester United vs Liverpool</div>
           <div class="banner-sub">十赛季数据汇总</div>
 
-          <!-- 战术板 overlay：SVG（半透明） -->
+          <!-- 战术板 overlay -->
           <svg class="tactics-overlay" viewBox="0 0 1200 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- 这是装饰性的战术线（如箭头、传球轨迹） -->
             <defs>
               <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#fff" stop-opacity="0.3" />
-                <stop offset="1" stop-color="#fff" stop-opacity="0" />
+                <stop offset="0" stop-color="#F3D459" stop-opacity="0.3" />
+                <stop offset="1" stop-color="#DA291C" stop-opacity="0" />
               </linearGradient>
             </defs>
             <g stroke="url(#g1)" stroke-width="2" fill="none">
               <path d="M40 100 C 250 20, 450 20, 600 90" stroke-linecap="round" />
               <path d="M1200 100 C 950 20, 750 20, 600 90" stroke-linecap="round" transform="scale(-1,1) translate(-1200,0)"/>
               <circle cx="600" cy="56" r="10" fill="#fff" opacity="0.18"/>
-              <circle cx="600" cy="56" r="4" fill="#ef0107" opacity="0.95"/>
+              <circle cx="600" cy="56" r="4" fill="#F3D459" opacity="0.95"/>
             </g>
           </svg>
 
         </div>
 
-        <div class="team-badge" title="Tottenham">
-          <!-- 替换建议：images/tottenham-badge.png （透明 PNG，建议 300x300） -->
-          <img src="./pic/tot.svg" alt="Tottenham Badge" />
+        <div class="team-badge" title="Liverpool">
+          <img src="./pic/liv.jpg" alt="Liverpool Badge" />
         </div>
       </div>
 
@@ -64,7 +61,7 @@
           <div class="card-header">
             <div>
               <div class="card-title">进球趋势（10赛季）</div>
-              <div class="card-sub">红色 = 阿森纳 · 白色 = 热刺</div>
+              <div class="card-sub">金色 = 曼联 · 红色 = 利物浦</div>
             </div>
             <div class="chip">进攻</div>
           </div>
@@ -90,17 +87,14 @@
           <div class="card-header">
             <div>
               <div class="card-title">火爆指数 · 红黄牌 & 胜负占比</div>
-              <div class="card-sub">玩家冲突、裁判干预与比赛激烈程度</div>
+              <div class="card-sub">英格兰国家德比的激烈程度</div>
             </div>
             <div class="chip">纪律 & 胜率</div>
           </div>
 
           <div style="display:flex;gap:18px;align-items:stretch">
             <div id="fightChart" class="chart" style="flex:1"></div>
-            
-            </div>
           </div>
-
           <div class="metal-strip"></div>
         </div>
 
@@ -120,137 +114,141 @@
       </div> <!-- content-grid end -->
 
     </div>
-
+  </div>
 
   <script type="module">
-  import northLondonDerbyData from './london.js';
+  import derbyData from './bigred.js';
 
   // ============================
-  // 数据处理：从 london.js 的 northLondonDerbyData 生成图表所需数据
+  // 数据处理
   // ============================
   
-  // 1. 按时间正序排列（原始数据通常是倒序，最新的在前）
-  const sortedData = [...northLondonDerbyData].reverse();
+  // 1. 按时间正序排列
+  const sortedData = [...derbyData].reverse();
 
   const seasons = sortedData.map(d => d.season);
   
-  const arsenalGoals = [];
-  const tottenhamGoals = [];
-  const arsenalRanking = [];
-  const tottenhamRanking = [];
+  const manGoals = [];
+  const livGoals = [];
+  const manRanking = [];
+  const livRanking = [];
 
-  // 新增：控球率数据
-  const arsSeasonAvgPoss = [];
-  const totSeasonAvgPoss = [];
-  const arsHomeDerbyPoss = []; // 阿森纳在主场(Emirates)的控球率
-  const arsAwayDerbyPoss = []; // 阿森纳在客场(Spurs)的控球率
-  const totHomeDerbyPoss = []; // 热刺在主场(Spurs)的控球率
-  const totAwayDerbyPoss = []; // 热刺在客场(Emirates)的控球率
+  // 控球率数据
+  const manSeasonAvgPoss = [];
+  const livSeasonAvgPoss = [];
+  const manHomeDerbyPoss = []; // 曼联在主场(Old Trafford)的控球率
+  const manAwayDerbyPoss = []; // 曼联在客场(Anfield)的控球率
+  const livHomeDerbyPoss = []; // 利物浦在主场(Anfield)的控球率
+  const livAwayDerbyPoss = []; // 利物浦在客场(Old Trafford)的控球率
 
-  let arsYellow = 0, totYellow = 0;
-  let arsRed = 0, totRed = 0;
-  let arsWins = 0, totWins = 0, draws = 0;
+  let manYellow = 0, livYellow = 0;
+  let manRed = 0, livRed = 0;
+  let manWins = 0, livWins = 0, draws = 0;
 
   sortedData.forEach(d => {
     // 排名 & 赛季平均控球率
-    const arsSum = d.seasonSummary.find(t => t.team === 'Arsenal');
-    const totSum = d.seasonSummary.find(t => t.team === 'Tottenham Hotspur');
-    arsenalRanking.push(arsSum ? arsSum.leaguePos : null);
-    tottenhamRanking.push(totSum ? totSum.leaguePos : null);
+    const manSum = d.seasonSummary.find(t => t.team === 'Manchester United');
+    const livSum = d.seasonSummary.find(t => t.team === 'Liverpool');
+    manRanking.push(manSum ? manSum.leaguePos : null);
+    livRanking.push(livSum ? livSum.leaguePos : null);
     
-    arsSeasonAvgPoss.push(arsSum ? arsSum.avg_possession : null);
-    totSeasonAvgPoss.push(totSum ? totSum.avg_possession : null);
+    manSeasonAvgPoss.push(manSum ? manSum.avg_possession : null);
+    livSeasonAvgPoss.push(livSum ? livSum.avg_possession : null);
 
     // 统计该赛季两队相互比赛的进球与红黄牌
-    let aGoals = 0;
-    let tGoals = 0;
+    let mGoals = 0;
+    let lGoals = 0;
     
     // 临时存储当季德比控球率
-    let ahp = null, aap = null, thp = null, tap = null;
+    let mhp = null, map = null, lhp = null, lap = null;
 
     d.matches.forEach(m => {
-      // 解析比分 "HomeName Score-Score AwayName" -> 提取数字
+      // 解析比分 "HomeName Score-Score AwayName"
       const scoreMatch = m.score.match(/(\d+)-(\d+)/);
       if(!scoreMatch) return;
       
       const scoreHome = parseInt(scoreMatch[1], 10);
       const scoreAway = parseInt(scoreMatch[2], 10);
 
-      // 判断主客场 (Emirates Stadium 为阿森纳主场)
-      const isArsHome = m.venue === 'Emirates Stadium';
+      // 判断主客场 (Old Trafford 为曼联主场)
+      const isManHome = m.venue === 'Old Trafford';
 
-      if(isArsHome) {
-        // 阿森纳主场
-        aGoals += scoreHome;
-        tGoals += scoreAway;
+      if(isManHome) {
+        // 曼联主场
+        mGoals += scoreHome;
+        lGoals += scoreAway;
         
-        arsYellow += m.yellow_cards.home;
-        totYellow += m.yellow_cards.away;
-        arsRed += m.red_cards.home;
-        totRed += m.red_cards.away;
+        manYellow += m.yellow_cards.home;
+        livYellow += m.yellow_cards.away;
+        manRed += m.red_cards.home;
+        livRed += m.red_cards.away;
 
-        if(scoreHome > scoreAway) arsWins++;
-        else if(scoreHome < scoreAway) totWins++;
+        if(scoreHome > scoreAway) manWins++;
+        else if(scoreHome < scoreAway) livWins++;
         else draws++;
 
         // 控球率
         if(m.possession) {
-          ahp = m.possession.home; // 阿森纳主场控球
-          tap = m.possession.away; // 热刺客场控球
+          mhp = m.possession.home; // 曼联主场控球
+          lap = m.possession.away; // 利物浦客场控球
         }
 
       } else {
-        // 热刺主场
-        tGoals += scoreHome;
-        aGoals += scoreAway;
+        // 利物浦主场
+        lGoals += scoreHome;
+        mGoals += scoreAway;
 
-        totYellow += m.yellow_cards.home;
-        arsYellow += m.yellow_cards.away;
-        totRed += m.red_cards.home;
-        arsRed += m.red_cards.away;
+        livYellow += m.yellow_cards.home;
+        manYellow += m.yellow_cards.away;
+        livRed += m.red_cards.home;
+        manRed += m.red_cards.away;
 
-        if(scoreHome > scoreAway) totWins++;
-        else if(scoreHome < scoreAway) arsWins++;
+        if(scoreHome > scoreAway) livWins++;
+        else if(scoreHome < scoreAway) manWins++;
         else draws++;
 
         // 控球率
         if(m.possession) {
-          thp = m.possession.home; // 热刺主场控球
-          aap = m.possession.away; // 阿森纳客场控球
+          lhp = m.possession.home; // 利物浦主场控球
+          map = m.possession.away; // 曼联客场控球
         }
       }
     });
 
-    arsenalGoals.push(aGoals);
-    tottenhamGoals.push(tGoals);
+    manGoals.push(mGoals);
+    livGoals.push(lGoals);
     
-    arsHomeDerbyPoss.push(ahp);
-    arsAwayDerbyPoss.push(aap);
-    totHomeDerbyPoss.push(thp);
-    totAwayDerbyPoss.push(tap);
+    manHomeDerbyPoss.push(mhp);
+    manAwayDerbyPoss.push(map);
+    livHomeDerbyPoss.push(lhp);
+    livAwayDerbyPoss.push(lap);
   });
 
+  // 配色定义
+  const COLOR_MAN = '#F3D459'; // 曼联金
+  const COLOR_LIV = '#DA291C'; // 利物浦红
+  const COLOR_DRAW = '#BFBFBF';
+
   const cardsData = [
-    { name:'阿森纳 黄牌', value:arsYellow, itemStyle:{color:'#EF0107'} },
-    { name:'热刺 黄牌', value:totYellow, itemStyle:{color:'#FFFFFF'} },
-    { name:'阿森纳 红牌', value:arsRed, itemStyle:{color:'#B30000'} },
-    { name:'热刺 红牌', value:totRed, itemStyle:{color:'#E0E0E0'} }
+    { name:'曼联 黄牌', value:manYellow, itemStyle:{color:COLOR_MAN} },
+    { name:'利物浦 黄牌', value:livYellow, itemStyle:{color:COLOR_LIV} },
+    { name:'曼联 红牌', value:manRed, itemStyle:{color:'#B8860B'} }, // 深金
+    { name:'利物浦 红牌', value:livRed, itemStyle:{color:'#800000'} }  // 深红
   ];
   const winLoseData = [
-    { name:'阿森纳 胜', value:arsWins, itemStyle:{color:'#EF0107'} },
-    { name:'热刺 胜', value:totWins, itemStyle:{color:'#FFFFFF'} },
-    { name:'平局', value:draws, itemStyle:{color:'#BFBFBF'} }
+    { name:'曼联 胜', value:manWins, itemStyle:{color:COLOR_MAN} },
+    { name:'利物浦 胜', value:livWins, itemStyle:{color:COLOR_LIV} },
+    { name:'平局', value:draws, itemStyle:{color:COLOR_DRAW} }
   ];
 
   // ============================
-  // 初始化 ECharts 实例（暗主题）
+  // 初始化 ECharts
   // ============================
   const goalsChart = echarts.init(document.getElementById('goalsChart'),'dark');
   const rankingChart = echarts.init(document.getElementById('rankingChart'),'dark');
   const fightChart = echarts.init(document.getElementById('fightChart'),'dark');
   const possessionChart = echarts.init(document.getElementById('possessionChart'),'dark');
 
-  // 统一 tooltip 样式（银色边框 + 圆角）
   const commonTooltip = {
     backgroundColor: 'rgba(10,10,12,0.95)',
     borderColor: '#DDDDDD',
@@ -266,7 +264,7 @@
   const goalsOption = {
     tooltip: Object.assign({ trigger:'axis' }, commonTooltip),
     legend: {
-      data: ['阿森纳','热刺'],
+      data: ['曼联','利物浦'],
       top:8,
       textStyle:{ color:'#fff' }
     },
@@ -285,43 +283,28 @@
     },
     series: [
       {
-        name:'阿森纳',
+        name:'曼联',
         type:'line',
-        data:arsenalGoals,
+        data:manGoals,
         smooth:true,
         symbol:'circle',
         symbolSize:8,
-        lineStyle:{ width:3, color:'#EF0107', shadowColor:'#EF0107', shadowBlur:10 },
-        itemStyle:{ color:'#EF0107' },
+        lineStyle:{ width:3, color:COLOR_MAN, shadowColor:COLOR_MAN, shadowBlur:10 },
+        itemStyle:{ color:COLOR_MAN },
         emphasis:{ focus:'series', scale:true }
       },
       {
-        name:'热刺',
+        name:'利物浦',
         type:'line',
-        data:tottenhamGoals,
+        data:livGoals,
         smooth:true,
         symbol:'diamond',
         symbolSize:8,
-        lineStyle:{ width:3, color:'#FFFFFF', opacity:0.95, shadowColor:'#fff', shadowBlur:8 },
-        itemStyle:{ color:'#FFFFFF' },
+        lineStyle:{ width:3, color:COLOR_LIV, opacity:0.95, shadowColor:COLOR_LIV, shadowBlur:8 },
+        itemStyle:{ color:COLOR_LIV },
         emphasis:{ focus:'series', scale:true }
       }
-    ],
-    graphic: (function(){
-      // 生成一些装饰性光圈（表示紧张度）
-      const g = [];
-      const colors = ['rgba(239,1,7,0.06)','rgba(255,255,255,0.04)'];
-      for(let i=0;i<10;i++){
-        g.push({
-          type:'circle',
-          left: (Math.random()*80+10) + '%',
-          top: (Math.random()*70+10) + '%',
-          shape:{ r: Math.random()*6 + 4 },
-          style:{ fill: colors[i%2], opacity: 0.9 }
-        });
-      }
-      return { elements: g };
-    })()
+    ]
   };
 
   // ============================
@@ -332,28 +315,28 @@
       const p = params[0];
       return `${p.axisValue}<br/>${p.seriesName}：第${p.value}名`;
     } }, commonTooltip),
-    legend:{ data:['阿森纳','热刺'], top:8, textStyle:{color:'#fff'} },
+    legend:{ data:['曼联','利物浦'], top:8, textStyle:{color:'#fff'} },
     grid: { left:'6%', right:'6%', top:'16%', bottom:'12%', containLabel:true },
     xAxis:{ type:'category', data:seasons, axisLine:{lineStyle:{color:'rgba(255,255,255,0.12)'}}, axisLabel:{color:'#ddd'} },
     yAxis:{ type:'value', inverse:true, min:0, max:20, axisLine:{lineStyle:{color:'rgba(255,255,255,0.12)'}}, axisLabel:{color:'#ddd'}, splitLine:{lineStyle:{color:'rgba(255,255,255,0.03)'}} },
     series:[
       {
-        name:'阿森纳',
+        name:'曼联',
         type:'bar',
-        data:arsenalRanking,
+        data:manRanking,
         barWidth: '34%',
-        itemStyle:{ color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0,color:'#FF6B6B'},{offset:1,color:'#C00000'}]) },
+        itemStyle:{ color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0,color:'#FFFACD'},{offset:1,color:COLOR_MAN}]) },
         emphasis:{ itemStyle:{ opacity:0.9 } },
         label:{ show:true, position:'top', color:'#fff', fontSize:11 }
       },
       {
-        name:'热刺',
+        name:'利物浦',
         type:'bar',
-        data:tottenhamRanking,
+        data:livRanking,
         barWidth: '34%',
-        itemStyle:{ color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0,color:'#FFFFFF'},{offset:1,color:'#CFCFCF'}]) },
+        itemStyle:{ color: COLOR_LIV },
         emphasis:{ itemStyle:{ opacity:0.95 } },
-        label:{ show:true, position:'top', color:'#111' }
+        label:{ show:true, position:'top', color:'#fff' }
       }
     ]
   };
@@ -383,33 +366,18 @@
         label: { color:'#fff', formatter: '{b}\n{c} 场' },
         emphasis: { itemStyle:{ shadowBlur:30, shadowColor:'#ffd700' } }
       }
-    ],
-    graphic: {
-      elements: [
-        {
-          type: 'image',
-          left: '0%',
-          top: '0%',
-          style: {
-            image: 'images/flame-texture.png',
-            width: '100%',
-            height: '100%',
-            opacity: 0.06
-          }
-        }
-      ]
-    }
+    ]
   };
 
   // ============================
-  // 控球率对比：折线（均值）+ 散点（德比）
+  // 控球率对比
   // ============================
   const possessionOption = {
     tooltip: Object.assign({ trigger:'item', formatter: (params) => {
       return `${params.seriesName}<br/>${params.name}：${params.value}%`;
     } }, commonTooltip),
     legend: { 
-      data:['阿森纳(赛季均值)','热刺(赛季均值)','阿森纳(主场德比)','阿森纳(客场德比)','热刺(主场德比)','热刺(客场德比)'], 
+      data:['曼联(赛季均值)','利物浦(赛季均值)','曼联(主场德比)','曼联(客场德比)','利物浦(主场德比)','利物浦(客场德比)'], 
       top:8, 
       textStyle:{color:'#fff', fontSize:11},
       itemWidth: 12,
@@ -433,55 +401,55 @@
     series: [
       // 赛季均值（虚线）
       { 
-        name:'阿森纳(赛季均值)', 
+        name:'曼联(赛季均值)', 
         type:'line', 
-        data:arsSeasonAvgPoss, 
+        data:manSeasonAvgPoss, 
         smooth:true,
-        itemStyle:{color:'#EF0107'}, 
+        itemStyle:{color:COLOR_MAN}, 
         lineStyle:{type:'dashed', width:2, opacity:0.6}, 
         symbol:'none' 
       },
       { 
-        name:'热刺(赛季均值)', 
+        name:'利物浦(赛季均值)', 
         type:'line', 
-        data:totSeasonAvgPoss, 
+        data:livSeasonAvgPoss, 
         smooth:true,
-        itemStyle:{color:'#FFFFFF'}, 
+        itemStyle:{color:COLOR_LIV}, 
         lineStyle:{type:'dashed', width:2, opacity:0.6}, 
         symbol:'none' 
       },
       // 德比实战（散点）
       {
-        name:'阿森纳(主场德比)',
+        name:'曼联(主场德比)',
         type:'scatter',
-        data: arsHomeDerbyPoss,
-        itemStyle:{color:'#EF0107'},
+        data: manHomeDerbyPoss,
+        itemStyle:{color:COLOR_MAN},
         symbolSize: 10,
-        symbol: 'circle' // 实心圆
+        symbol: 'circle'
       },
       {
-        name:'阿森纳(客场德比)',
+        name:'曼联(客场德比)',
         type:'scatter',
-        data: arsAwayDerbyPoss,
-        itemStyle:{color:'#EF0107', borderColor:'#EF0107', borderWidth:2},
+        data: manAwayDerbyPoss,
+        itemStyle:{color:'#111', borderColor:COLOR_MAN, borderWidth:2},
         symbolSize: 10,
-        symbol: 'circle' // 空心圆效果（通过颜色调整）
+        symbol: 'circle'
       },
       {
-        name:'热刺(主场德比)',
+        name:'利物浦(主场德比)',
         type:'scatter',
-        data: totHomeDerbyPoss,
-        itemStyle:{color:'#FFFFFF'},
+        data: livHomeDerbyPoss,
+        itemStyle:{color:COLOR_LIV},
         symbolSize: 10,
-        symbol: 'diamond' // 实心菱形
+        symbol: 'diamond'
       },
       {
-        name:'热刺(客场德比)',
+        name:'利物浦(客场德比)',
         type:'scatter',
-        data: totAwayDerbyPoss,
-        itemStyle:{color:'#FFFFFF', borderColor:'#FFFFFF', borderWidth:2, },
+        data: livAwayDerbyPoss,
+        itemStyle:{color:'#111', borderColor:COLOR_LIV, borderWidth:2, },
         symbolSize: 10,
-        symbol: 'diamond' // 空心菱形效果
+        symbol: 'diamond'
       }
     ]
   };
@@ -495,37 +463,6 @@
   // 自适应
   window.addEventListener('resize', () => {
     goalsChart.resize(); rankingChart.resize(); fightChart.resize(); possessionChart.resize();
-  });
-
-  // ============================
-  // 点击交互示例
-  // ============================
-  goalsChart.on('click', params => {
-    if(params.seriesType === 'line'){
-      alert(`${params.seriesName} 在 ${params.name} 赛季进球：${params.value} 球`);
-    }
-  });
-
-  rankingChart.on('click', params => {
-    const txt = `${params.seriesName} · ${params.name} 赛季 排名：第${params.value}名`;
-    alert(txt);
-  });
-
-  fightChart.on('mouseover', params => {
-    if(params.seriesType === 'pie'){
-      fightChart.setOption({
-        series: fightOption.series.map(s=>{
-          if(s.name === params.seriesName){
-            return Object.assign({}, s, { itemStyle:{opacity:1} });
-          }
-          return s;
-        })
-      });
-    }
-  });
-
-  fightChart.on('mouseout', ()=> {
-    fightChart.setOption(fightOption);
   });
 
 </script>

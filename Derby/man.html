@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>曼市德比</title>
+
+<!-- ECharts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.0/echarts.min.js"></script>
+<!-- 引入外部 CSS -->
+<link rel="stylesheet" href="man.css">
+
+</head>
+<body>
+
+<a href="../main.html#derby-section-container" style="position: fixed; top: 20px; left: 20px; z-index: 9999; color: #fff; text-decoration: none; font-weight: bold; background: rgba(0,0,0,0.6); padding: 8px 15px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.2); font-family: sans-serif;">
+    &larr; Back
+</a>
+
+  <div class="page-wrap">
+    <div class="panel">
+
+      <!-- 顶部 Banner -->
+      <div class="top-banner">
+        <div class="team-badge" title="曼城">
+          <!-- 假设图片路径 -->
+          <img src="./pic/manc.svg" alt="Man City Badge">
+        </div>
+
+        <div class="banner-center">
+          <div class="banner-title">曼市德比</div>
+            <div class="banner-sub">Manchester City vs Manchester United</div>
+          <div class="banner-sub">近十赛季数据汇总</div>
+
+          <!-- 战术板 overlay -->
+          <svg class="tactics-overlay" viewBox="0 0 1200 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#6CABDD" stop-opacity="0.3" />
+                <stop offset="1" stop-color="#DA291C" stop-opacity="0.3" />
+              </linearGradient>
+            </defs>
+            <g stroke="url(#g1)" stroke-width="2" fill="none">
+              <path d="M40 100 C 250 20, 450 20, 600 90" stroke-linecap="round" />
+              <path d="M1200 100 C 950 20, 750 20, 600 90" stroke-linecap="round" transform="scale(-1,1) translate(-1200,0)"/>
+              <circle cx="600" cy="56" r="10" fill="#fff" opacity="0.18"/>
+              <circle cx="600" cy="56" r="4" fill="#6CABDD" opacity="0.95"/>
+            </g>
+          </svg>
+
+        </div>
+
+        <div class="team-badge" title="曼联">
+          <img src="./pic/manu.svg" alt="Man Utd Badge" />
+        </div>
+      </div>
+
+      <!-- 内容网格 -->
+      <div class="content-grid" style="margin-top:18px;">
+        <!-- Card 1: Goals -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">进球趋势（10赛季）</div>
+              <div class="card-sub">天蓝 = 曼城 · 红色 = 曼联</div>
+            </div>
+            <div class="chip">进攻</div>
+          </div>
+          <div class="chart" id="goalsChart"></div>
+          <div class="metal-strip"></div>
+        </div>
+
+        <!-- Card 2: Ranking -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">联赛排名（数值越小越优）</div>
+              <div class="card-sub">反映赛季稳定性与走势</div>
+            </div>
+            <div class="chip">排名</div>
+          </div>
+          <div class="chart" id="rankingChart"></div>
+          <div class="metal-strip"></div>
+        </div>
+
+        <!-- Wide Card: Conflict -->
+        <div class="card wide" style="overflow:visible">
+          <div class="card-header">
+            <div>
+              <div class="card-title">火爆指数 · 红黄牌 & 胜负占比</div>
+              <div class="card-sub">玩家冲突、裁判干预与比赛激烈程度</div>
+            </div>
+            <div class="chip">纪律 & 胜率</div>
+          </div>
+
+          <div style="display:flex;gap:18px;align-items:stretch">
+            <div id="fightChart" class="chart" style="flex:1"></div>
+          </div>
+          <div class="metal-strip"></div>
+        </div>
+
+        <!-- Wide Card: Possession Comparison -->
+        <div class="card wide">
+          <div class="card-header">
+            <div>
+              <div class="card-title">控球率博弈（赛季均值 vs 德比实战）</div>
+              <div class="card-sub">虚线：赛季平均 · 实心点：主场德比 · 空心点：客场德比</div>
+            </div>
+            <div class="chip">战术控制</div>
+          </div>
+          <div class="chart" id="possessionChart"></div>
+          <div class="metal-strip"></div>
+        </div>
+
+      </div> <!-- content-grid end -->
+
+    </div>
+  </div>
+
+  <script type="module">
+  import manCityDerbyData from './man.js';
+
+  // ============================
+  // 数据处理
+  // ============================
+  
+  // 1. 按时间正序排列
+  const sortedData = [...manCityDerbyData].reverse();
+
+  const seasons = sortedData.map(d => d.season);
+  
+  const cityGoals = [];
+  const utdGoals = [];
+  const cityRanking = [];
+  const utdRanking = [];
+
+  // 控球率数据
+  const citySeasonAvgPoss = [];
+  const utdSeasonAvgPoss = [];
+  const cityHomeDerbyPoss = []; // 曼城在主场(Etihad)的控球率
+  const cityAwayDerbyPoss = []; // 曼城在客场(Old Trafford)的控球率
+  const utdHomeDerbyPoss = [];  // 曼联在主场(Old Trafford)的控球率
+  const utdAwayDerbyPoss = [];  // 曼联在客场(Etihad)的控球率
+
+  let cityYellow = 0, utdYellow = 0;
+  let cityRed = 0, utdRed = 0;
+  let cityWins = 0, utdWins = 0, draws = 0;
+
+  sortedData.forEach(d => {
+    // 排名 & 赛季平均控球率
+    const citySum = d.seasonSummary.find(t => t.team === 'Manchester City');
+    const utdSum = d.seasonSummary.find(t => t.team === 'Manchester United');
+    cityRanking.push(citySum ? citySum.leaguePos : null);
+    utdRanking.push(utdSum ? utdSum.leaguePos : null);
+    
+    citySeasonAvgPoss.push(citySum ? citySum.avg_possession : null);
+    utdSeasonAvgPoss.push(utdSum ? utdSum.avg_possession : null);
+
+    // 统计该赛季两队相互比赛
+    let cGoals = 0;
+    let uGoals = 0;
+    
+    // 临时存储当季德比控球率
+    let chp = null, cap = null, uhp = null, uap = null;
+
+    d.matches.forEach(m => {
+      // 解析比分
+      const scoreMatch = m.score.match(/(\d+)-(\d+)/);
+      if(!scoreMatch) return; // 未赛或格式不对
+      
+      const scoreHome = parseInt(scoreMatch[1], 10);
+      const scoreAway = parseInt(scoreMatch[2], 10);
+
+      // 判断主客场 (Etihad Stadium 为曼城主场)
+      const isCityHome = m.venue === 'Etihad Stadium';
+
+      if(isCityHome) {
+        // 曼城主场
+        cGoals += scoreHome;
+        uGoals += scoreAway;
+        
+        cityYellow += (m.yellow_cards.home || 0);
+        utdYellow += (m.yellow_cards.away || 0);
+        cityRed += (m.red_cards.home || 0);
+        utdRed += (m.red_cards.away || 0);
+
+        if(scoreHome > scoreAway) cityWins++;
+        else if(scoreHome < scoreAway) utdWins++;
+        else draws++;
+
+        // 控球率
+        if(m.possession && m.possession.home !== null) {
+          chp = m.possession.home; // 曼城主场控球
+          uap = m.possession.away; // 曼联客场控球
+        }
+
+      } else {
+        // 曼联主场 (Old Trafford)
+        uGoals += scoreHome;
+        cGoals += scoreAway;
+
+        utdYellow += (m.yellow_cards.home || 0);
+        cityYellow += (m.yellow_cards.away || 0);
+        utdRed += (m.red_cards.home || 0);
+        cityRed += (m.red_cards.away || 0);
+
+        if(scoreHome > scoreAway) utdWins++;
+        else if(scoreHome < scoreAway) cityWins++;
+        else draws++;
+
+        // 控球率
+        if(m.possession && m.possession.home !== null) {
+          uhp = m.possession.home; // 曼联主场控球
+          cap = m.possession.away; // 曼城客场控球
+        }
+      }
+    });
+
+    cityGoals.push(cGoals);
+    utdGoals.push(uGoals);
+    
+    cityHomeDerbyPoss.push(chp);
+    cityAwayDerbyPoss.push(cap);
+    utdHomeDerbyPoss.push(uhp);
+    utdAwayDerbyPoss.push(uap);
+  });
+
+  // 颜色定义
+  const COLOR_CITY = '#6CABDD';
+  const COLOR_UTD = '#DA291C';
+  const COLOR_DRAW = '#BFBFBF';
+
+  const cardsData = [
+    { name:'曼城 黄牌', value:cityYellow, itemStyle:{color:COLOR_CITY} },
+    { name:'曼联 黄牌', value:utdYellow, itemStyle:{color:COLOR_UTD} },
+    { name:'曼城 红牌', value:cityRed, itemStyle:{color:'#4A8BB0'} }, // 深蓝
+    { name:'曼联 红牌', value:utdRed, itemStyle:{color:'#8B0000'} }   // 深红
+  ];
+  const winLoseData = [
+    { name:'曼城 胜', value:cityWins, itemStyle:{color:COLOR_CITY} },
+    { name:'曼联 胜', value:utdWins, itemStyle:{color:COLOR_UTD} },
+    { name:'平局', value:draws, itemStyle:{color:COLOR_DRAW} }
+  ];
+
+  // ============================
+  // 初始化 ECharts
+  // ============================
+  const goalsChart = echarts.init(document.getElementById('goalsChart'),'dark');
+  const rankingChart = echarts.init(document.getElementById('rankingChart'),'dark');
+  const fightChart = echarts.init(document.getElementById('fightChart'),'dark');
+  const possessionChart = echarts.init(document.getElementById('possessionChart'),'dark');
+
+  const commonTooltip = {
+    backgroundColor: 'rgba(10,10,12,0.95)',
+    borderColor: '#888',
+    borderWidth: 1,
+    padding:10,
+    textStyle: { color:'#fff' },
+    extraCssText: 'box-shadow: 0 6px 20px rgba(0,0,0,0.6); border-radius:8px;'
+  };
+
+  // 1. 进球趋势
+  const goalsOption = {
+    tooltip: Object.assign({ trigger:'axis' }, commonTooltip),
+    legend: { data: ['曼城','曼联'], top:8, textStyle:{ color:'#fff' } },
+    grid: { left: '6%', right:'6%', top:'16%', bottom:'12%', containLabel:true },
+    xAxis: { type:'category', data:seasons, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.12)'}} },
+    yAxis: { type:'value', splitLine:{ lineStyle:{ color:'rgba(255,255,255,0.03)'} } },
+    series: [
+      {
+        name:'曼城', type:'line', data:cityGoals, smooth:true, symbol:'circle', symbolSize:8,
+        lineStyle:{ width:3, color:COLOR_CITY, shadowColor:COLOR_CITY, shadowBlur:10 },
+        itemStyle:{ color:COLOR_CITY }
+      },
+      {
+        name:'曼联', type:'line', data:utdGoals, smooth:true, symbol:'diamond', symbolSize:8,
+        lineStyle:{ width:3, color:COLOR_UTD, shadowColor:COLOR_UTD, shadowBlur:10 },
+        itemStyle:{ color:COLOR_UTD }
+      }
+    ]
+  };
+
+  // 2. 排名
+  const rankingOption = {
+    tooltip: Object.assign({ trigger:'axis', formatter: (params) => {
+      const p = params[0];
+      return `${p.axisValue}<br/>${p.seriesName}：第${p.value}名`;
+    } }, commonTooltip),
+    legend:{ data:['曼城','曼联'], top:8, textStyle:{color:'#fff'} },
+    grid: { left:'6%', right:'6%', top:'16%', bottom:'12%', containLabel:true },
+    xAxis:{ type:'category', data:seasons, axisLine:{lineStyle:{color:'rgba(255,255,255,0.12)'}} },
+    yAxis:{ type:'value', inverse:true, min:0, max:10, splitLine:{lineStyle:{color:'rgba(255,255,255,0.03)'}} },
+    series:[
+      {
+        name:'曼城', type:'bar', data:cityRanking, barWidth: '34%',
+        itemStyle:{ color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0,color:'#89CFF0'},{offset:1,color:COLOR_CITY}]) },
+        label:{ show:true, position:'top', color:'#fff' }
+      },
+      {
+        name:'曼联', type:'bar', data:utdRanking, barWidth: '34%',
+        itemStyle:{ color: new echarts.graphic.LinearGradient(0,0,0,1, [{offset:0,color:'#FF6B6B'},{offset:1,color:COLOR_UTD}]) },
+        label:{ show:true, position:'top', color:'#fff' }
+      }
+    ]
+  };
+
+  // 3. 火爆指数
+  const fightOption = {
+    tooltip: Object.assign({ trigger:'item' }, commonTooltip),
+    legend:{ bottom:10, textStyle:{color:'#fff'} },
+    series: [
+      {
+        name:'红黄牌', type:'pie', radius:['22%','38%'], center:['30%','50%'],
+        data: cardsData,
+        label: { color:'#fff', formatter: '{b}\n{c} 张' }
+      },
+      {
+        name:'胜负占比', type:'pie', radius:['22%','38%'], center:['70%','50%'],
+        data: winLoseData,
+        label: { color:'#fff', formatter: '{b}\n{c} 场' }
+      }
+    ]
+  };
+
+  // 4. 控球率对比
+  const possessionOption = {
+    tooltip: Object.assign({ trigger:'item', formatter: (params) => {
+      return `${params.seriesName}<br/>${params.name}：${params.value}%`;
+    } }, commonTooltip),
+    legend: { 
+      data:['曼城(赛季均值)','曼联(赛季均值)','曼城(主场德比)','曼城(客场德比)','曼联(主场德比)','曼联(客场德比)'], 
+      top:8, textStyle:{color:'#fff', fontSize:10}, itemWidth: 12, itemHeight: 8
+    },
+    grid: { left: '4%', right:'4%', top:'24%', bottom:'12%', containLabel:true },
+    xAxis: { type:'category', data:seasons, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.12)'}} },
+    yAxis: { type:'value', name:'控球率(%)', min: 30, max: 80, splitLine:{ lineStyle:{ color:'rgba(255,255,255,0.03)'} } },
+    series: [
+      // 赛季均值（虚线）
+      { 
+        name:'曼城(赛季均值)', type:'line', data:citySeasonAvgPoss, smooth:true,
+        itemStyle:{color:COLOR_CITY}, lineStyle:{type:'dashed', width:2, opacity:0.6}, symbol:'none' 
+      },
+      { 
+        name:'曼联(赛季均值)', type:'line', data:utdSeasonAvgPoss, smooth:true,
+        itemStyle:{color:COLOR_UTD}, lineStyle:{type:'dashed', width:2, opacity:0.6}, symbol:'none' 
+      },
+      // 德比实战（散点）
+      {
+        name:'曼城(主场德比)', type:'scatter', data: cityHomeDerbyPoss,
+        itemStyle:{color:COLOR_CITY}, symbolSize: 10, symbol: 'circle'
+      },
+      {
+        name:'曼城(客场德比)', type:'scatter', data: cityAwayDerbyPoss,
+        itemStyle:{color:'#0b0b0b', borderColor:COLOR_CITY, borderWidth:2}, symbolSize: 10, symbol: 'circle'
+      },
+      {
+        name:'曼联(主场德比)', type:'scatter', data: utdHomeDerbyPoss,
+        itemStyle:{color:COLOR_UTD}, symbolSize: 10, symbol: 'diamond'
+      },
+      {
+        name:'曼联(客场德比)', type:'scatter', data: utdAwayDerbyPoss,
+        itemStyle:{color:'#0b0b0b', borderColor:COLOR_UTD, borderWidth:2}, symbolSize: 10, symbol: 'diamond'
+      }
+    ]
+  };
+
+  goalsChart.setOption(goalsOption);
+  rankingChart.setOption(rankingOption);
+  fightChart.setOption(fightOption);
+  possessionChart.setOption(possessionOption);
+
+  window.addEventListener('resize', () => {
+    goalsChart.resize(); rankingChart.resize(); fightChart.resize(); possessionChart.resize();
+  });
+
+</script>
+</body>
+</html>

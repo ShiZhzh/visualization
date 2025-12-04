@@ -584,3 +584,221 @@ body {
     width: 100%;
     height: calc(100% - 50px);
 }
+
+#derby {
+    position: absolute;
+    top: 5600px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3ddad7;
+    padding: 10px 35px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    text-align: center;
+    white-space: nowrap;
+    font-family: "Microsoft YaHei", "SimHei", sans-serif;
+    letter-spacing: 1px;
+    transition: background-color 0.3s, transform 0.3s;
+    animation: fadeInUp 1s ease-out 0.3s backwards;
+}
+
+#derby-section-container {
+    position: absolute;
+    top: 5680px;
+    width: 95%;
+    max-width: 1400px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 100px;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 280px; /* Adjusted for 4:3 images (240px height) + padding */
+    overflow: hidden;
+    background: #111;
+    border-top: 4px dashed #444; /* Film strip effect */
+    border-bottom: 4px dashed #444;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.carousel-track {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: max-content;
+    animation: scroll 25s linear infinite;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+.carousel-slide {
+    width: 320px; /* 4:3 Aspect Ratio (320x240) */
+    height: 240px;
+    flex-shrink: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    opacity: 1;
+}
+
+.carousel-btn {
+    display: none;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Derby Section Styles */
+.derby-links-container {
+    display: flex;
+    justify-content: center;
+    gap: 80px; /* 分得更开 */
+    margin-top: 60px;
+    padding-bottom: 60px;
+    perspective: 1000px;
+}
+
+.derby-card {
+    position: relative;
+    width: 500px;
+    text-align: center;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.derby-card a {
+    text-decoration: none;
+    display: block;
+}
+
+.img-wrapper {
+    position: relative;
+    padding: 4px;
+    background: #222;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    transition: all 0.4s ease;
+    z-index: 1;
+}
+
+.img-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    /* 默认背景，会被下面的特定样式覆盖 */
+    background: linear-gradient(45deg, #ff2882, #37003c, #00ff85, #3ddad7, #ff2882);
+    background-size: 400%;
+    z-index: -1;
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: glowing 20s linear infinite;
+}
+
+/* --- 特定德比配色定制 --- */
+
+/* 1. 北伦敦德比：阿森纳红 (#DB0007) + 银白色 (#EAEAEA) */
+.derby-card:nth-child(1) .img-wrapper::before {
+    /* 使用 background-image 避免重置 background-size */
+    background-image: linear-gradient(45deg, #DB0007, #EAEAEA, #FFFFFF, #DB0007);
+}
+.derby-card:nth-child(1):hover .img-wrapper {
+    box-shadow: 0 0 30px rgba(219, 0, 7, 0.5), 0 0 60px rgba(234, 234, 234, 0.3);
+}
+.derby-card:nth-child(1):hover .derby-label {
+    text-shadow: 0 0 15px #DB0007, 0 0 25px #FFFFFF;
+}
+
+/* 2. 曼市德比：曼城蓝 (#6CABDD) + 曼联红 (#DA291C) */
+.derby-card:nth-child(2) .img-wrapper::before {
+    background-image: linear-gradient(45deg, #6CABDD, #DA291C, #98C5E9, #6CABDD);
+}
+.derby-card:nth-child(2):hover .img-wrapper {
+    box-shadow: 0 0 30px rgba(108, 171, 221, 0.5), 0 0 60px rgba(218, 41, 28, 0.3);
+}
+.derby-card:nth-child(2):hover .derby-label {
+    text-shadow: 0 0 15px #6CABDD, 0 0 25px #DA291C;
+}
+
+/* 3. 双红会：利物浦红 (#C8102E) + 橙色 (#FF6600) */
+.derby-card:nth-child(3) .img-wrapper::before {
+    background-image: linear-gradient(45deg, #C8102E, #FF6600, #FF9900, #C8102E);
+}
+.derby-card:nth-child(3):hover .img-wrapper {
+    box-shadow: 0 0 30px rgba(200, 16, 46, 0.5), 0 0 60px rgba(255, 102, 0, 0.3);
+}
+.derby-card:nth-child(3):hover .derby-label {
+    text-shadow: 0 0 15px #C8102E, 0 0 25px #FF6600;
+}
+
+/* --- 通用样式继续 --- */
+
+.img-wrapper img {
+    display: block;
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    filter: grayscale(20%) brightness(0.9);
+    transition: all 0.4s ease;
+}
+
+.derby-label {
+    margin-top: 25px;
+    font-size: 24px;
+    font-weight: 900;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.4s ease;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    font-family: "Microsoft YaHei", sans-serif;
+}
+
+/* Hover Effects - 悬停时的光影交互 */
+.derby-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    z-index: 10;
+}
+
+.derby-card:hover .img-wrapper {
+    box-shadow: 0 0 30px rgba(0, 255, 133, 0.4), 0 0 60px rgba(255, 40, 130, 0.2);
+}
+
+.derby-card:hover .img-wrapper::before {
+    opacity: 1; /* 显示流光边框 */
+    animation: glowing 3s linear infinite; /* 加速流动 */
+}
+
+.derby-card:hover .img-wrapper img {
+    filter: grayscale(0%) brightness(1.1);
+}
+
+.derby-card:hover .derby-label {
+    color: #fff;
+    text-shadow: 0 0 10px #00ff85, 0 0 20px #3ddad7; /* 文字发光 */
+    transform: scale(1.1);
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    100% { background-position: 400% 0; }
+}
