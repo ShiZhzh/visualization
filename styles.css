@@ -146,10 +146,10 @@ body {
 #data {
     position: absolute;
     top: 2000px; /* 调整位置，与标题拉开距离 */
-    left: 10%;
+    left: 50%;
     transform: translateX(-50%);
     z-index: 999;
-    font-size: 18px;
+    font-size: 28px;
     font-weight: bold;
     color: #fff;
     background-color: #ff2882; /* 英超粉 */
@@ -167,15 +167,15 @@ body {
 
 #radarChart {
     position: absolute;
-    top: 2100px; /* 调整位置，与标题拉开距离 */
-    left: 10%;
+    top: 2150px; /* 调整位置，与标题拉开距离 */
+    left: 50%;
     transform: translateX(-50%);
     z-index: 999;
     font-size: 18px;
     font-weight: bold;
     color: #fff;
     background-color: #3ddad7; /* 英超蓝 */
-    padding: 10px 25px;
+    padding: 10px 35px;
     border-radius: 4px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     pointer-events: none; /* 防止文字遮挡地图交互 */
@@ -230,4 +230,163 @@ body {
         opacity: 1;
         transform: translateX(0);
     }
+}
+
+/* Merged styles from 1.html */
+#radar-section-container {
+    position: absolute;
+    top: 2200px;
+    width: 100%;
+    max-width: 1400px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 50px;
+}
+
+.radar-header {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center;
+    margin: 30px 0;
+    font-weight: bold;
+}
+.radar-subtitle {
+    text-align: center;
+    color: #e0e0e0; /* Adjusted for dark background visibility */
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+}
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+}
+@media (max-width: 1000px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+.chart-panel,
+.controls-panel {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    color: #333; /* Ensure text is dark on white panel */
+}
+.controls-panel {
+    height: fit-content;
+}
+.section-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: #3b82f6;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e0e0;
+    font-weight: bold;
+}
+.team-buttons {
+    display: grid;
+    gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+.team-btn {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+}
+.team-btn.active {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: #fff;
+    border-color: #3b82f6;
+}
+.team-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(59, 130, 246, 0.2);
+}
+.mode-select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    border: 1px solid #3b82f6;
+    color: #333;
+    cursor: pointer;
+}
+.radar-chart-visual-container {
+    height: 500px;
+    margin: 10px 0;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: #333;
+}
+.data-table th,
+.data-table td {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+}
+.data-table th {
+    background: #f8f9fa;
+    color: #3b82f6;
+    font-weight: 600;
+}
+.team-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.team-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.legend {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: #f8f9fa;
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    color: #333;
+}
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+.metrics-legend {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 10px;
+    line-height: 1.4;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
 }
