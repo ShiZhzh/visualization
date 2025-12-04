@@ -29,7 +29,7 @@
             echarts.registerMap('Yorkshire', geoData);
 
             const option = {
-                backgroundColor: '#f0f0f0',
+                backgroundColor: 'transparent',
                 title: { text: 'Yorkshire and the Humber', left: 'center', top: 20 },
                 geo: {
                     map: 'Yorkshire',
@@ -38,7 +38,9 @@
                     itemStyle: {
                         areaColor: '#33FF99', // LimeGreen
                         borderColor: '#fff',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        shadowBlur: 5,
+                        shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
                         itemStyle: { areaColor: '#90EE90' },

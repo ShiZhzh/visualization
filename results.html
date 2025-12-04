@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>足球比赛可视化（D3）</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body { 
+      font-family: Inter, Roboto, "Helvetica Neue", Arial; 
+      margin: 12px; 
+      background: #fafafa; 
+      color: #222;
+    }
+    h1 { 
+      font-size: 20px; 
+      margin-bottom: 6px; 
+    }
+    .container { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 28px; 
+      max-width: 1200px; 
+    }
+    .row { 
+      display: flex; 
+      gap: 18px; 
+      align-items: flex-start; 
+    }
+    .card { 
+      background: white; 
+      border-radius: 10px; 
+      box-shadow: 0 6px 18px rgba(12, 20, 30, 0.06); 
+      padding: 14px; 
+    }
+    .chart { 
+      width: 100%; 
+    }
+    svg { 
+      overflow: visible; 
+    }
+    .tooltip { 
+      position: absolute; 
+      pointer-events: none; 
+      background: rgba(0, 0, 0, 0.8); 
+      color: white; 
+      padding: 8px 10px; 
+      border-radius: 6px; 
+      font-size: 12px; 
+      display: none; 
+    }
+    .hint { 
+      font-size: 12px; 
+      color: #666; 
+      margin-top: 6px; 
+    }
+    .axis text { 
+      font-size: 12px; 
+    }
+    .axis path, .axis line { 
+      stroke: #ddd; 
+    }
+    .bar:hover { 
+      opacity: 0.85; 
+    }
+    .btn { 
+      padding: 6px 8px; 
+      border-radius: 6px; 
+      border: 1px solid #eee; 
+      background: #fff; 
+      cursor: pointer; 
+      font-size: 12px;
+    }
+    .btn:hover {
+      background: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <h1>足球比赛数据可视化</h1>
+  <div class="hint">说明：请将 CSV 文件命名为 <code>2020-2021.csv</code> 并与本 HTML 放在同一目录，然后通过本地服务器打开（例如 <code>python -m http.server</code>）。CSV 必须包含以下字段：HomeTeam, AwayTeam, FTHG, FTAG, FTR, HS, AS, HST, AST。</div>
+
+  <div class="container">
+    <div class="row">
+      <div class="card" style="flex: 1">
+        <h2>比赛结果分布（主胜/平局/客胜）</h2>
+        <div id="chart-result" class="chart"></div>
+        <div class="hint">交互：鼠标悬停查看具体数量与比例</div>
+      </div>
+      <div class="card" style="width: 420px;">
+        <h2>控件</h2>
+        <div style="margin-bottom: 16px">
+          <button id="sort-goals" class="btn">切换排序方式</button>
+          <div class="hint" style="margin-top: 4px">当前：按进球数降序排列，点击后按队名字母顺序排列</div>
+        </div>
+        <div id="controls" class="hint">
+          <strong>数据说明：</strong><br>
+          • 饼图：显示所有比赛的结果分布<br>
+          • 条形图：显示各队赛季总进球数<br>
+          • 条形图支持两种排序方式
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>各队赛季总进球数</h2>
+      <div id="chart-goals" class="chart" style="height: 500px"></div>
+      <div class="hint">说明：条形表示每个球队的赛季总进球（主场进球 + 客场进球）。鼠标悬停显示更多信息。</div>
+    </div>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+
+<script>
+// ---------- 配置 ----------
+const csvFile = '2020-2021.csv';
+const colors = { H: '#2978b5', D: '#999999', A: '#f06b4a' };
+
+// ---------- 工具函数 ----------
+function safeNum(v) { 
+  const n = +v; 
+  return isNaN(n) ? null : n; 
+}
+
+function formatPct(n, total) { 
+  return ((n / total) * 100).toFixed(1) + '%'; 
+}
+
+// ---------- 主流程 ----------
+d3.csv(csvFile).then(raw => {
+  // 数据转换
+  const data = raw.map(d => {
+    return {
+      HomeTeam: d.HomeTeam,
+      AwayTeam: d.AwayTeam,
+      FTHG: safeNum(d.FTHG),
+      FTAG: safeNum(d.FTAG),
+      FTR: d.FTR,
+      HS: safeNum(d.HS),
+      AS: safeNum(d.AS),
+      HST: safeNum(d.HST),
+      AST: safeNum(d.AST)
+    };
+  });
+
+  // 1. 计算比赛结果分布
+  const resultCounts = { H: 0, D: 0, A: 0 };
+  data.forEach(d => { 
+    if (d.FTR in resultCounts) resultCounts[d.FTR]++; 
+  });
+  const resultTotal = resultCounts.H + resultCounts.D + resultCounts.A;
+  renderResultPie(resultCounts, resultTotal);
+
+  // 2. 计算各队进球总数
+  const goalsByTeam = new Map();
+  data.forEach(d => {
+    if (d.HomeTeam) {
+      const cur = goalsByTeam.get(d.HomeTeam) || { team: d.HomeTeam, goals: 0, matches: 0 };
+      cur.goals += (d.FTHG || 0);
+      cur.matches += 1;
+      goalsByTeam.set(d.HomeTeam, cur);
+    }
+    if (d.AwayTeam) {
+      const cur = goalsByTeam.get(d.AwayTeam) || { team: d.AwayTeam, goals: 0, matches: 0 };
+      cur.goals += (d.FTAG || 0);
+      cur.matches += 1;
+      goalsByTeam.set(d.AwayTeam, cur);
+    }
+  });
+  
+  const goalsArray = Array.from(goalsByTeam.values());
+  goalsArray.sort((a, b) => b.goals - a.goals);
+  renderGoalsBar(goalsArray);
+
+  // 3. 绑定排序按钮事件
+  let sortByGoals = true;
+  d3.select('#sort-goals').on('click', () => {
+    sortByGoals = !sortByGoals;
+    const arr = goalsArray.slice();
+    if (sortByGoals) {
+      arr.sort((a, b) => b.goals - a.goals);
+      d3.select('#sort-goals').text('按字母顺序排序');
+    } else {
+      arr.sort((a, b) => a.team.localeCompare(b.team));
+      d3.select('#sort-goals').text('按进球数排序');
+    }
+    updateGoalsBar(arr);
+  });
+
+}).catch(err => {
+  console.error(err);
+  d3.select('body').append('p')
+    .text('读取 CSV 失败：请确保文件名为 "2020-2021.csv" 并通过 HTTP 服务打开（浏览器跨域限制）。');
+});
+
+// ----------------- 绘图函数 -----------------
+function renderResultPie(counts, total) {
+  const container = d3.select('#chart-result');
+  container.html('');
+  
+  const w = 420, h = 300, r = Math.min(w, h) / 2 - 20;
+  const svg = container.append('svg')
+    .attr('width', w)
+    .attr('height', h)
+    .append('g')
+    .attr('transform', `translate(${w / 2}, ${h / 2})`);
+
+  // 创建饼图数据
+  const pieData = Object.entries(counts).map(([key, value]) => ({ key, value }));
+  const pie = d3.pie().value(d => d.value)(pieData);
+  const arc = d3.arc().innerRadius(0).outerRadius(r);
+
+  // 绘制饼图扇形
+  const arcs = svg.selectAll('path')
+    .data(pie)
+    .enter()
+    .append('g');
+
+  arcs.append('path')
+    .attr('d', arc)
+    .attr('fill', d => colors[d.data.key])
+    .attr('stroke', 'white')
+    .attr('stroke-width', 1)
+    .on('mousemove', (e, d) => {
+      showTooltip(
+        `${labelFor(d.data.key)}<br>${d.data.value} 场 (${formatPct(d.data.value, total)})`,
+        e.pageX, e.pageY
+      );
+    })
+    .on('mouseout', hideTooltip);
+
+  // 中心文字
+  svg.append('text')
+    .attr('text-anchor', 'middle')
+    .attr('dy', '-6')
+    .style('font-size', '14px')
+    .text('比赛结果');
+  
+  svg.append('text')
+    .attr('text-anchor', 'middle')
+    .attr('dy', '16')
+    .style('font-size', '12px')
+    .style('fill', '#666')
+    .text(`共 ${total} 场`);
+
+  // 图例
+  const legend = container.append('div').style('margin-top', '12px');
+  const items = ['H', 'D', 'A'];
+  const mapping = { H: '主队胜', D: '平局', A: '客队胜' };
+  
+  const legendRow = legend.selectAll('.legend-item')
+    .data(items)
+    .enter()
+    .append('div')
+    .style('display', 'inline-block')
+    .style('margin-right', '16px')
+    .style('margin-bottom', '4px');
+  
+  legendRow.append('span')
+    .style('display', 'inline-block')
+    .style('width', '12px')
+    .style('height', '12px')
+    .style('background', d => colors[d])
+    .style('margin-right', '6px')
+    .style('vertical-align', 'middle');
+  
+  legendRow.append('span')
+    .style('font-size', '13px')
+    .text(d => `${mapping[d]} ${counts[d] || 0}`);
+}
+
+function labelFor(k) {
+  return k === 'H' ? '主队胜' : k === 'D' ? '平局' : '客队胜';
+}
+
+function renderGoalsBar(data) {
+  const container = d3.select('#chart-goals');
+  container.html('');
+  
+  const margin = { top: 20, right: 20, bottom: 60, left: 140 };
+  const cw = 1200;
+  const ch = 500;
+  
+  const svg = container.append('svg')
+    .attr('width', '100%')
+    .attr('viewBox', `0 0 ${cw} ${ch}`);
+
+  // 创建比例尺
+  const x = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.goals) || 1])
+    .range([margin.left, cw - margin.right]);
+  
+  const y = d3.scaleBand()
+    .domain(data.map(d => d.team))
+    .range([margin.top, ch - margin.bottom])
+    .padding(0.12);
+
+  // 绘制条形
+  svg.append('g')
+    .selectAll('rect')
+    .data(data)
+    .enter()
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('x', margin.left)
+    .attr('y', d => y(d.team))
+    .attr('height', y.bandwidth())
+    .attr('width', d => x(d.goals) - margin.left)
+    .attr('fill', '#3b82c4')
+    .on('mousemove', (e, d) => {
+      showTooltip(
+        `${d.team}<br>总进球: ${d.goals}<br>比赛场次: ${d.matches}<br>场均进球: ${(d.goals / d.matches).toFixed(2)}`,
+        e.pageX, e.pageY
+      );
+    })
+    .on('mouseout', hideTooltip);
+
+  // 队名标签
+  svg.append('g')
+    .selectAll('text.team')
+    .data(data)
+    .enter()
+    .append('text')
+    .attr('class', 'team')
+    .attr('x', margin.left - 10)
+    .attr('y', d => y(d.team) + y.bandwidth() / 2)
+    .attr('dy', '0.35em')
+    .attr('text-anchor', 'end')
+    .text(d => d.team)
+    .style('font-size', '12px');
+
+  // X轴
+  const xAxis = d3.axisBottom(x)
+    .ticks(8)
+    .tickFormat(d3.format('d'));
+  
+  svg.append('g')
+    .attr('transform', `translate(0, ${ch - margin.bottom})`)
+    .call(xAxis)
+    .selectAll('text')
+    .style('font-size', '12px');
+
+  // X轴标签
+  svg.append('text')
+    .attr('x', cw / 2)
+    .attr('y', ch - 15)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '12px')
+    .style('fill', '#666')
+    .text('总进球数');
+
+  // 保存引用以便更新
+  window._goals = { svg, x, y, margin, cw, ch, data };
+}
+
+function updateGoalsBar(data) {
+  const s = window._goals;
+  if (!s) return;
+  
+  const { svg, cw, ch, margin } = s;
+  svg.selectAll('*').remove();
+
+  const innerWidth = cw - margin.left - margin.right;
+  const innerHeight = ch - margin.top - margin.bottom;
+
+  const x = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.goals) || 1])
+    .range([0, innerWidth]);
+  
+  const y = d3.scaleBand()
+    .domain(data.map(d => d.team))
+    .range([0, innerHeight])
+    .padding(0.12);
+
+  // 主容器
+  const g = svg.append('g')
+    .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+  // 绘制条形
+  g.selectAll('rect')
+    .data(data)
+    .enter()
+    .append('rect')
+    .attr('class', 'bar')
+    .attr('y', d => y(d.team))
+    .attr('height', y.bandwidth())
+    .attr('width', d => x(d.goals))
+    .attr('fill', '#3b82c4')
+    .on('mousemove', (e, d) => {
+      showTooltip(
+        `${d.team}<br>总进球: ${d.goals}<br>比赛场次: ${d.matches}<br>场均进球: ${(d.goals / d.matches).toFixed(2)}`,
+        e.pageX, e.pageY
+      );
+    })
+    .on('mouseout', hideTooltip);
+
+  // Y轴（队名）
+  g.append('g')
+    .call(d3.axisLeft(y))
+    .selectAll('text')
+    .style('font-size', '12px');
+
+  // X轴（进球数）
+  g.append('g')
+    .attr('transform', `translate(0, ${innerHeight})`)
+    .call(d3.axisBottom(x).ticks(8).tickFormat(d3.format('d')))
+    .selectAll('text')
+    .style('font-size', '12px');
+
+  // X轴标签
+  svg.append('text')
+    .attr('x', cw / 2)
+    .attr('y', ch - 15)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '12px')
+    .style('fill', '#666')
+    .text('总进球数');
+
+  // 更新引用
+  s.x = x;
+  s.y = y;
+  s.data = data;
+}
+
+// ---------- 工具提示 ----------
+const tip = d3.select('#tooltip');
+
+function showTooltip(html, x, y) {
+  tip
+    .style('display', 'block')
+    .html(html)
+    .style('left', (x + 12) + 'px')
+    .style('top', (y - 28) + 'px');
+}
+
+function hideTooltip() {
+  tip.style('display', 'none');
+}
+</script>
+</body>
+</html>

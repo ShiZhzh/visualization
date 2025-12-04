@@ -8,7 +8,21 @@ body {
     font-size: 14px; /* 统一的基础字体大小 */
     color: #fff; /* 全局文字白色 */
 }
-
+#chart-container canvas {
+    /* 通过堆叠多层硬阴影模拟 3D 厚度，最后加一层软阴影 */
+    filter:
+            drop-shadow(3px 3px 0px #efefef)
+            drop-shadow(4px 4px 0px #f0f0f0)
+            drop-shadow(5px 5px 0px #f1f1f1)
+            drop-shadow(10px 10px 30px rgba(0, 0, 0, 0.5));
+}
+#subchart-container canvas {
+    filter:
+            drop-shadow(3px 3px 0px #efefef)
+            drop-shadow(4px 4px 0px #f0f0f0)
+            drop-shadow(5px 5px 0px #f1f1f1)
+            drop-shadow(10px 10px 30px rgba(0, 0, 0, 0.5));
+}
 #chart-container {
     position: relative; /* 添加定位使top生效 */
     top:990px;
@@ -89,7 +103,7 @@ body {
     top: 620px; /* 起始位置在600px左右 */
     left: 50%;
     transform: translateX(-50%);
-    width: 60%; /* 限制宽度以保证阅读体验 */
+    width: 80%; /* 限制宽度以保证阅读体验 */
     height: 300px; /* 占据约300px的高度 */
     z-index: 999;
     font-size: 18px; /* 适中的正文字体大小 */

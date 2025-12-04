@@ -13,9 +13,11 @@
     通过可视化带你认识“英超”
 </div>
 <div id="intro-text">
-    英格兰足球超级联赛（Premier League），通常简称“英超”，是英格兰足球总会属下的最高等级职业足球联赛。
-    作为世界上最受欢迎的体育联赛之一，英超以其快节奏的比赛风格、激烈的竞争环境和顶级的球星阵容闻名于世。
-    这里汇聚了曼联、利物浦、阿森纳、切尔西、曼城等豪门俱乐部，每个赛季都上演着扣人心弦的冠军争夺战。
+    英格兰足球超级联赛（Premier League），通常简称“英超”，是英格兰足球总会属下的最高等级职业足球联赛。<br>
+    作为世界上最受欢迎的体育联赛之一，英超以其快节奏的比赛风格、激烈的竞争环境和顶级的球星阵容闻名于世。<br>
+    这里汇聚了曼联、利物浦、阿森纳、切尔西、曼城等豪门俱乐部，每个赛季都上演着扣人心弦的冠军争夺战。<br><br>
+    我们的可视化首先实现了“英超地图”，通过地图展示各俱乐部的分布以及基本情况<br>
+    随后我们通过多种方法可视化了英超联赛数据，直观展示了各俱乐部特点和联赛发展
 </div>
 <div id="msg">
 
@@ -152,7 +154,7 @@
             }
 
             const option = {
-                backgroundColor: '#ffffff', // 修改为白色背景，配合英超风格
+                backgroundColor: 'transparent', // 背景透明，让 CSS drop-shadow 生效
                 geo: {
                     map: 'UK',
                     regions: specialRegions,
@@ -169,7 +171,10 @@
                     },
                     emphasis: {
                         itemStyle: {
-                            areaColor: '#e0e0e0' // 悬浮颜色加深
+                            areaColor: '#e0e0e0', // 悬浮颜色加深
+                            // 悬浮时可以保留一点微弱的阴影
+                            shadowBlur: 5,
+                            shadowColor: 'rgba(0,0,0,0.2)'
                         },
                         label: {
                             show: true,
@@ -183,13 +188,13 @@
                         type: 'scatter',
                         coordinateSystem: 'geo',
                         data: getSeriesData(1), // 初始数据，假设默认缩放为1
-                        symbolSize: 12, // 稍微调大点
+                        symbolSize: 15,
                         itemStyle: {
                             color: '#ff2882', // 英超粉色点
                             borderColor: '#fff',
                             borderWidth: 2,
-                            shadowBlur: 5,
-                            shadowColor: 'rgba(0,0,0,0.3)'
+                            shadowBlur: 8,
+                            shadowColor: 'rgba(0,0,0,0.4)'
                         },
                         label: {
                             show: true,
@@ -228,14 +233,14 @@
                 myChart.setOption({
                     geo: {
                         label: {
-                            show: zoom > 3 // 当缩放大于3时显示地区名称
+                            show: zoom > 2.5 // 当缩放大于3时显示地区名称
                         }
                     },
                     series: [{
                         data: getSeriesData(zoom)
                     }]
                 });
-                //console.log('Current Zoom Level:', zoom);
+                // console.log('Current Zoom Level:', zoom);
             });
 
             myChart.on('click', function(params) {

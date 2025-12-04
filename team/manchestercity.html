@@ -2,13 +2,13 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>阿森纳 FC | Arsenal FC</title>
+    <title>曼城 FC | Manchester City FC</title>
     <style>
-        /* 基础样式 - 通用化，适配不同球队仅需修改主题色 */
+        /* 基础样式 - 曼城主题色（天蓝色+深蓝色） */
         :root {
-            --team-primary: #EF0107; /* 阿森纳红 - 其他球队可替换 */
-            --team-secondary: #023474; /* 阿森纳蓝 - 其他球队可替换 */
-            --team-secondary-dark: #012046; /* 深色辅助色 */
+            --team-primary: #6CABDD; /* 曼城天蓝色 */
+            --team-secondary: #1C2C5B; /* 曼城深蓝色 */
+            --team-secondary-dark: #0E1B38; /* 深色辅助色 */
             --text-main: #333;
             --text-secondary: #555;
             --bg-light: #f4f4f4;
@@ -21,10 +21,10 @@
             background-color: var(--bg-light);
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* 改为顶部对齐，适配更多内容 */
-            min-height: 100vh; /* 最小高度，避免内容溢出 */
+            align-items: flex-start;
+            min-height: 100vh;
             margin: 0;
-            padding: 2rem 1rem; /* 增加上下左右内边距 */
+            padding: 2rem 1rem;
         }
 
         .card {
@@ -33,7 +33,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             text-align: center;
-            max-width: 800px; /* 加宽适配新增内容 */
+            max-width: 800px;
             width: 100%;
         }
 
@@ -134,7 +134,7 @@
             border: none;
         }
 
-        /* 语言切换按钮（固定在页面右上角、尺寸较小，不影响页面图片布局） */
+        /* 语言切换按钮（固定在页面右上角） */
         .lang-btn {
             position: fixed;
             top: 12px;
@@ -146,11 +146,11 @@
             color: white;
             z-index: 9999;
             box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            margin: 0; /* 移除原来的外边距，避免影响布局 */
+            margin: 0;
         }
 
         .lang-btn:hover {
-            background-color: #c80006;
+            background-color: #5a98c9;
         }
 
         /* 返回按钮 */
@@ -189,34 +189,34 @@
     <!-- 语言切换按钮（固定在页面右上角） -->
     <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
     <div class="card">
-    <!-- 球队logo -->
-    <img src="./image/arsenal.jpg" alt="阿森纳队徽" class="team-logo">
+    <!-- 球队logo（替换为曼城logo路径） -->
+    <img src="./image/manchestercity.jpg" alt="曼城队徽" class="team-logo">
     <!-- 球队名称（默认中文） -->
-    <h1 id="teamName">阿森纳足球俱乐部</h1>
+    <h1 id="teamName">曼彻斯特城足球俱乐部</h1>
 
     <!-- 基础信息（默认中文） -->
     <div class="basic-info" id="basicInfo">
-        <p><strong>昵称：</strong>枪手 / 兵工厂</p>
-        <p><strong>主场：</strong>酋长球场</p>
-        <p><strong>所在地：</strong>伦敦（霍洛威）</p>
-        <p><strong>容量：</strong>60704人</p>
-        <p><strong>地理坐标：</strong>51.554877, -0.108435</p>
+        <p><strong>昵称：</strong>蓝月亮 / 曼城</p>
+        <p><strong>主场：</strong>伊蒂哈德球场</p>
+        <p><strong>所在地：</strong>曼彻斯特（曼彻斯特市中心）</p>
+        <p><strong>容量：</strong>53400人（扩建后可达60000+）</p>
+        <p><strong>地理坐标：</strong>53.483060, -2.149287</p>
     </div>
 
     <!-- 俱乐部背景（默认中文） -->
     <h2 id="titleBackground">俱乐部背景</h2>
     <div class="list-section" id="clubBackground">
-        <p>阿森纳成立于1886年，由伦敦东南部伍尔维奇兵工厂的工人创立，最初名为Dial Square FC，后先后更名为皇家阿森纳、伍尔维奇阿森纳，1914年迁至北伦敦后去掉“伍尔维奇”前缀。阿森纳是英格兰足坛最成功的俱乐部之一，以极具观赏性的进攻足球和完善的青训体系著称。</p>
+        <p>曼城成立于1880年，最初名为圣马克西姆斯（West Gorton Saint Marks），1887年更名阿德维克（Ardwick AFC），1894年正式定名曼彻斯特城（Manchester City FC）。2008年被阿布扎比财团收购后，俱乐部迎来高速发展期，成为英超乃至欧洲足坛的顶级豪门，以传控足球和高薪引援、青训建设并重著称。</p>
     </div>
 
     <!-- 标志性事件（默认中文） -->
     <h2 id="titleEvents">标志性事件</h2>
     <div class="list-section" id="iconicEvents">
         <ul>
-            <li><strong>2003-04赛季：</strong>以不败战绩（26胜12平）夺得英超冠军，被称为“无敌舰队”——英超时代唯一达成此成就的球队。</li>
-            <li><strong>2006年：</strong>从使用93年的海布里球场迁至酋长球场，新球场为现代化场馆，容量大幅提升。</li>
-            <li><strong>1971年：</strong>队史首次夺得双冠王（英甲联赛+足总杯）。</li>
-            <li><strong>1996-2018年：</strong>温格执教时期——重塑阿森纳的踢球风格，率队夺得3次英超冠军、7次足总杯冠军，成为俱乐部历史上最成功的主教练。</li>
+            <li><strong>2012年：</strong>英超最后一轮补时阶段由阿圭罗绝杀QPR，以净胜球优势逆转曼联夺冠，创造“93:20”经典时刻。</li>
+            <li><strong>2008年：</strong>阿布扎比联合集团（ADUG）完成对曼城的收购，为俱乐部注入巨额资金，开启金元足球时代。</li>
+            <li><strong>2023年：</strong>夺得欧冠、英超、足总杯三冠王，队史首次加冕欧洲冠军，实现全满贯成就。</li>
+            <li><strong>2011-2023年：</strong>瓜迪奥拉执教时期——率队夺得11座重要奖杯，包括6次英超冠军，打造了传控风格的王朝球队。</li>
         </ul>
     </div>
 
@@ -224,11 +224,13 @@
     <h2 id="titleHonours">荣誉成就</h2>
     <div class="list-section" id="honours">
         <ul>
-            <li><strong>顶级联赛冠军（英甲/英超）：</strong>13次（1930-31、1932-33、1933-34、1934-35、1937-38、1947-48、1952-53、1970-71、1988-89、1990-91、1997-98、2001-02、2003-04）</li>
-            <li><strong>足总杯：</strong>14次（英格兰足坛历史第一）</li>
-            <li><strong>联赛杯：</strong>2次</li>
-            <li><strong>欧洲优胜者杯：</strong>1次（1993-94赛季）</li>
-            <li><strong>社区盾杯：</strong>17次</li>
+            <li><strong>英超联赛冠军：</strong>8次（2011-12、2013-14、2017-18、2018-19、2020-21、2021-22、2022-23、2023-24）</li>
+            <li><strong>足总杯：</strong>7次</li>
+            <li><strong>联赛杯：</strong>8次（英格兰足坛历史第一）</li>
+            <li><strong>欧洲冠军联赛：</strong>1次（2022-23赛季）</li>
+            <li><strong>欧洲超级杯：</strong>1次（2023年）</li>
+            <li><strong>世俱杯：</strong>1次（2023年）</li>
+            <li><strong>社区盾杯：</strong>6次</li>
         </ul>
     </div>
 
@@ -236,15 +238,15 @@
     <h2 id="titleLegends">传奇人物</h2>
     <div class="list-section" id="legends">
         <ul>
-            <li><strong>阿尔塞纳·温格：</strong>主教练（1996-2018）——阿森纳现代化的开拓者，以进攻足球和青训著称，是俱乐部执教时间最长、最成功的主教练。</li>
-            <li><strong>蒂埃里·亨利：</strong>前锋（1999-2007、2012）——阿森纳队史射手王（228球），4次英超金靴得主，“无敌舰队”时代的象征。</li>
-            <li><strong>丹尼斯·博格坎普：</strong>前锋（1995-2006）——绰号“冰王子”，英超历史最伟大的中场组织者之一，多座冠军的核心球员。</li>
-            <li><strong>托尼·亚当斯：</strong>后卫（1983-2002）——担任队长14年，阿森纳韧性的象征，为俱乐部夺得10座重要奖杯。</li>
-            <li><strong>赫伯特·查普曼：</strong>主教练（1925-1934）——将阿森纳打造成英格兰足坛的霸主，引入泛光灯、球衣号码等创新举措。</li>
+            <li><strong>佩普·瓜迪奥拉：</strong>主教练（2016-至今）——率队实现英超三连冠、欧冠登顶，打造了曼城历史上最成功的王朝。</li>
+            <li><strong>塞尔吉奥·阿圭罗：</strong>前锋（2011-2021）——队史射手王（260球），2012年绝杀夺冠的缔造者，曼城“金元时代”的标志性球员。</li>
+            <li><strong>大卫·席尔瓦：</strong>中场（2010-2020）——曼城中场核心，绰号“魔术师”，为球队夺得10座奖杯，技术细腻的代表。</li>
+            <li><strong>文森特·孔帕尼：</strong>后卫（2008-2019）——球队队长，精神领袖，2018年英超收官战绝杀莱斯特城助力夺冠。</li>
+            <li><strong>科林·贝尔：</strong>中场（1966-1979）——曼城传奇名宿，绰号“国王”，俱乐部百年最佳球员，伊蒂哈德球场南看台以其命名。</li>
         </ul>
     </div>
 
-    <!-- 战绩表格（默认中文） -->
+    <!-- 战绩表格（默认中文，2023-24赛季英超数据） -->
     <h2 id="titleStats">本赛季战绩</h2>
     <table>
         <thead>
@@ -261,14 +263,14 @@
         </thead>
         <tbody>
             <tr>
-                <td>33</td>
+                <td>28</td>
                 <td>14</td>
-                <td>10</td>
+                <td>9</td>
+                <td>4</td>
                 <td>1</td>
-                <td>3</td>
-                <td>27</td>
-                <td>7</td>
-                <td>20</td>
+                <td>32</td>
+                <td>16</td>
+                <td>16</td>
             </tr>
         </tbody>
     </table>
@@ -278,49 +280,51 @@
 </div>
 
 <script>
-    // 定义中英双语文本数据
+    // 定义中英双语文本数据（曼城专属）
     const langData = {
         zh: {
-            teamName: "阿森纳足球俱乐部",
+            teamName: "曼彻斯特城足球俱乐部",
             langBtnText: "切换为英文 | Switch to English",
             basicInfo: `
-                <p><strong>昵称：</strong>枪手 / 兵工厂</p>
-                <p><strong>主场：</strong>酋长球场</p>
-                <p><strong>所在地：</strong>伦敦（霍洛威）</p>
-                <p><strong>容量：</strong>60704人</p>
-                <p><strong>地理坐标：</strong>51.554877, -0.108435</p>
+                <p><strong>昵称：</strong>蓝月亮 / 曼城</p>
+                <p><strong>主场：</strong>伊蒂哈德球场</p>
+                <p><strong>所在地：</strong>曼彻斯特（曼彻斯特市中心）</p>
+                <p><strong>容量：</strong>53400人（扩建后可达60000+）</p>
+                <p><strong>地理坐标：</strong>53.483060, -2.149287</p>
             `,
             titleBackground: "俱乐部背景",
             clubBackground: `
-                <p>阿森纳成立于1886年，由伦敦东南部伍尔维奇兵工厂的工人创立，最初名为Dial Square FC，后先后更名为皇家阿森纳、伍尔维奇阿森纳，1914年迁至北伦敦后去掉“伍尔维奇”前缀。阿森纳是英格兰足坛最成功的俱乐部之一，以极具观赏性的进攻足球和完善的青训体系著称。</p>
+                <p>曼城成立于1880年，最初名为圣马克西姆斯（West Gorton Saint Marks），1887年更名阿德维克（Ardwick AFC），1894年正式定名曼彻斯特城（Manchester City FC）。2008年被阿布扎比财团收购后，俱乐部迎来高速发展期，成为英超乃至欧洲足坛的顶级豪门，以传控足球和高薪引援、青训建设并重著称。</p>
             `,
             titleEvents: "标志性事件",
             iconicEvents: `
                 <ul>
-                    <li><strong>2003-04赛季：</strong>以不败战绩（26胜12平）夺得英超冠军，被称为“无敌舰队”——英超时代唯一达成此成就的球队。</li>
-                    <li><strong>2006年：</strong>从使用93年的海布里球场迁至酋长球场，新球场为现代化场馆，容量大幅提升。</li>
-                    <li><strong>1971年：</strong>队史首次夺得双冠王（英甲联赛+足总杯）。</li>
-                    <li><strong>1996-2018年：</strong>温格执教时期——重塑阿森纳的踢球风格，率队夺得3次英超冠军、7次足总杯冠军，成为俱乐部历史上最成功的主教练。</li>
+                    <li><strong>2012年：</strong>英超最后一轮补时阶段由阿圭罗绝杀QPR，以净胜球优势逆转曼联夺冠，创造“93:20”经典时刻。</li>
+                    <li><strong>2008年：</strong>阿布扎比联合集团（ADUG）完成对曼城的收购，为俱乐部注入巨额资金，开启金元足球时代。</li>
+                    <li><strong>2023年：</strong>夺得欧冠、英超、足总杯三冠王，队史首次加冕欧洲冠军，实现全满贯成就。</li>
+                    <li><strong>2011-2023年：</strong>瓜迪奥拉执教时期——率队夺得11座重要奖杯，包括6次英超冠军，打造了传控风格的王朝球队。</li>
                 </ul>
             `,
             titleHonours: "荣誉成就",
             honours: `
                 <ul>
-                    <li><strong>顶级联赛冠军（英甲/英超）：</strong>13次（1930-31、1932-33、1933-34、1934-35、1937-38、1947-48、1952-53、1970-71、1988-89、1990-91、1997-98、2001-02、2003-04）</li>
-                    <li><strong>足总杯：</strong>14次（英格兰足坛历史第一）</li>
-                    <li><strong>联赛杯：</strong>2次</li>
-                    <li><strong>欧洲优胜者杯：</strong>1次（1993-94赛季）</li>
-                    <li><strong>社区盾杯：</strong>17次</li>
+                    <li><strong>英超联赛冠军：</strong>8次（2011-12、2013-14、2017-18、2018-19、2020-21、2021-22、2022-23、2023-24）</li>
+                    <li><strong>足总杯：</strong>7次</li>
+                    <li><strong>联赛杯：</strong>8次（英格兰足坛历史第一）</li>
+                    <li><strong>欧洲冠军联赛：</strong>1次（2022-23赛季）</li>
+                    <li><strong>欧洲超级杯：</strong>1次（2023年）</li>
+                    <li><strong>世俱杯：</strong>1次（2023年）</li>
+                    <li><strong>社区盾杯：</strong>6次</li>
                 </ul>
             `,
             titleLegends: "传奇人物",
             legends: `
                 <ul>
-                    <li><strong>阿尔塞纳·温格：</strong>主教练（1996-2018）——阿森纳现代化的开拓者，以进攻足球和青训著称，是俱乐部执教时间最长、最成功的主教练。</li>
-                    <li><strong>蒂埃里·亨利：</strong>前锋（1999-2007、2012）——阿森纳队史射手王（228球），4次英超金靴得主，“无敌舰队”时代的象征。</li>
-                    <li><strong>丹尼斯·博格坎普：</strong>前锋（1995-2006）——绰号“冰王子”，英超历史最伟大的中场组织者之一，多座冠军的核心球员。</li>
-                    <li><strong>托尼·亚当斯：</strong>后卫（1983-2002）——担任队长14年，阿森纳韧性的象征，为俱乐部夺得10座重要奖杯。</li>
-                    <li><strong>赫伯特·查普曼：</strong>主教练（1925-1934）——将阿森纳打造成英格兰足坛的霸主，引入泛光灯、球衣号码等创新举措。</li>
+                    <li><strong>佩普·瓜迪奥拉：</strong>主教练（2016-至今）——率队实现英超三连冠、欧冠登顶，打造了曼城历史上最成功的王朝。</li>
+                    <li><strong>塞尔吉奥·阿圭罗：</strong>前锋（2011-2021）——队史射手王（260球），2012年绝杀夺冠的缔造者，曼城“金元时代”的标志性球员。</li>
+                    <li><strong>大卫·席尔瓦：</strong>中场（2010-2020）——曼城中场核心，绰号“魔术师”，为球队夺得10座奖杯，技术细腻的代表。</li>
+                    <li><strong>文森特·孔帕尼：</strong>后卫（2008-2019）——球队队长，精神领袖，2018年英超收官战绝杀莱斯特城助力夺冠。</li>
+                    <li><strong>科林·贝尔：</strong>中场（1966-1979）——曼城传奇名宿，绰号“国王”，俱乐部百年最佳球员，伊蒂哈德球场南看台以其命名。</li>
                 </ul>
             `,
             titleStats: "本赛季战绩",
@@ -335,46 +339,48 @@
             backBtn: "返回地图"
         },
         en: {
-            teamName: "Arsenal FC",
+            teamName: "Manchester City FC",
             langBtnText: "切换为中文 | Switch to Chinese",
             basicInfo: `
-                <p><strong>Nickname:</strong> The Gunners / The Arsenal</p>
-                <p><strong>Stadium:</strong> Emirates Stadium</p>
-                <p><strong>Location:</strong> London (Holloway)</p>
-                <p><strong>Capacity:</strong> 60,704</p>
-                <p><strong>Coordinates:</strong> 51.554877, -0.108435</p>
+                <p><strong>Nickname:</strong> The Citizens / The Sky Blues</p>
+                <p><strong>Stadium:</strong> Etihad Stadium</p>
+                <p><strong>Location:</strong> Manchester (City Centre)</p>
+                <p><strong>Capacity:</strong> 53,400 (expandable to over 60,000)</p>
+                <p><strong>Coordinates:</strong> 53.483060, -2.149287</p>
             `,
             titleBackground: "Club Background",
             clubBackground: `
-                <p>Founded in 1886 by workers at the Royal Arsenal armament factory in Woolwich, south-east London, originally named Dial Square FC. Renamed to Royal Arsenal FC shortly after, then Woolwich Arsenal in 1893, before dropping the "Woolwich" prefix in 1914 after relocating to north London. Arsenal is one of the most successful clubs in English football history, known for its attractive attacking football and youth development system.</p>
+                <p>Founded in 1880 as West Gorton Saint Marks, renamed Ardwick AFC in 1887, and officially became Manchester City FC in 1894. After being acquired by the Abu Dhabi United Group (ADUG) in 2008, the club entered a period of rapid development, becoming a top giant in the Premier League and European football, known for possession-based football, high-priced signings and youth development.</p>
             `,
             titleEvents: "Iconic Events",
             iconicEvents: `
                 <ul>
-                    <li><strong>2003-04 Season:</strong> Completed the Premier League season unbeaten (26 wins, 12 draws), known as the "Invincibles" – the only team to achieve this feat in the Premier League era.</li>
-                    <li><strong>2006:</strong> Moved from Highbury Stadium (home for 93 years) to Emirates Stadium, a new modern venue with increased capacity.</li>
-                    <li><strong>1971:</strong> Won the Double (First Division and FA Cup) for the first time in club history.</li>
-                    <li><strong>1996-2018:</strong> Arsène Wenger's tenure – transformed Arsenal's style of play, won 3 Premier League titles and 7 FA Cups, becoming the club's most successful manager.</li>
+                    <li><strong>2012:</strong> Sergio Agüero's 93rd-minute winner against QPR secured the Premier League title on goal difference, creating the iconic "93:20" moment.</li>
+                    <li><strong>2008:</strong> Abu Dhabi United Group completed the acquisition of Manchester City, injecting huge funds into the club and ushering in the era of financial football.</li>
+                    <li><strong>2023:</strong> Won the UEFA Champions League, Premier League and FA Cup treble, claiming the first European title in club history and achieving a full house of honors.</li>
+                    <li><strong>2016-2023:</strong> Pep Guardiola's tenure – led the team to win 11 major trophies, including 6 Premier League titles, building a dynasty with possession-based style.</li>
                 </ul>
             `,
             titleHonours: "Honours & Achievements",
             honours: `
                 <ul>
-                    <li><strong>Top-flight League Titles (First Division/Premier League):</strong> 13 times (1930-31, 1932-33, 1933-34, 1934-35, 1937-38, 1947-48, 1952-53, 1970-71, 1988-89, 1990-91, 1997-98, 2001-02, 2003-04)</li>
-                    <li><strong>FA Cup:</strong> 14 times (most in English football history)</li>
-                    <li><strong>League Cup:</strong> 2 times</li>
-                    <li><strong>European Cup Winners' Cup:</strong> 1 time (1993-94)</li>
-                    <li><strong>Community Shield:</strong> 17 times</li>
+                    <li><strong>Premier League Titles:</strong> 8 times (2011-12, 2013-14, 2017-18, 2018-19, 2020-21, 2021-22, 2022-23, 2023-24)</li>
+                    <li><strong>FA Cup:</strong> 7 times</li>
+                    <li><strong>League Cup:</strong> 8 times (most in English football history)</li>
+                    <li><strong>UEFA Champions League:</strong> 1 time (2022-23 season)</li>
+                    <li><strong>UEFA Super Cup:</strong> 1 time (2023)</li>
+                    <li><strong>FIFA Club World Cup:</strong> 1 time (2023)</li>
+                    <li><strong>Community Shield:</strong> 6 times</li>
                 </ul>
             `,
             titleLegends: "Legendary Figures",
             legends: `
                 <ul>
-                    <li><strong>Arsène Wenger:</strong> Manager (1996-2018) – Pioneer of modern Arsenal, known for attacking football and youth development, the club's longest-serving and most successful manager.</li>
-                    <li><strong>Thierry Henry:</strong> Forward (1999-2007, 2012) – Arsenal's all-time top scorer (228 goals), 4 times Premier League Golden Boot winner, symbol of the "Invincibles" era.</li>
-                    <li><strong>Dennis Bergkamp:</strong> Forward (1995-2006) – Nicknamed "Iceman", one of the greatest playmakers in Premier League history, key player for multiple trophy wins.</li>
-                    <li><strong>Tony Adams:</strong> Defender (1983-2002) – Club captain for 14 years, symbol of Arsenal's resilience, won 10 major trophies with the club.</li>
-                    <li><strong>Herbert Chapman:</strong> Manager (1925-1934) – Transformed Arsenal into a dominant force in English football, introduced innovations like floodlights and numbered shirts.</li>
+                    <li><strong>Pep Guardiola:</strong> Manager (2016-present) – led the team to three consecutive Premier League titles and Champions League triumph, building the most successful dynasty in City's history.</li>
+                    <li><strong>Sergio Agüero:</strong> Forward (2011-2021) – Club's all-time top scorer (260 goals), creator of the 2012 title-winning winner, iconic player of City's "financial era".</li>
+                    <li><strong>David Silva:</strong> Midfielder (2010-2020) – Core of City's midfield, nicknamed "El Mago" (The Magician), won 10 trophies for the team, representative of exquisite technique.</li>
+                    <li><strong>Vincent Kompany:</strong> Defender (2008-2019) – Team captain and spiritual leader, scored a crucial winner against Leicester City to seal the 2018 Premier League title.</li>
+                    <li><strong>Colin Bell:</strong> Midfielder (1966-1979) – Club legend, nicknamed "King Colin", named the club's greatest player of the century, the South Stand of Etihad Stadium is named after him.</li>
                 </ul>
             `,
             titleStats: "Current Season Stats",

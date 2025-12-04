@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>利物浦 FC | Liverpool FC</title>
+    <style>
+        /* 基础样式 - 利物浦主题色（红军红+利物浦红辅助色） */
+        :root {
+            --team-primary: #C8102E; /* 利物浦主红 */
+            --team-secondary: #00A398; /* 利物浦绿（辅助色） */
+            --team-secondary-dark: #008981; /* 深色辅助色 */
+            --text-main: #333;
+            --text-secondary: #555;
+            --bg-light: #f4f4f4;
+            --bg-white: #fff;
+            --border-light: #eee;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: var(--bg-white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: var(--team-primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+        }
+
+        h2 {
+            color: var(--team-primary);
+            font-size: 1.4rem;
+            margin: 1.8rem 0 0.8rem;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .team-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        /* 基础信息模块 */
+        .basic-info {
+            text-align: left;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        .basic-info p {
+            margin: 0.6rem 0;
+            color: var(--text-secondary);
+        }
+
+        .basic-info strong {
+            color: var(--text-main);
+        }
+
+        /* 列表类模块（事件、荣誉、传奇人物） */
+        .list-section {
+            text-align: left;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .list-section ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .list-section li {
+            margin: 0.4rem 0;
+        }
+
+        .list-section strong {
+            color: var(--text-main);
+        }
+
+        /* 战绩表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--team-primary);
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid var(--border-light);
+            padding: 10px;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* 按钮通用样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* 语言切换按钮（固定在页面右上角） */
+        .lang-btn {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            background-color: var(--team-primary);
+            color: white;
+            z-index: 9999;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+        .lang-btn:hover {
+            background-color: #b00e27;
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            background-color: var(--team-secondary);
+            color: white;
+            margin-top: 2.5rem;
+        }
+
+        .back-btn:hover {
+            background-color: var(--team-secondary-dark);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .card {
+                padding: 1.8rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            .team-logo {
+                width: 100px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 语言切换按钮（固定在页面右上角） -->
+    <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
+    <div class="card">
+    <!-- 球队logo（替换为利物浦logo路径） -->
+    <img src="./image/liverpool.jpg" alt="利物浦队徽" class="team-logo">
+    <!-- 球队名称（默认中文） -->
+    <h1 id="teamName">利物浦足球俱乐部</h1>
+
+    <!-- 基础信息（默认中文） -->
+    <div class="basic-info" id="basicInfo">
+        <p><strong>昵称：</strong>红军 / 利物浦</p>
+        <p><strong>主场：</strong>安菲尔德球场</p>
+        <p><strong>所在地：</strong>默西赛德郡利物浦市</p>
+        <p><strong>容量：</strong>61276人</p>
+        <p><strong>地理坐标：</strong>53.430833, -2.966667</p>
+    </div>
+
+    <!-- 俱乐部背景（默认中文） -->
+    <h2 id="titleBackground">俱乐部背景</h2>
+    <div class="list-section" id="clubBackground">
+        <p>利物浦成立于1892年3月15日，由约翰·霍丁因与埃弗顿俱乐部的场地纠纷创立，主场安菲尔德球场自成立起沿用至今。俱乐部以“你永远不会独行（You'll Never Walk Alone）”为队歌和精神内核，希尔斯堡惨案后形成独特的球迷文化；克洛普执教时期（2015-2024）打造了极具压迫性的“重金属足球”，重回欧洲顶级行列。</p>
+    </div>
+
+    <!-- 标志性事件（默认中文） -->
+    <h2 id="titleEvents">标志性事件</h2>
+    <div class="list-section" id="iconicEvents">
+        <ul>
+            <li><strong>1989年：</strong>希尔斯堡惨案，97名利物浦球迷因球场踩踏遇难，俱乐部长期为遇难者维权，2016年真相最终公布。</li>
+            <li><strong>2005年：</strong>欧冠决赛“伊斯坦布尔奇迹”，半场0-3落后AC米兰，下半场连追3球，点球大战击败对手夺冠。</li>
+            <li><strong>2019-2020赛季：</strong>时隔30年重夺顶级联赛冠军（英超），以99分创队史英超最高分纪录。</li>
+            <li><strong>2015-2024年：</strong>克洛普执教时期——率队夺得欧冠、英超、足总杯等7座奖杯，打造“红箭三侠”锋线组合。</li>
+        </ul>
+    </div>
+
+    <!-- 各项荣誉（默认中文） -->
+    <h2 id="titleHonours">荣誉成就</h2>
+    <div class="list-section" id="honours">
+        <ul>
+            <li><strong>顶级联赛冠军（英甲/英超）：</strong>19次</li>
+            <li><strong>英超联赛冠军：</strong>1次（2019-20赛季）</li>
+            <li><strong>足总杯：</strong>8次</li>
+            <li><strong>联赛杯：</strong>9次（英格兰足坛历史第一）</li>
+            <li><strong>欧洲冠军联赛/欧洲冠军杯：</strong>6次（1976-77、1977-78、1980-81、1983-84、2004-05、2018-19赛季）</li>
+            <li><strong>欧洲联盟杯/欧联杯：</strong>3次</li>
+            <li><strong>欧洲超级杯：</strong>4次</li>
+            <li><strong>世俱杯：</strong>1次（2019年）</li>
+            <li><strong>社区盾杯：</strong>16次</li>
+        </ul>
+    </div>
+
+    <!-- 传奇人物（默认中文） -->
+    <h2 id="titleLegends">传奇人物</h2>
+    <div class="list-section" id="legends">
+        <ul>
+            <li><strong>尤尔根·克洛普：</strong>主教练（2015-2024）——“渣叔”，重塑利物浦，率队夺得队史首个英超冠军、第六座欧冠冠军，打造高压逼抢战术体系。</li>
+            <li><strong>肯尼·达格利什：</strong>前锋/教练（1977-1990、1991-1995执教）——“国王肯尼”，球员时代夺6次联赛冠军，教练时期率队度过希尔斯堡惨案后的艰难时期。</li>
+            <li><strong>史蒂文·杰拉德：</strong>中场（1998-2015）——队长（2003-2015），队魂级人物，为利物浦出场710次，2005年欧冠夺冠核心，标志性远射和领袖气质。</li>
+            <li><strong>伊恩·拉什：</strong>前锋（1980-1987、1988-1996）——队史射手王（346球），夺得5次联赛冠军、2次欧冠冠军，利物浦传奇前锋。</li>
+            <li><strong>阿兰·希勒之外的另一位传奇：</strong>罗比·福勒（1993-2001、2006-2007）——“上帝”，利物浦青训出品，高效射手，代表红军打进183球。</li>
+            <li><strong>杰米·卡拉格：</strong>后卫（1996-2013）——铁血后卫，为利物浦出场737次，队史出场次数第二，忠诚的代表。</li>
+        </ul>
+    </div>
+
+    <!-- 战绩表格（默认中文，2023-24赛季英超数据） -->
+    <h2 id="titleStats">本赛季战绩</h2>
+    <table>
+        <thead>
+            <tr>
+                <th id="thPoints">积分</th>
+                <th id="thPlayed">场次</th>
+                <th id="thWon">胜</th>
+                <th id="thLost">负</th>
+                <th id="thDrawn">平</th>
+                <th id="thGF">进球</th>
+                <th id="thGA">失球</th>
+                <th id="thGD">净胜球</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>22</td>
+                <td>14</td>
+                <td>7</td>
+                <td>6</td>
+                <td>1</td>
+                <td>21</td>
+                <td>21</td>
+                <td>0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 返回按钮（默认中文） -->
+    <a  onclick="window.location.href='../main.html#chart'" class="btn back-btn" id="backBtn">返回地图</a>
+</div>
+
+<script>
+    // 定义中英双语文本数据（利物浦专属）
+    const langData = {
+        zh: {
+            teamName: "利物浦足球俱乐部",
+            langBtnText: "切换为英文 | Switch to English",
+            basicInfo: `
+                <p><strong>昵称：</strong>红军 / 利物浦</p>
+                <p><strong>主场：</strong>安菲尔德球场</p>
+                <p><strong>所在地：</strong>默西赛德郡利物浦市</p>
+                <p><strong>容量：</strong>61276人</p>
+                <p><strong>地理坐标：</strong>53.430833, -2.966667</p>
+            `,
+            titleBackground: "俱乐部背景",
+            clubBackground: `
+                <p>利物浦成立于1892年3月15日，由约翰·霍丁因与埃弗顿俱乐部的场地纠纷创立，主场安菲尔德球场自成立起沿用至今。俱乐部以“你永远不会独行（You'll Never Walk Alone）”为队歌和精神内核，希尔斯堡惨案后形成独特的球迷文化；克洛普执教时期（2015-2024）打造了极具压迫性的“重金属足球”，重回欧洲顶级行列。</p>
+            `,
+            titleEvents: "标志性事件",
+            iconicEvents: `
+                <ul>
+                    <li><strong>1989年：</strong>希尔斯堡惨案，97名利物浦球迷因球场踩踏遇难，俱乐部长期为遇难者维权，2016年真相最终公布。</li>
+                    <li><strong>2005年：</strong>欧冠决赛“伊斯坦布尔奇迹”，半场0-3落后AC米兰，下半场连追3球，点球大战击败对手夺冠。</li>
+                    <li><strong>2019-2020赛季：</strong>时隔30年重夺顶级联赛冠军（英超），以99分创队史英超最高分纪录。</li>
+                    <li><strong>2015-2024年：</strong>克洛普执教时期——率队夺得欧冠、英超、足总杯等7座奖杯，打造“红箭三侠”锋线组合。</li>
+                </ul>
+            `,
+            titleHonours: "荣誉成就",
+            honours: `
+                <ul>
+                    <li><strong>顶级联赛冠军（英甲/英超）：</strong>19次</li>
+                    <li><strong>英超联赛冠军：</strong>1次（2019-20赛季）</li>
+                    <li><strong>足总杯：</strong>8次</li>
+                    <li><strong>联赛杯：</strong>9次（英格兰足坛历史第一）</li>
+                    <li><strong>欧洲冠军联赛/欧洲冠军杯：</strong>6次（1976-77、1977-78、1980-81、1983-84、2004-05、2018-19赛季）</li>
+                    <li><strong>欧洲联盟杯/欧联杯：</strong>3次</li>
+                    <li><strong>欧洲超级杯：</strong>4次</li>
+                    <li><strong>世俱杯：</strong>1次（2019年）</li>
+                    <li><strong>社区盾杯：</strong>16次</li>
+                </ul>
+            `,
+            titleLegends: "传奇人物",
+            legends: `
+                <ul>
+                    <li><strong>尤尔根·克洛普：</strong>主教练（2015-2024）——“渣叔”，重塑利物浦，率队夺得队史首个英超冠军、第六座欧冠冠军，打造高压逼抢战术体系。</li>
+                    <li><strong>肯尼·达格利什：</strong>前锋/教练（1977-1990、1991-1995执教）——“国王肯尼”，球员时代夺6次联赛冠军，教练时期率队度过希尔斯堡惨案后的艰难时期。</li>
+                    <li><strong>史蒂文·杰拉德：</strong>中场（1998-2015）——队长（2003-2015），队魂级人物，为利物浦出场710次，2005年欧冠夺冠核心，标志性远射和领袖气质。</li>
+                    <li><strong>伊恩·拉什：</strong>前锋（1980-1987、1988-1996）——队史射手王（346球），夺得5次联赛冠军、2次欧冠冠军，利物浦传奇前锋。</li>
+                    <li><strong>罗比·福勒：</strong>前锋（1993-2001、2006-2007）——“上帝”，利物浦青训出品，高效射手，代表红军打进183球。</li>
+                    <li><strong>杰米·卡拉格：</strong>后卫（1996-2013）——铁血后卫，为利物浦出场737次，队史出场次数第二，忠诚的代表。</li>
+                </ul>
+            `,
+            titleStats: "本赛季战绩",
+            thPoints: "积分",
+            thPlayed: "场次",
+            thWon: "胜",
+            thLost: "负",
+            thDrawn: "平",
+            thGF: "进球",
+            thGA: "失球",
+            thGD: "净胜球",
+            backBtn: "返回地图"
+        },
+        en: {
+            teamName: "Liverpool FC",
+            langBtnText: "切换为中文 | Switch to Chinese",
+            basicInfo: `
+                <p><strong>Nickname:</strong> The Reds / Liverpool</p>
+                <p><strong>Stadium:</strong> Anfield</p>
+                <p><strong>Location:</strong> Liverpool, Merseyside</p>
+                <p><strong>Capacity:</strong> 61,276</p>
+                <p><strong>Coordinates:</strong> 53.430833, -2.966667</p>
+            `,
+            titleBackground: "Club Background",
+            clubBackground: `
+                <p>Founded on March 15, 1892 by John Houlding following a stadium dispute with Everton FC, Liverpool has played at Anfield ever since. The club takes "You'll Never Walk Alone" as its anthem and spiritual core, forming a unique fan culture after the Hillsborough disaster; during Jürgen Klopp's tenure (2015-2024), he built the aggressive "heavy metal football" and returned the club to the top of Europe.</p>
+            `,
+            titleEvents: "Iconic Events",
+            iconicEvents: `
+                <ul>
+                    <li><strong>1989:</strong> Hillsborough Disaster, 97 Liverpool fans died in a stadium crush, the club campaigned for justice for the victims for years, and the truth was finally revealed in 2016.</li>
+                    <li><strong>2005:</strong> "Miracle of Istanbul" in the Champions League final, trailing AC Milan 0-3 at halftime, scored three goals in the second half and won on penalties.</li>
+                    <li><strong>2019-2020 Season:</strong> Won the top-flight league title (Premier League) after 30 years, setting a club-record 99 points in the Premier League.</li>
+                    <li><strong>2015-2024:</strong> Jürgen Klopp's tenure – led the team to win 7 trophies including the Champions League, Premier League and FA Cup, building the "Fab Three" forward line.</li>
+                </ul>
+            `,
+            titleHonours: "Honours & Achievements",
+            honours: `
+                <ul>
+                    <li><strong>Top-flight League Titles (First Division/Premier League):</strong> 19 times</li>
+                    <li><strong>Premier League Titles:</strong> 1 time (2019-20 season)</li>
+                    <li><strong>FA Cup:</strong> 8 times</li>
+                    <li><strong>League Cup:</strong> 9 times (most in English football history)</li>
+                    <li><strong>UEFA Champions League/European Cup:</strong> 6 times (1976-77, 1977-78, 1980-81, 1983-84, 2004-05, 2018-19 seasons)</li>
+                    <li><strong>UEFA Cup/Europa League:</strong> 3 times</li>
+                    <li><strong>UEFA Super Cup:</strong> 4 times</li>
+                    <li><strong>FIFA Club World Cup:</strong> 1 time (2019)</li>
+                    <li><strong>Community Shield:</strong> 16 times</li>
+                </ul>
+            `,
+            titleLegends: "Legendary Figures",
+            legends: `
+                <ul>
+                    <li><strong>Jürgen Klopp:</strong> Manager (2015-2024) – "Kloppo", rebuilt Liverpool, won the club's first Premier League title and sixth Champions League title, creating a high-pressing tactical system.</li>
+                    <li><strong>Kenny Dalglish:</strong> Forward/Manager (1977-1990, managed 1991-1995) – "King Kenny", won 6 league titles as a player, led the team through the difficult period after the Hillsborough disaster as a manager.</li>
+                    <li><strong>Steven Gerrard:</strong> Midfielder (1998-2015) – Captain (2003-2015), the heart and soul of the team, made 710 appearances for Liverpool, core of the 2005 Champions League win, known for iconic long-range shots and leadership.</li>
+                    <li><strong>Ian Rush:</strong> Forward (1980-1987, 1988-1996) – Club's all-time top scorer (346 goals), won 5 league titles and 2 Champions League titles, a legendary Liverpool striker.</li>
+                    <li><strong>Robbie Fowler:</strong> Forward (1993-2001, 2006-2007) – "God", a product of Liverpool's academy, a prolific striker who scored 183 goals for the Reds.</li>
+                    <li><strong>Jamie Carragher:</strong> Defender (1996-2013) – A tough defender, made 737 appearances for Liverpool (second most in club history), a symbol of loyalty.</li>
+                </ul>
+            `,
+            titleStats: "Current Season Stats",
+            thPoints: "Points",
+            thPlayed: "Played",
+            thWon: "Won",
+            thLost: "Lost",
+            thDrawn: "Drawn",
+            thGF: "GF",
+            thGA: "GA",
+            thGD: "GD",
+            backBtn: "Back to Map"
+        }
+    };
+
+    // 当前语言状态（默认中文）
+    let currentLang = "zh";
+
+    // 获取DOM元素
+    const langToggleBtn = document.getElementById("langToggle");
+    const teamName = document.getElementById("teamName");
+    const basicInfo = document.getElementById("basicInfo");
+    const titleBackground = document.getElementById("titleBackground");
+    const clubBackground = document.getElementById("clubBackground");
+    const titleEvents = document.getElementById("titleEvents");
+    const iconicEvents = document.getElementById("iconicEvents");
+    const titleHonours = document.getElementById("titleHonours");
+    const honours = document.getElementById("honours");
+    const titleLegends = document.getElementById("titleLegends");
+    const legends = document.getElementById("legends");
+    const titleStats = document.getElementById("titleStats");
+    const thPoints = document.getElementById("thPoints");
+    const thPlayed = document.getElementById("thPlayed");
+    const thWon = document.getElementById("thWon");
+    const thLost = document.getElementById("thLost");
+    const thDrawn = document.getElementById("thDrawn");
+    const thGF = document.getElementById("thGF");
+    const thGA = document.getElementById("thGA");
+    const thGD = document.getElementById("thGD");
+    const backBtn = document.getElementById("backBtn");
+
+    // 切换语言函数
+    function toggleLanguage() {
+        // 切换语言状态
+        currentLang = currentLang === "zh" ? "en" : "zh";
+        const targetLang = langData[currentLang];
+
+        // 更新所有文本内容
+        langToggleBtn.textContent = targetLang.langBtnText;
+        teamName.textContent = targetLang.teamName;
+        basicInfo.innerHTML = targetLang.basicInfo;
+        titleBackground.textContent = targetLang.titleBackground;
+        clubBackground.innerHTML = targetLang.clubBackground;
+        titleEvents.textContent = targetLang.titleEvents;
+        iconicEvents.innerHTML = targetLang.iconicEvents;
+        titleHonours.textContent = targetLang.titleHonours;
+        honours.innerHTML = targetLang.honours;
+        titleLegends.textContent = targetLang.titleLegends;
+        legends.innerHTML = targetLang.legends;
+        titleStats.textContent = targetLang.titleStats;
+        thPoints.textContent = targetLang.thPoints;
+        thPlayed.textContent = targetLang.thPlayed;
+        thWon.textContent = targetLang.thWon;
+        thLost.textContent = targetLang.thLost;
+        thDrawn.textContent = targetLang.thDrawn;
+        thGF.textContent = targetLang.thGF;
+        thGA.textContent = targetLang.thGA;
+        thGD.textContent = targetLang.thGD;
+        backBtn.textContent = targetLang.backBtn;
+
+        // 更新页面lang属性
+        document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
+    }
+
+    // 绑定按钮点击事件
+    langToggleBtn.addEventListener("click", toggleLanguage);
+</script>
+</body>
+</html>

@@ -29,7 +29,7 @@
             echarts.registerMap('SouthEast', geoData);
 
             const option = {
-                backgroundColor: '#f0f0f0',
+                backgroundColor: 'transparent',
                 title: { text: 'South East', left: 'center', top: 20 },
                 geo: {
                     map: 'SouthEast',
@@ -38,7 +38,9 @@
                     itemStyle: {
                         areaColor: '#40E0D0', // Turquoise
                         borderColor: '#fff',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        shadowBlur: 5,
+                        shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
                         itemStyle: { areaColor: '#AFEEEE' },

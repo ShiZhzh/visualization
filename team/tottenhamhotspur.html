@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>托特纳姆热刺 FC | Tottenham Hotspur FC</title>
+    <style>
+        /* 基础样式 - 热刺主题色（海军蓝+白色） */
+        :root {
+            --team-primary: #132257; /* 热刺海军蓝 */
+            --team-secondary: #FFFFFF; /* 热刺白（辅助色） */
+            --team-secondary-dark: #F0F0F0; /* 浅灰辅助色 */
+            --text-main: #333;
+            --text-secondary: #555;
+            --bg-light: #f4f4f4;
+            --bg-white: #fff;
+            --border-light: #eee;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: var(--bg-white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: var(--team-primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+        }
+
+        h2 {
+            color: var(--team-primary);
+            font-size: 1.4rem;
+            margin: 1.8rem 0 0.8rem;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .team-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        /* 基础信息模块 */
+        .basic-info {
+            text-align: left;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        .basic-info p {
+            margin: 0.6rem 0;
+            color: var(--text-secondary);
+        }
+
+        .basic-info strong {
+            color: var(--text-main);
+        }
+
+        /* 列表类模块（事件、荣誉、传奇人物） */
+        .list-section {
+            text-align: left;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .list-section ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .list-section li {
+            margin: 0.4rem 0;
+        }
+
+        .list-section strong {
+            color: var(--text-main);
+        }
+
+        /* 战绩表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--team-primary);
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid var(--border-light);
+            padding: 10px;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* 按钮通用样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* 语言切换按钮（固定在页面右上角） */
+        .lang-btn {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            background-color: var(--team-primary);
+            color: white;
+            z-index: 9999;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+        .lang-btn:hover {
+            background-color: #0f1b48;
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            background-color: var(--team-primary);
+            color: white;
+            margin-top: 2.5rem;
+            border: 1px solid var(--team-secondary);
+        }
+
+        .back-btn:hover {
+            background-color: #0d183f;
+            color: var(--team-secondary-dark);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .card {
+                padding: 1.8rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            .team-logo {
+                width: 100px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 语言切换按钮（固定在页面右上角） -->
+    <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
+    <div class="card">
+    <!-- 球队logo（替换为热刺logo路径） -->
+    <img src="./image/spurs.jpg" alt="托特纳姆热刺队徽" class="team-logo">
+    <!-- 球队名称（默认中文） -->
+    <h1 id="teamName">托特纳姆热刺足球俱乐部</h1>
+
+    <!-- 基础信息（默认中文） -->
+    <div class="basic-info" id="basicInfo">
+        <p><strong>昵称：</strong>热刺 / 白百合</p>
+        <p><strong>主场：</strong>托特纳姆热刺球场（新白鹿巷）</p>
+        <p><strong>所在地：</strong>伦敦（托特纳姆区）</p>
+        <p><strong>容量：</strong>62062人</p>
+        <p><strong>地理坐标：</strong>51.604167, -0.065833</p>
+    </div>
+
+    <!-- 俱乐部背景（默认中文） -->
+    <h2 id="titleBackground">俱乐部背景</h2>
+    <div class="list-section" id="clubBackground">
+        <p>托特纳姆热刺成立于1882年9月5日，由一群当地板球运动员创立，是伦敦历史最悠久的俱乐部之一。热刺1960-61赛季成为英格兰首支“双冠王”球队（英甲+足总杯）；2017年搬入新建成的托特纳姆热刺球场，取代使用了118年的白鹿巷球场；俱乐部以青训体系闻名，凯恩、阿里等球星均出自自家青训。</p>
+    </div>
+
+    <!-- 标志性事件（默认中文） -->
+    <h2 id="titleEvents">标志性事件</h2>
+    <div class="list-section" id="iconicEvents">
+        <ul>
+            <li><strong>1960-61赛季：</strong>夺得英甲和足总杯双冠王，成为20世纪英格兰首支达成该成就的球队。</li>
+            <li><strong>1963年：</strong>击败马德里竞技夺得欧洲优胜者杯，成为英格兰首支夺得欧洲赛事冠军的球队。</li>
+            <li><strong>2016-17赛季：</strong>波切蒂诺执教下的热刺取得英超亚军，创队史英超最高积分（86分），打造青年军阵容。</li>
+            <li><strong>2017年：</strong>正式迁入新托特纳姆热刺球场，新球场配备可伸缩草坪、屋顶看台等顶级设施，总造价超10亿英镑。</li>
+        </ul>
+    </div>
+
+    <!-- 各项荣誉（默认中文） -->
+    <h2 id="titleHonours">荣誉成就</h2>
+    <div class="list-section" id="honours">
+        <ul>
+            <li><strong>顶级联赛冠军（英甲）：</strong>2次（1950-51、1960-61赛季）</li>
+            <li><strong>英超联赛亚军：</strong>2次（2016-17、2018-19赛季）</li>
+            <li><strong>足总杯：</strong>8次</li>
+            <li><strong>联赛杯：</strong>4次</li>
+            <li><strong>欧洲优胜者杯：</strong>1次（1962-63赛季）</li>
+            <li><strong>欧洲联盟杯/欧联杯：</strong>2次（1971-72、1983-84赛季）</li>
+            <li><strong>社区盾杯：</strong>7次</li>
+        </ul>
+    </div>
+
+    <!-- 传奇人物（默认中文） -->
+    <h2 id="titleLegends">传奇人物</h2>
+    <div class="list-section" id="legends">
+        <ul>
+            <li><strong>哈里·凯恩：</strong>前锋（2011-2023）——队史射手王（280球），英超热刺射手王，多次夺得英超金靴，英格兰国家队队长。</li>
+            <li><strong>吉奥夫·赫斯特：</strong>前锋（1961-1972）——热刺青训出品，1966年世界杯决赛上演帽子戏法，唯一在世界杯决赛戴帽的英格兰球员。</li>
+            <li><strong>丹尼·布兰奇弗洛尔：</strong>中场（1950-1964）——1961年双冠王核心，1958年欧洲足球先生，热刺传奇中场。</li>
+            <li><strong>加雷斯·贝尔：</strong>边锋（2007-2013、2020-2022）——“大圣”，热刺成名的威尔士球星，速度与爆发力兼具，欧冠经典超车成名。</li>
+            <li><strong>毛里西奥·波切蒂诺：</strong>主教练（2014-2019）——打造热刺青年军，率队闯入2018-19赛季欧冠决赛，队史首次进入欧冠决赛。</li>
+            <li><strong>帕特·詹宁斯：</strong>门将（1964-1977）——热刺传奇门将，为球队出场590次，入选英格兰足球名人堂。</li>
+        </ul>
+    </div>
+
+    <!-- 战绩表格（默认中文，2023-24赛季英超数据） -->
+    <h2 id="titleStats">本赛季战绩</h2>
+    <table>
+        <thead>
+            <tr>
+                <th id="thPoints">积分</th>
+                <th id="thPlayed">场次</th>
+                <th id="thWon">胜</th>
+                <th id="thLost">负</th>
+                <th id="thDrawn">平</th>
+                <th id="thGF">进球</th>
+                <th id="thGA">失球</th>
+                <th id="thGD">净胜球</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>19</td>
+                <td>14</td>
+                <td>5</td>
+                <td>5</td>
+                <td>4</td>
+                <td>23</td>
+                <td>18</td>
+                <td>5</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 返回按钮（默认中文） -->
+    <a  onclick="window.location.href='../main.html#chart'" class="btn back-btn" id="backBtn">返回地图</a>
+</div>
+
+<script>
+    // 定义中英双语文本数据（热刺专属）
+    const langData = {
+        zh: {
+            teamName: "托特纳姆热刺足球俱乐部",
+            langBtnText: "切换为英文 | Switch to English",
+            basicInfo: `
+                <p><strong>昵称：</strong>热刺 / 白百合</p>
+                <p><strong>主场：</strong>托特纳姆热刺球场（新白鹿巷）</p>
+                <p><strong>所在地：</strong>伦敦（托特纳姆区）</p>
+                <p><strong>容量：</strong>62062人</p>
+                <p><strong>地理坐标：</strong>51.604167, -0.065833</p>
+            `,
+            titleBackground: "俱乐部背景",
+            clubBackground: `
+                <p>托特纳姆热刺成立于1882年9月5日，由一群当地板球运动员创立，是伦敦历史最悠久的俱乐部之一。热刺1960-61赛季成为英格兰首支“双冠王”球队（英甲+足总杯）；2017年搬入新建成的托特纳姆热刺球场，取代使用了118年的白鹿巷球场；俱乐部以青训体系闻名，凯恩、阿里等球星均出自自家青训。</p>
+            `,
+            titleEvents: "标志性事件",
+            iconicEvents: `
+                <ul>
+                    <li><strong>1960-61赛季：</strong>夺得英甲和足总杯双冠王，成为20世纪英格兰首支达成该成就的球队。</li>
+                    <li><strong>1963年：</strong>击败马德里竞技夺得欧洲优胜者杯，成为英格兰首支夺得欧洲赛事冠军的球队。</li>
+                    <li><strong>2016-17赛季：</strong>波切蒂诺执教下的热刺取得英超亚军，创队史英超最高积分（86分），打造青年军阵容。</li>
+                    <li><strong>2017年：</strong>正式迁入新托特纳姆热刺球场，新球场配备可伸缩草坪、屋顶看台等顶级设施，总造价超10亿英镑。</li>
+                </ul>
+            `,
+            titleHonours: "荣誉成就",
+            honours: `
+                <ul>
+                    <li><strong>顶级联赛冠军（英甲）：</strong>2次（1950-51、1960-61赛季）</li>
+                    <li><strong>英超联赛亚军：</strong>2次（2016-17、2018-19赛季）</li>
+                    <li><strong>足总杯：</strong>8次</li>
+                    <li><strong>联赛杯：</strong>4次</li>
+                    <li><strong>欧洲优胜者杯：</strong>1次（1962-63赛季）</li>
+                    <li><strong>欧洲联盟杯/欧联杯：</strong>2次（1971-72、1983-84赛季）</li>
+                    <li><strong>社区盾杯：</strong>7次</li>
+                </ul>
+            `,
+            titleLegends: "传奇人物",
+            legends: `
+                <ul>
+                    <li><strong>哈里·凯恩：</strong>前锋（2011-2023）——队史射手王（280球），英超热刺射手王，多次夺得英超金靴，英格兰国家队队长。</li>
+                    <li><strong>吉奥夫·赫斯特：</strong>前锋（1961-1972）——热刺青训出品，1966年世界杯决赛上演帽子戏法，唯一在世界杯决赛戴帽的英格兰球员。</li>
+                    <li><strong>丹尼·布兰奇弗洛尔：</strong>中场（1950-1964）——1961年双冠王核心，1958年欧洲足球先生，热刺传奇中场。</li>
+                    <li><strong>加雷斯·贝尔：</strong>边锋（2007-2013、2020-2022）——“大圣”，热刺成名的威尔士球星，速度与爆发力兼具，欧冠经典超车成名。</li>
+                    <li><strong>毛里西奥·波切蒂诺：</strong>主教练（2014-2019）——打造热刺青年军，率队闯入2018-19赛季欧冠决赛，队史首次进入欧冠决赛。</li>
+                    <li><strong>帕特·詹宁斯：</strong>门将（1964-1977）——热刺传奇门将，为球队出场590次，入选英格兰足球名人堂。</li>
+                </ul>
+            `,
+            titleStats: "本赛季战绩",
+            thPoints: "积分",
+            thPlayed: "场次",
+            thWon: "胜",
+            thLost: "负",
+            thDrawn: "平",
+            thGF: "进球",
+            thGA: "失球",
+            thGD: "净胜球",
+            backBtn: "返回地图"
+        },
+        en: {
+            teamName: "Tottenham Hotspur FC",
+            langBtnText: "切换为中文 | Switch to Chinese",
+            basicInfo: `
+                <p><strong>Nickname:</strong> Spurs / Lilywhites</p>
+                <p><strong>Stadium:</strong> Tottenham Hotspur Stadium (New White Hart Lane)</p>
+                <p><strong>Location:</strong> London (Tottenham)</p>
+                <p><strong>Capacity:</strong> 62,062</p>
+                <p><strong>Coordinates:</strong> 51.604167, -0.065833</p>
+            `,
+            titleBackground: "Club Background",
+            clubBackground: `
+                <p>Founded on September 5, 1882 by a group of local cricketers, Tottenham Hotspur is one of London's oldest clubs. Spurs became the first English team to win the "Double" (First Division + FA Cup) in the 1960-61 season; in 2017, they moved into the newly built Tottenham Hotspur Stadium, replacing White Hart Lane which had been in use for 118 years; the club is renowned for its youth academy, producing stars such as Kane and Alli.</p>
+            `,
+            titleEvents: "Iconic Events",
+            iconicEvents: `
+                <ul>
+                    <li><strong>1960-61 Season:</strong> Won the First Division and FA Cup Double, becoming the first English team to achieve this feat in the 20th century.</li>
+                    <li><strong>1963:</strong> Beat Atlético Madrid to win the European Cup Winners' Cup, becoming the first English team to win a European competition.</li>
+                    <li><strong>2016-17 Season:</strong> Under Pochettino, Spurs finished as Premier League runners-up with a club-record 86 points, building a young squad.</li>
+                    <li><strong>2017:</strong> Officially moved into the new Tottenham Hotspur Stadium, equipped with retractable pitch, roof stands and other top facilities, with a total cost of over £1 billion.</li>
+                </ul>
+            `,
+            titleHonours: "Honours & Achievements",
+            honours: `
+                <ul>
+                    <li><strong>Top-flight League Titles (First Division):</strong> 2 times (1950-51, 1960-61 seasons)</li>
+                    <li><strong>Premier League Runners-up:</strong> 2 times (2016-17, 2018-19 seasons)</li>
+                    <li><strong>FA Cup:</strong> 8 times</li>
+                    <li><strong>League Cup:</strong> 4 times</li>
+                    <li><strong>UEFA Cup Winners' Cup:</strong> 1 time (1962-63 season)</li>
+                    <li><strong>UEFA Cup/Europa League:</strong> 2 times (1971-72, 1983-84 seasons)</li>
+                    <li><strong>Community Shield:</strong> 7 times</li>
+                </ul>
+            `,
+            titleLegends: "Legendary Figures",
+            legends: `
+                <ul>
+                    <li><strong>Harry Kane:</strong> Forward (2011-2023) – Club's all-time top scorer (280 goals), Spurs' top scorer in the Premier League, multiple Premier League Golden Boot winner, captain of the England national team.</li>
+                    <li><strong>Geoff Hurst:</strong> Forward (1961-1972) – Product of Spurs' academy, scored a hat-trick in the 1966 World Cup final, the only English player to do so in a World Cup final.</li>
+                    <li><strong>Danny Blanchflower:</strong> Midfielder (1950-1964) – Core of the 1961 Double-winning team, 1958 Ballon d'Or nominee, Tottenham's legendary midfielder.</li>
+                    <li><strong>Gareth Bale:</strong> Winger (2007-2013, 2020-2022) – "The Welsh Wizard", rose to fame at Spurs, known for speed and power, famous for his iconic Champions League sprint.</li>
+                    <li><strong>Mauricio Pochettino:</strong> Manager (2014-2019) – Built Tottenham's young squad, led the team to the 2018-19 Champions League final (first in club history).</li>
+                    <li><strong>Pat Jennings:</strong> Goalkeeper (1964-1977) – Tottenham's legendary goalkeeper, made 590 appearances for the club, inducted into the English Football Hall of Fame.</li>
+                </ul>
+            `,
+            titleStats: "Current Season Stats",
+            thPoints: "Points",
+            thPlayed: "Played",
+            thWon: "Won",
+            thLost: "Lost",
+            thDrawn: "Drawn",
+            thGF: "GF",
+            thGA: "GA",
+            thGD: "GD",
+            backBtn: "Back to Map"
+        }
+    };
+
+    // 当前语言状态（默认中文）
+    let currentLang = "zh";
+
+    // 获取DOM元素
+    const langToggleBtn = document.getElementById("langToggle");
+    const teamName = document.getElementById("teamName");
+    const basicInfo = document.getElementById("basicInfo");
+    const titleBackground = document.getElementById("titleBackground");
+    const clubBackground = document.getElementById("clubBackground");
+    const titleEvents = document.getElementById("titleEvents");
+    const iconicEvents = document.getElementById("iconicEvents");
+    const titleHonours = document.getElementById("titleHonours");
+    const honours = document.getElementById("honours");
+    const titleLegends = document.getElementById("titleLegends");
+    const legends = document.getElementById("legends");
+    const titleStats = document.getElementById("titleStats");
+    const thPoints = document.getElementById("thPoints");
+    const thPlayed = document.getElementById("thPlayed");
+    const thWon = document.getElementById("thWon");
+    const thLost = document.getElementById("thLost");
+    const thDrawn = document.getElementById("thDrawn");
+    const thGF = document.getElementById("thGF");
+    const thGA = document.getElementById("thGA");
+    const thGD = document.getElementById("thGD");
+    const backBtn = document.getElementById("backBtn");
+
+    // 切换语言函数
+    function toggleLanguage() {
+        // 切换语言状态
+        currentLang = currentLang === "zh" ? "en" : "zh";
+        const targetLang = langData[currentLang];
+
+        // 更新所有文本内容
+        langToggleBtn.textContent = targetLang.langBtnText;
+        teamName.textContent = targetLang.teamName;
+        basicInfo.innerHTML = targetLang.basicInfo;
+        titleBackground.textContent = targetLang.titleBackground;
+        clubBackground.innerHTML = targetLang.clubBackground;
+        titleEvents.textContent = targetLang.titleEvents;
+        iconicEvents.innerHTML = targetLang.iconicEvents;
+        titleHonours.textContent = targetLang.titleHonours;
+        honours.innerHTML = targetLang.honours;
+        titleLegends.textContent = targetLang.titleLegends;
+        legends.innerHTML = targetLang.legends;
+        titleStats.textContent = targetLang.titleStats;
+        thPoints.textContent = targetLang.thPoints;
+        thPlayed.textContent = targetLang.thPlayed;
+        thWon.textContent = targetLang.thWon;
+        thLost.textContent = targetLang.thLost;
+        thDrawn.textContent = targetLang.thDrawn;
+        thGF.textContent = targetLang.thGF;
+        thGA.textContent = targetLang.thGA;
+        thGD.textContent = targetLang.thGD;
+        backBtn.textContent = targetLang.backBtn;
+
+        // 更新页面lang属性
+        document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
+    }
+
+    // 绑定按钮点击事件
+    langToggleBtn.addEventListener("click", toggleLanguage);
+</script>
+</body>
+</html>

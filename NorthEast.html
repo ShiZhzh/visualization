@@ -29,7 +29,7 @@
             echarts.registerMap('NorthEast', geoData);
 
             const option = {
-                backgroundColor: '#f0f0f0',
+                backgroundColor: 'transparent',
                 title: { text: 'North East', left: 'center', top: 20 },
                 geo: {
                     map: 'NorthEast',
@@ -38,7 +38,9 @@
                     itemStyle: {
                         areaColor: '#87CEEB', // SkyBlue
                         borderColor: '#fff',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        shadowBlur: 5,
+                        shadowColor: 'rgba(0,0,0,0.2)'
                     },
                     emphasis: {
                         itemStyle: { areaColor: '#B0E0E6' },

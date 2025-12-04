@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>曼联 FC | Manchester United FC</title>
+    <style>
+        /* 基础样式 - 曼联主题色（红魔红+黑色） */
+        :root {
+            --team-primary: #DA291C; /* 曼联红 */
+            --team-secondary: #000000; /* 曼联黑 */
+            --team-secondary-dark: #1A1A1A; /* 深色辅助色 */
+            --text-main: #333;
+            --text-secondary: #555;
+            --bg-light: #f4f4f4;
+            --bg-white: #fff;
+            --border-light: #eee;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: var(--bg-white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: var(--team-primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+        }
+
+        h2 {
+            color: var(--team-primary);
+            font-size: 1.4rem;
+            margin: 1.8rem 0 0.8rem;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        .team-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        /* 基础信息模块 */
+        .basic-info {
+            text-align: left;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        .basic-info p {
+            margin: 0.6rem 0;
+            color: var(--text-secondary);
+        }
+
+        .basic-info strong {
+            color: var(--text-main);
+        }
+
+        /* 列表类模块（事件、荣誉、传奇人物） */
+        .list-section {
+            text-align: left;
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .list-section ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .list-section li {
+            margin: 0.4rem 0;
+        }
+
+        .list-section strong {
+            color: var(--text-main);
+        }
+
+        /* 战绩表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: var(--team-primary);
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid var(--border-light);
+            padding: 10px;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* 按钮通用样式 */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* 语言切换按钮（固定在页面右上角） */
+        .lang-btn {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            background-color: var(--team-primary);
+            color: white;
+            z-index: 9999;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+        .lang-btn:hover {
+            background-color: #b91e13;
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            background-color: var(--team-secondary);
+            color: white;
+            margin-top: 2.5rem;
+        }
+
+        .back-btn:hover {
+            background-color: var(--team-secondary-dark);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .card {
+                padding: 1.8rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            .team-logo {
+                width: 100px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 语言切换按钮（固定在页面右上角） -->
+    <button class="btn lang-btn" id="langToggle">切换为英文 | Switch to English</button>
+    <div class="card">
+    <!-- 球队logo（替换为曼联logo路径） -->
+    <img src="./image/manchesterunited.jpg" alt="曼联队徽" class="team-logo">
+    <!-- 球队名称（默认中文） -->
+    <h1 id="teamName">曼彻斯特联足球俱乐部</h1>
+
+    <!-- 基础信息（默认中文） -->
+    <div class="basic-info" id="basicInfo">
+        <p><strong>昵称：</strong>红魔 / 曼联</p>
+        <p><strong>主场：</strong>老特拉福德球场</p>
+        <p><strong>所在地：</strong>曼彻斯特（特拉福德区）</p>
+        <p><strong>容量：</strong>74310人（英超最大容量）</p>
+        <p><strong>地理坐标：</strong>53.463056, -2.291389</p>
+    </div>
+
+    <!-- 俱乐部背景（默认中文） -->
+    <h2 id="titleBackground">俱乐部背景</h2>
+    <div class="list-section" id="clubBackground">
+        <p>曼联成立于1878年，最初名为牛顿希斯LYR（Newton Heath LYR），1902年因财政危机重组并更名曼彻斯特联。1945年马特·巴斯比接任主教练，打造“巴斯比宝贝”；1991年格雷泽家族收购俱乐部，弗格森执教期间（1986-2013）率队缔造英超王朝，曼联是英格兰足坛最具影响力的俱乐部之一，全球球迷数量居首。</p>
+    </div>
+
+    <!-- 标志性事件（默认中文） -->
+    <h2 id="titleEvents">标志性事件</h2>
+    <div class="list-section" id="iconicEvents">
+        <ul>
+            <li><strong>1958年：</strong>慕尼黑空难，8名主力球员遇难，巴斯比带领幸存者重建球队，铸就“慕尼黑精神”。</li>
+            <li><strong>1999年：</strong>欧冠决赛补时阶段连入两球逆转拜仁，夺得英超、足总杯、欧冠三冠王，成为英格兰首支三冠王球队。</li>
+            <li><strong>1986-2013年：</strong>弗格森执教时期——率队夺得13次英超冠军、2次欧冠冠军，缔造曼联英超王朝，创英超26年执教纪录。</li>
+            <li><strong>2013年：</strong>弗格森退休，曼联结束27年的弗格森时代，此后历经多任教练更迭，2023年滕哈赫执教后逐步重建。</li>
+        </ul>
+    </div>
+
+    <!-- 各项荣誉（默认中文） -->
+    <h2 id="titleHonours">荣誉成就</h2>
+    <div class="list-section" id="honours">
+        <ul>
+            <li><strong>顶级联赛冠军（英甲/英超）：</strong>20次（英格兰足坛历史第一）</li>
+            <li><strong>英超联赛冠军：</strong>13次（英超历史第一）</li>
+            <li><strong>足总杯：</strong>12次</li>
+            <li><strong>联赛杯：</strong>6次</li>
+            <li><strong>欧洲冠军联赛：</strong>3次（1967-68、1998-99、2007-08赛季）</li>
+            <li><strong>欧洲优胜者杯：</strong>1次</li>
+            <li><strong>欧联杯：</strong>1次（2016-17赛季）</li>
+            <li><strong>世俱杯：</strong>1次（2008年）</li>
+            <li><strong>社区盾杯：</strong>21次（英格兰足坛历史第一）</li>
+        </ul>
+    </div>
+
+    <!-- 传奇人物（默认中文） -->
+    <h2 id="titleLegends">传奇人物</h2>
+    <div class="list-section" id="legends">
+        <ul>
+            <li><strong>亚历克斯·弗格森：</strong>主教练（1986-2013）——曼联教父，率队夺得38座奖杯，缔造英超王朝，是俱乐部历史上最伟大的教练。</li>
+            <li><strong>瑞恩·吉格斯：</strong>边锋（1991-2014）——曼联青训传奇，为球队出场963次队史第一，夺得34座奖杯，英超助攻王。</li>
+            <li><strong>罗伊·基恩：</strong>中场（1993-2005）——队长（1997-2005），铁血队长，曼联99三冠王核心，精神属性的代表。</li>
+            <li><strong>埃里克·坎通纳：</strong>前锋（1992-1997）——“国王坎通纳”，曼联英超首冠功臣，极具个性的传奇射手，7号球衣的传承者。</li>
+            <li><strong>克里斯蒂亚诺·罗纳尔多：</strong>边锋（2003-2009、2021-2022）——曼联7号传奇，成长为世界顶级球星，2008年率队夺得欧冠冠军。</li>
+            <li><strong>博比·查尔顿：</strong>中场（1956-1973）——慕尼黑空难幸存者，队史传奇，1966年世界杯冠军成员，老特拉福德南看台以其命名。</li>
+        </ul>
+    </div>
+
+    <!-- 战绩表格（默认中文，2023-24赛季英超数据） -->
+    <h2 id="titleStats">本赛季战绩</h2>
+    <table>
+        <thead>
+            <tr>
+                <th id="thPoints">积分</th>
+                <th id="thPlayed">场次</th>
+                <th id="thWon">胜</th>
+                <th id="thLost">负</th>
+                <th id="thDrawn">平</th>
+                <th id="thGF">进球</th>
+                <th id="thGA">失球</th>
+                <th id="thGD">净胜球</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>24</td>
+                <td>14</td>
+                <td>7</td>
+                <td>4</td>
+                <td>3</td>
+                <td>23</td>
+                <td>21</td>
+                <td>2</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 返回按钮（默认中文） -->
+    <a  onclick="window.location.href='../main.html#chart'" class="btn back-btn" id="backBtn">返回地图</a>
+</div>
+
+<script>
+    // 定义中英双语文本数据（曼联专属）
+    const langData = {
+        zh: {
+            teamName: "曼彻斯特联足球俱乐部",
+            langBtnText: "切换为英文 | Switch to English",
+            basicInfo: `
+                <p><strong>昵称：</strong>红魔 / 曼联</p>
+                <p><strong>主场：</strong>老特拉福德球场</p>
+                <p><strong>所在地：</strong>曼彻斯特（特拉福德区）</p>
+                <p><strong>容量：</strong>74310人（英超最大容量）</p>
+                <p><strong>地理坐标：</strong>53.463056, -2.291389</p>
+            `,
+            titleBackground: "俱乐部背景",
+            clubBackground: `
+                <p>曼联成立于1878年，最初名为牛顿希斯LYR（Newton Heath LYR），1902年因财政危机重组并更名曼彻斯特联。1945年马特·巴斯比接任主教练，打造“巴斯比宝贝”；1991年格雷泽家族收购俱乐部，弗格森执教期间（1986-2013）率队缔造英超王朝，曼联是英格兰足坛最具影响力的俱乐部之一，全球球迷数量居首。</p>
+            `,
+            titleEvents: "标志性事件",
+            iconicEvents: `
+                <ul>
+                    <li><strong>1958年：</strong>慕尼黑空难，8名主力球员遇难，巴斯比带领幸存者重建球队，铸就“慕尼黑精神”。</li>
+                    <li><strong>1999年：</strong>欧冠决赛补时阶段连入两球逆转拜仁，夺得英超、足总杯、欧冠三冠王，成为英格兰首支三冠王球队。</li>
+                    <li><strong>1986-2013年：</strong>弗格森执教时期——率队夺得13次英超冠军、2次欧冠冠军，缔造曼联英超王朝，创英超26年执教纪录。</li>
+                    <li><strong>2013年：</strong>弗格森退休，曼联结束27年的弗格森时代，此后历经多任教练更迭，2023年滕哈赫执教后逐步重建。</li>
+                </ul>
+            `,
+            titleHonours: "荣誉成就",
+            honours: `
+                <ul>
+                    <li><strong>顶级联赛冠军（英甲/英超）：</strong>20次（英格兰足坛历史第一）</li>
+                    <li><strong>英超联赛冠军：</strong>13次（英超历史第一）</li>
+                    <li><strong>足总杯：</strong>12次</li>
+                    <li><strong>联赛杯：</strong>6次</li>
+                    <li><strong>欧洲冠军联赛：</strong>3次（1967-68、1998-99、2007-08赛季）</li>
+                    <li><strong>欧洲优胜者杯：</strong>1次</li>
+                    <li><strong>欧联杯：</strong>1次（2016-17赛季）</li>
+                    <li><strong>世俱杯：</strong>1次（2008年）</li>
+                    <li><strong>社区盾杯：</strong>21次（英格兰足坛历史第一）</li>
+                </ul>
+            `,
+            titleLegends: "传奇人物",
+            legends: `
+                <ul>
+                    <li><strong>亚历克斯·弗格森：</strong>主教练（1986-2013）——曼联教父，率队夺得38座奖杯，缔造英超王朝，是俱乐部历史上最伟大的教练。</li>
+                    <li><strong>瑞恩·吉格斯：</strong>边锋（1991-2014）——曼联青训传奇，为球队出场963次队史第一，夺得34座奖杯，英超助攻王。</li>
+                    <li><strong>罗伊·基恩：</strong>中场（1993-2005）——队长（1997-2005），铁血队长，曼联99三冠王核心，精神属性的代表。</li>
+                    <li><strong>埃里克·坎通纳：</strong>前锋（1992-1997）——“国王坎通纳”，曼联英超首冠功臣，极具个性的传奇射手，7号球衣的传承者。</li>
+                    <li><strong>克里斯蒂亚诺·罗纳尔多：</strong>边锋（2003-2009、2021-2022）——曼联7号传奇，成长为世界顶级球星，2008年率队夺得欧冠冠军。</li>
+                    <li><strong>博比·查尔顿：</strong>中场（1956-1973）——慕尼黑空难幸存者，队史传奇，1966年世界杯冠军成员，老特拉福德南看台以其命名。</li>
+                </ul>
+            `,
+            titleStats: "本赛季战绩",
+            thPoints: "积分",
+            thPlayed: "场次",
+            thWon: "胜",
+            thLost: "负",
+            thDrawn: "平",
+            thGF: "进球",
+            thGA: "失球",
+            thGD: "净胜球",
+            backBtn: "返回地图"
+        },
+        en: {
+            teamName: "Manchester United FC",
+            langBtnText: "切换为中文 | Switch to Chinese",
+            basicInfo: `
+                <p><strong>Nickname:</strong> The Red Devils / Man Utd</p>
+                <p><strong>Stadium:</strong> Old Trafford</p>
+                <p><strong>Location:</strong> Manchester (Trafford)</p>
+                <p><strong>Capacity:</strong> 74,310 (largest in the Premier League)</p>
+                <p><strong>Coordinates:</strong> 53.463056, -2.291389</p>
+            `,
+            titleBackground: "Club Background",
+            clubBackground: `
+                <p>Founded in 1878 as Newton Heath LYR, the club was rebranded as Manchester United in 1902 after financial crisis. Matt Busby took over as manager in 1945 and built the "Busby Babes"; the Glazer family acquired the club in 1991, and during Sir Alex Ferguson's tenure (1986-2013), the team built a Premier League dynasty. Manchester United is one of the most influential clubs in English football, with the largest global fan base.</p>
+            `,
+            titleEvents: "Iconic Events",
+            iconicEvents: `
+                <ul>
+                    <li><strong>1958:</strong> Munich Air Disaster, 8 key players died, Busby rebuilt the team with survivors, forging the "Munich Spirit".</li>
+                    <li><strong>1999:</strong> Scored two late goals to reverse Bayern Munich in the Champions League final, winning the Premier League, FA Cup and Champions League treble – the first English team to achieve this feat.</li>
+                    <li><strong>1986-2013:</strong> Sir Alex Ferguson's tenure – won 13 Premier League titles and 2 Champions League titles, building Manchester United's Premier League dynasty, setting a 26-year coaching record in the Premier League.</li>
+                    <li><strong>2013:</strong> Ferguson retired, ending United's 27-year Ferguson era. The club has since experienced multiple managerial changes, and Erik ten Hag began rebuilding the team after taking charge in 2023.</li>
+                </ul>
+            `,
+            titleHonours: "Honours & Achievements",
+            honours: `
+                <ul>
+                    <li><strong>Top-flight League Titles (First Division/Premier League):</strong> 20 times (most in English football history)</li>
+                    <li><strong>Premier League Titles:</strong> 13 times (most in Premier League history)</li>
+                    <li><strong>FA Cup:</strong> 12 times</li>
+                    <li><strong>League Cup:</strong> 6 times</li>
+                    <li><strong>UEFA Champions League:</strong> 3 times (1967-68, 1998-99, 2007-08 seasons)</li>
+                    <li><strong>UEFA Cup Winners' Cup:</strong> 1 time</li>
+                    <li><strong>Europa League:</strong> 1 time (2016-17 season)</li>
+                    <li><strong>FIFA Club World Cup:</strong> 1 time (2008)</li>
+                    <li><strong>Community Shield:</strong> 21 times (most in English football history)</li>
+                </ul>
+            `,
+            titleLegends: "Legendary Figures",
+            legends: `
+                <ul>
+                    <li><strong>Sir Alex Ferguson:</strong> Manager (1986-2013) – The Godfather of United, won 38 trophies for the club, built the Premier League dynasty, and is the greatest coach in the club's history.</li>
+                    <li><strong>Ryan Giggs:</strong> Winger (1991-2014) – Manchester United academy legend, made a club-record 963 appearances, won 34 trophies, and is the Premier League's all-time assist leader.</li>
+                    <li><strong>Roy Keane:</strong> Midfielder (1993-2005) – Captain (1997-2005), the "Iron Captain", core of United's 1999 treble-winning team, representative of mental toughness.</li>
+                    <li><strong>Eric Cantona:</strong> Forward (1992-1997) – "King Cantona", hero of United's first Premier League title, a legendary striker with great personality, inheritor of the No.7 jersey.</li>
+                    <li><strong>Cristiano Ronaldo:</strong> Winger (2003-2009, 2021-2022) – Legend of United's No.7 jersey, grew into a world-class star, led the team to win the Champions League in 2008.</li>
+                    <li><strong>Bobby Charlton:</strong> Midfielder (1956-1973) – Survivor of the Munich Air Disaster, club legend, member of the 1966 World Cup-winning team, the South Stand of Old Trafford is named after him.</li>
+                </ul>
+            `,
+            titleStats: "Current Season Stats",
+            thPoints: "Points",
+            thPlayed: "Played",
+            thWon: "Won",
+            thLost: "Lost",
+            thDrawn: "Drawn",
+            thGF: "GF",
+            thGA: "GA",
+            thGD: "GD",
+            backBtn: "Back to Map"
+        }
+    };
+
+    // 当前语言状态（默认中文）
+    let currentLang = "zh";
+
+    // 获取DOM元素
+    const langToggleBtn = document.getElementById("langToggle");
+    const teamName = document.getElementById("teamName");
+    const basicInfo = document.getElementById("basicInfo");
+    const titleBackground = document.getElementById("titleBackground");
+    const clubBackground = document.getElementById("clubBackground");
+    const titleEvents = document.getElementById("titleEvents");
+    const iconicEvents = document.getElementById("iconicEvents");
+    const titleHonours = document.getElementById("titleHonours");
+    const honours = document.getElementById("honours");
+    const titleLegends = document.getElementById("titleLegends");
+    const legends = document.getElementById("legends");
+    const titleStats = document.getElementById("titleStats");
+    const thPoints = document.getElementById("thPoints");
+    const thPlayed = document.getElementById("thPlayed");
+    const thWon = document.getElementById("thWon");
+    const thLost = document.getElementById("thLost");
+    const thDrawn = document.getElementById("thDrawn");
+    const thGF = document.getElementById("thGF");
+    const thGA = document.getElementById("thGA");
+    const thGD = document.getElementById("thGD");
+    const backBtn = document.getElementById("backBtn");
+
+    // 切换语言函数
+    function toggleLanguage() {
+        // 切换语言状态
+        currentLang = currentLang === "zh" ? "en" : "zh";
+        const targetLang = langData[currentLang];
+
+        // 更新所有文本内容
+        langToggleBtn.textContent = targetLang.langBtnText;
+        teamName.textContent = targetLang.teamName;
+        basicInfo.innerHTML = targetLang.basicInfo;
+        titleBackground.textContent = targetLang.titleBackground;
+        clubBackground.innerHTML = targetLang.clubBackground;
+        titleEvents.textContent = targetLang.titleEvents;
+        iconicEvents.innerHTML = targetLang.iconicEvents;
+        titleHonours.textContent = targetLang.titleHonours;
+        honours.innerHTML = targetLang.honours;
+        titleLegends.textContent = targetLang.titleLegends;
+        legends.innerHTML = targetLang.legends;
+        titleStats.textContent = targetLang.titleStats;
+        thPoints.textContent = targetLang.thPoints;
+        thPlayed.textContent = targetLang.thPlayed;
+        thWon.textContent = targetLang.thWon;
+        thLost.textContent = targetLang.thLost;
+        thDrawn.textContent = targetLang.thDrawn;
+        thGF.textContent = targetLang.thGF;
+        thGA.textContent = targetLang.thGA;
+        thGD.textContent = targetLang.thGD;
+        backBtn.textContent = targetLang.backBtn;
+
+        // 更新页面lang属性
+        document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
+    }
+
+    // 绑定按钮点击事件
+    langToggleBtn.addEventListener("click", toggleLanguage);
+</script>
+</body>
+</html>
