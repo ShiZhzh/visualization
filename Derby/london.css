@@ -1,0 +1,224 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#0b0b0b;
+  color:#fff;
+  font-family:"Microsoft Yahei", "Segoe UI", Roboto, sans-serif;
+  padding:28px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* ===========================
+   主容器（带金属质感边框）
+   =========================== */
+.page-wrap{
+  max-width:1280px;
+  margin:0 auto;
+  position:relative;
+  padding:22px;
+  border-radius:16px;
+  overflow:visible;
+}
+
+/* 金属边框：利用伪元素 + 多重渐变产生金属感 */
+.page-wrap::before,
+.page-wrap::after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:20px;
+  pointer-events:none;
+  z-index:0;
+}
+.page-wrap::before{
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.03), rgba(0,0,0,0.25)),
+    linear-gradient(90deg, rgba(255,80,80,0.08), rgba(255,255,255,0.02) 30%, rgba(255,255,255,0.02) 70%, rgba(0,0,0,0.2));
+  filter:blur(6px);
+}
+.page-wrap::after{
+  inset:-2px;
+  background:
+    linear-gradient(90deg, rgba(239,1,7,0.7), rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.02) 60%, rgba(220,220,220,0.45));
+  mix-blend-mode:overlay;
+  opacity:0.95;
+  transform:translateZ(0);
+}
+
+/* 内部面板（真实内容） */
+.panel{
+  position:relative;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px;
+  padding:18px;
+  z-index:5; /* 显示在金属边框之上 */
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+/* ===========================
+   顶部 banner：左右队徽 + 中心标题 + 战术板 overlay
+   =========================== */
+.top-banner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:22px;
+  position:relative;
+}
+
+.team-badge {
+  width:160px;
+  height:160px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.65);
+  flex-shrink:0;
+}
+.team-badge img{
+  width:120px;
+  height:120px;
+  object-fit:contain;
+  display:block;
+}
+
+.banner-center{
+  flex:1;
+  text-align:center;
+  padding:6px 12px;
+  position:relative;
+}
+.banner-title{
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:#fff;
+  text-shadow: 0 6px 20px rgba(0,0,0,0.7);
+  margin-bottom:6px;
+}
+.banner-sub{
+  font-size:14px;
+  color:#e6e6e6;
+  opacity:0.9;
+}
+
+/* 战术板 SVG overlay（半透明线） */
+.tactics-overlay{
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  z-index:2;
+  opacity:0.18;
+  transform:translateY(4px);
+}
+
+/* 导出按钮 */
+.controls{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  margin-top:12px;
+}
+.btn {
+  background: linear-gradient(180deg, #ef0107, #c80000);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:999px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow: 0 6px 18px rgba(239,1,7,0.18);
+  transition:transform .14s ease, box-shadow .14s ease;
+}
+.btn:active{ transform: translateY(2px); box-shadow:none; }
+
+.btn-light {
+  background: linear-gradient(180deg, #ffffff, #f0f0f0);
+  color:#111;
+  box-shadow: 0 4px 14px rgba(255,255,255,0.06);
+}
+
+/* ===========================
+   主内容网格（两列 + 大卡）
+   =========================== */
+.content-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:22px;
+  margin-top:18px;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.04);
+  position:relative;
+  overflow:hidden;
+}
+
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:10px;
+}
+.card-title{
+  color:#fff;
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:1px;
+}
+.card-sub{
+  color:#dcdcdc;
+  font-size:12px;
+  opacity:0.9;
+}
+
+.chart {
+  width:100%;
+  height:420px;
+  border-radius:8px;
+  background: radial-gradient(circle at 20% 15%, rgba(239,1,7,0.04), transparent 6%),
+              radial-gradient(circle at 80% 85%, rgba(255,255,255,0.02), transparent 8%);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* 大卡跨栏 */
+.wide { grid-column: 1 / 3; }
+
+/* 小提示标签 */
+.chip {
+  display:inline-block;
+  padding:6px 10px;
+  background:rgba(255,255,255,0.9);
+  color:#111;
+  border-radius:999px;
+  font-weight:700;
+  font-size:13px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* 小型装饰：金属刻度条 */
+.metal-strip {
+  position:absolute;
+  left:0; right:0;
+  height:4px;
+  top: -2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(200,200,200,0.03), rgba(255,255,255,0.06));
+  opacity:0.6;
+}
+
+/* 响应 */
+@media(max-width:900px){
+  .content-grid{ grid-template-columns: 1fr; }
+  .team-badge{ width:120px; height:120px }
+  .team-badge img{ width:92px; height:92px }
+  .chart{ height:340px }
+}
