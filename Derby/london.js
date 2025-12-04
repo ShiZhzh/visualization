@@ -4,7 +4,6 @@
 // seasonSummary 新增 - avg_possession: number      // 球队当赛季英超场均控球率（百分比，保留1位小数）
 // 原有字段说明不变
 const northLondonDerbyData = [
-    // 2024/25（截至2025.01未结束，数据为当前进度）
     {
         season: "2024/25",
         matches: [
@@ -30,16 +29,16 @@ const northLondonDerbyData = [
         seasonSummary: [
             {
                 team: "Arsenal",
-                leaguePos: 2, // 截至2025.01暂排
-                record: { W: 15, D: 4, L: 1, Pts: 49 }, // 截至20轮
+                leaguePos: 2,
+                record: { W: 20, D: 14, L: 4, Pts: 74 },
                 avg_yellow_per_game: 1.8,
                 avg_red_per_game: 0.05,
-                avg_possession: 58.2 // 阿森纳2024/25场均控球率
+                avg_possession: 58.2
             },
             {
                 team: "Tottenham Hotspur",
-                leaguePos: 4, // 截至2025.01暂排
-                record: { W: 11, D: 5, L: 4, Pts: 38 }, // 截至20轮
+                leaguePos: 17,
+                record: { W: 11, D: 5, L: 22, Pts: 38 },
                 avg_yellow_per_game: 1.9,
                 avg_red_per_game: 0.08,
                 avg_possession: 52.5 // 热刺2024/25场均控球率
@@ -80,8 +79,8 @@ const northLondonDerbyData = [
             },
             {
                 team: "Tottenham Hotspur",
-                leaguePos: 8,
-                record: { W: 18, D: 6, L: 14, Pts: 60 },
+                leaguePos: 5,
+                record: { W: 20, D: 6, L: 12, Pts: 66 },
                 avg_yellow_per_game: 2.0,
                 avg_red_per_game: 0.10,
                 avg_possession: 51.8

@@ -30,8 +30,8 @@ const derbyData = [
         seasonSummary: [
             {
                 team: "Manchester United",
-                leaguePos: 7,
-                record: { W: 9, D: 6, L: 5, Pts: 33 }, // 截至20轮
+                leaguePos: 15,
+                record: { W: 11, D: 9, L: 18, Pts: 42 }, // 截至20轮
                 avg_yellow_per_game: 2.0,
                 avg_red_per_game: 0.1,
                 avg_possession: 48.5 // 曼联2024/25场均控球率
@@ -39,7 +39,7 @@ const derbyData = [
             {
                 team: "Liverpool",
                 leaguePos: 1,
-                record: { W: 16, D: 3, L: 1, Pts: 51 }, // 截至20轮
+                record: { W: 25, D: 9, L: 4, Pts: 84 }, // 截至20轮
                 avg_yellow_per_game: 1.4,
                 avg_red_per_game: 0.05,
                 avg_possession: 56.7 // 利物浦2024/25场均控球率
@@ -73,15 +73,15 @@ const derbyData = [
             {
                 team: "Manchester United",
                 leaguePos: 8,
-                record: { W: 17, D: 10, L: 11, Pts: 61 },
+                record: { W: 18, D: 6, L: 14, Pts: 60 },
                 avg_yellow_per_game: 2.1,
                 avg_red_per_game: 0.1,
                 avg_possession: 47.9
             },
             {
                 team: "Liverpool",
-                leaguePos: 1,
-                record: { W: 31, D: 5, L: 2, Pts: 98 },
+                leaguePos: 3,
+                record: { W: 24, D: 10, L: 4, Pts: 82 },
                 avg_yellow_per_game: 1.5,
                 avg_red_per_game: 0.05,
                 avg_possession: 57.2
@@ -114,8 +114,8 @@ const derbyData = [
         seasonSummary: [
             {
                 team: "Manchester United",
-                leaguePos: 8,
-                record: { W: 16, D: 10, L: 12, Pts: 58 },
+                leaguePos: 3,
+                record: { W: 23, D: 6, L: 9, Pts: 75 },
                 avg_yellow_per_game: 1.9,
                 avg_red_per_game: 0.12,
                 avg_possession: 46.8
@@ -123,7 +123,7 @@ const derbyData = [
             {
                 team: "Liverpool",
                 leaguePos: 5,
-                record: { W: 22, D: 12, L: 4, Pts: 78 },
+                record: { W: 19, D: 10, L: 9, Pts: 67 },
                 avg_yellow_per_game: 1.7,
                 avg_red_per_game: 0.08,
                 avg_possession: 55.9
@@ -157,7 +157,7 @@ const derbyData = [
             {
                 team: "Manchester United",
                 leaguePos: 6,
-                record: { W: 21, D: 11, L: 6, Pts: 74 },
+                record: { W: 16, D: 10, L:12, Pts: 58 },
                 avg_yellow_per_game: 1.8,
                 avg_red_per_game: 0.1,
                 avg_possession: 48.2

@@ -4,7 +4,6 @@
 // seasonSummary 新增 - avg_possession: number      // 球队当赛季英超场均控球率（百分比，保留1位小数）
 // 原有字段说明不变
 const manCityDerbyData = [
-    // 2024/25（截至2025.01未结束，数据为当前进度）
     {
         season: "2024/25",
         matches: [
@@ -18,7 +17,7 @@ const manCityDerbyData = [
                 source: ["turn1search82", "turn1search83"]
             },
             {
-                date: "2025-03-02", // 未赛但按赛程标注（截至2025.01）
+                date: "2025-03-02",
                 venue: "Etihad Stadium",
                 score: "Man City vs Man Utd", // 未赛占位
                 yellow_cards: { home: null, away: null },
@@ -30,16 +29,16 @@ const manCityDerbyData = [
         seasonSummary: [
             {
                 team: "Manchester City",
-                leaguePos: 3, // 截至2025.01暂排
-                record: { W: 14, D: 3, L: 3, Pts: 45 }, // 截至20轮
+                leaguePos: 3,
+                record: { W: 21, D: 8, L: 9, Pts: 71 }, // 截至20轮
                 avg_yellow_per_game: 1.5,
                 avg_red_per_game: 0.05,
                 avg_possession: 60.3 // 曼城2024/25场均控球率
             },
             {
                 team: "Manchester United",
-                leaguePos: 7, // 截至2025.01暂排
-                record: { W: 9, D: 6, L: 5, Pts: 33 }, // 截至20轮
+                leaguePos: 15,
+                record: { W: 11, D: 9, L: 18, Pts: 42 }, // 截至20轮
                 avg_yellow_per_game: 2.0,
                 avg_red_per_game: 0.10,
                 avg_possession: 47.8 // 曼联2024/25场均控球率
@@ -72,8 +71,8 @@ const manCityDerbyData = [
         seasonSummary: [
             {
                 team: "Manchester City",
-                leaguePos: 2,
-                record: { W: 28, D: 5, L: 5, Pts: 89 },
+                leaguePos: 1,
+                record: { W: 28, D: 7, L: 3, Pts: 91 },
                 avg_yellow_per_game: 1.4,
                 avg_red_per_game: 0.06,
                 avg_possession: 59.8
@@ -81,7 +80,7 @@ const manCityDerbyData = [
             {
                 team: "Manchester United",
                 leaguePos: 8,
-                record: { W: 17, D: 10, L: 11, Pts: 61 },
+                record: { W: 18, D: 6, L: 14, Pts: 60 },
                 avg_yellow_per_game: 2.1,
                 avg_red_per_game: 0.10,
                 avg_possession: 46.9
@@ -165,7 +164,7 @@ const manCityDerbyData = [
             {
                 team: "Manchester United",
                 leaguePos: 6,
-                record: { W: 21, D: 11, L: 6, Pts: 74 },
+                record: { W: 16, D: 10, L: 12, Pts: 58 },
                 avg_yellow_per_game: 1.8,
                 avg_red_per_game: 0.10,
                 avg_possession: 48.5
