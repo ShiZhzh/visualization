@@ -280,7 +280,9 @@ body {
     color: #333; /* Ensure text is dark on white panel */
 }
 .controls-panel {
-    height: fit-content;
+    /* height: fit-content; */
+    display: flex;         
+    flex-direction: column;
 }
 .section-title {
     font-size: 1.2rem;
@@ -294,6 +296,7 @@ body {
     display: grid;
     gap: 8px;
     max-height: 400px;
+    flex: 1;            
     overflow-y: auto;
     margin-bottom: 20px;
 }
@@ -425,7 +428,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: 24px;
-    align-items: start;
+    align-items: stretch;
 }
 
 @media (max-width: 900px) {
