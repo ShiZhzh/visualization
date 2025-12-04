@@ -114,11 +114,10 @@
 
       </div> <!-- content-grid end -->
 
-    </div> <!-- panel end -->
-  </div> <!-- page-wrap end -->
+    </div>
 
-<!-- 移除旧的 script 引用，改用 module import -->
-<script type="module">
+
+  <script type="module">
   import northLondonDerbyData from './london.js';
 
   // ============================
@@ -459,7 +458,7 @@
         name:'阿森纳(客场德比)',
         type:'scatter',
         data: arsAwayDerbyPoss,
-        itemStyle:{color:'#EF0107', borderColor:'#EF0107', borderWidth:2, color:'rgba(0,0,0,0.5)'},
+        itemStyle:{color:'#EF0107', borderColor:'#EF0107', borderWidth:2},
         symbolSize: 10,
         symbol: 'circle' // 空心圆效果（通过颜色调整）
       },
@@ -475,7 +474,7 @@
         name:'热刺(客场德比)',
         type:'scatter',
         data: totAwayDerbyPoss,
-        itemStyle:{color:'#FFFFFF', borderColor:'#FFFFFF', borderWidth:2, color:'rgba(0,0,0,0.5)'},
+        itemStyle:{color:'#FFFFFF', borderColor:'#FFFFFF', borderWidth:2, },
         symbolSize: 10,
         symbol: 'diamond' // 空心菱形效果
       }
