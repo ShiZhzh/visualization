@@ -1,4 +1,5 @@
 (function() {
+    // 球队雷达图数据：包含颜色、各项指标值和排名
     const radarTeamsData = {
         "曼城":{color:"#6CABDD",values:[85,87,92,95,55,76],rank:1},
         "利物浦":{color:"#C8102E",values:[92,87,85,95,55,74],rank:2},
@@ -22,6 +23,7 @@
         "诺维奇":{color:"#00A650",values:[18,28,44,30,16,13],rank:20}
     };
 
+    // 雷达图指标定义
     const indicators = [
         {name:"场均进球",max:100},
         {name:"场均射正",max:100},
@@ -31,12 +33,15 @@
         {name:"胜率",max:100}
     ];
 
+    // 当前选中球队和模式状态
     let radarSelected = ["曼城"], radarMode = "single", radarChartInstance = null;
 
 
     (function initRadar(){
         const btns = document.getElementById("teamButtons");
         if (!btns) return;
+        
+        // 生成球队选择按钮
         Object.keys(radarTeamsData).forEach(t=>{
             const b = document.createElement("button");
             b.className = "team-btn";
@@ -46,6 +51,7 @@
             btns.appendChild(b);
         });
 
+        // 模式切换 (单队/对比)
         document.getElementById("modeSelect").onchange = e=>{
             radarMode = e.target.value;
             document.getElementById("comparisonGroup").style.display = radarMode==="compare"?"block":"none";
@@ -53,20 +59,24 @@
             updateRadar();
         };
 
+        // 对比模式下的下拉选择框初始化
         const a = document.getElementById("teamASelect"), b = document.getElementById("teamBSelect");
         Object.keys(radarTeamsData).forEach(t=>{a.add(new Option(t,t)); b.add(new Option(t,t));});
         a.onchange = ()=>{radarSelected[0]=a.value; updateRadar();}
         b.onchange = ()=>{radarSelected[1]=b.value; updateRadar();}
 
+        // 初始化ECharts实例
         radarChartInstance = echarts.init(document.getElementById("radar-chart-visual"));
         window.addEventListener('resize', ()=>radarChartInstance.resize());
 
         updateRadar();
     })();
 
+    // 处理球队按钮点击
     function selectRadarTeam(t){
         if(radarMode==="single") radarSelected = [t];
         else{
+            // 对比模式下：如果已选则取消，未选则添加/替换
             if(radarSelected.includes(t)) radarSelected = radarSelected.filter(x=>x!==t);
             else if(radarSelected.length<2) radarSelected.push(t);
             else radarSelected[1] = t;
@@ -74,15 +84,19 @@
         updateRadar();
     }
 
+    // 更新雷达图和相关UI
     function updateRadar(){
+        // 更新按钮激活状态
         document.querySelectorAll(".team-btn").forEach(b=>b.classList.toggle("active",radarSelected.includes(b.textContent)));
         if(radarSelected[0]) document.getElementById("teamASelect").value = radarSelected[0];
         if(radarSelected[1]) document.getElementById("teamBSelect").value = radarSelected[1];
 
+        // 更新标题
         document.getElementById("chartTitle").textContent = radarMode==="single"
             ? `${radarSelected[0]} - 2021-2022赛季表现雷达图`
             : `${radarSelected[0]} vs ${radarSelected[1]} - 对比雷达图`;
 
+        // 准备图表数据系列
         const seriesData = radarSelected.map(t=>({
             name: t,
             value: radarTeamsData[t].values,
@@ -91,6 +105,7 @@
             areaStyle: {color: hexToRgba(radarTeamsData[t].color,0.25)}
         }));
 
+        // 设置ECharts选项
         radarChartInstance.setOption({
             legend: {data: radarSelected, top:20, right:30, textStyle:{color:"#333"}},
             radar: {
@@ -110,12 +125,14 @@
             series: [{type:"radar", data:seriesData}]
         }, true);
 
+        // 更新自定义图例HTML
         document.getElementById("chartLegend").innerHTML = radarSelected.map(t=>`
             <div class="legend-item">
                 <div class="legend-color" style="background:${radarTeamsData[t].color}"></div>
                 <span>${t} (${radarTeamsData[t].rank}名)</span>
             </div>`).join("");
 
+        // 更新数据表格
         const table = document.getElementById("dataTable");
         const head = `<tr><th>俱乐部</th>${indicators.map(i=>`<th>${i.name}</th>`).join("")}<th>排名</th></tr>`;
         const rows = radarSelected.map(t=>{
@@ -130,6 +147,7 @@
         table.innerHTML = `<thead>${head}</thead><tbody>${rows}</tbody>`;
     }
 
+    // 辅助函数：Hex颜色转RGBA
     function hexToRgba(h,a){
         const r=parseInt(h.slice(1,3),16), g=parseInt(h.slice(3,5),16), b=parseInt(h.slice(5,7),16);
         return `rgba(${r},${g},${b},${a})`;

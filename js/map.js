@@ -1,31 +1,33 @@
 (function() {
-    var teamsData = allTeamsData;
+    var teamsData = allTeamsData; // 假设 allTeamsData 在全局定义
 
     const chartDom = document.getElementById('chart-container');
     if (!chartDom) return;
     const myChart = echarts.init(chartDom);
 
+    // 加载英国地图GeoJSON数据
     fetch("gb.json")
         .then(response => response.json())
         .then(geoData => {
     
+            // 过滤非英格兰地区的ID集合
             const nonEnglishIds = new Set([
-             
+                // 苏格兰地区
                 "GBABD", "GBABE", "GBAGB", "GBANS", "GBCLK", "GBDGY", "GBDND", "GBEAY", "GBEDH", "GBEDU",
                 "GBELN", "GBELS", "GBFAL", "GBFIF", "GBGLG", "GBHLD", "GBIVC", "GBMLN", "GBMRY", "GBNAY",
                 "GBNLK", "GBORK", "GBPKN", "GBRFW", "GBSAY", "GBSCB", "GBSLK", "GBSTG", "GBWDU", "GBWLN",
                 "GBZET","GBERW",
-             
+                // 威尔士地区
                 "GBAGY", "GBBGE", "GBBGW", "GBCAY", "GBCGN", "GBCMN", "GBCRF", "GBCWY", "GBDEN", "GBFLN",
                 "GBGWN", "GBMON", "GBMTY", "GBNTL", "GBNWP", "GBPEM", "GBPOW", "GBRCT", "GBSWA", "GBTOF",
                 "GBVGL", "GBWRX",
-              
+                // 北爱尔兰地区
                 "GBANT", "GBARD", "GBARM", "GBBLA", "GBBLY", "GBBNB", "GBBFS", "GBCKF", "GBCSR", "GBCKT",
                 "GBCLR", "GBCGV", "GBDGN", "GBDOW", "GBDRY", "GBFER", "GBLMV", "GBLRN", "GBLSB", "GBMFT",
                 "GBMYL", "GBNDN", "GBNTA", "GBNYM", "GBOMH", "GBSTB"
             ]);
 
-
+            // 定义英格兰各区域的颜色和包含的行政区ID
             const regionConfig = [
                 {
                     name: "North East",
@@ -84,11 +86,13 @@
                 }
             ];
 
+            // 过滤GeoJSON特征，只保留英格兰
             geoData.features = geoData.features.filter(feature => !nonEnglishIds.has(feature.properties.id));
 
             const specialRegions = [];
             const districtToRegionMap = {};
 
+            // 映射行政区到大区，并设置区域颜色
             geoData.features.forEach(feature => {
        
                 const region = regionConfig.find(r => r.ids.has(feature.properties.id));
@@ -103,8 +107,10 @@
                 }
             });
 
+            // 注册地图
             echarts.registerMap('UK', geoData);
 
+            // 根据缩放级别获取显示的数据点 (缩放越大显示越多)
             function getSeriesData(zoom) {
                 let limit;
                 if (zoom < 1.5) {
@@ -125,12 +131,13 @@
                 }));
             }
 
+            // 地图配置项
             const option = {
                 backgroundColor: 'transparent', 
                 geo: {
                     map: 'UK',
                     regions: specialRegions,
-                    roam: true,
+                    roam: true, // 开启缩放和平移
                     label: {
                         show: false, 
                         color: '#999',
@@ -190,13 +197,14 @@
                 tooltip: {
                     trigger: 'item',
                     enterable: true,
-                    formatter: getTooltipFormatter()
+                    formatter: getTooltipFormatter() // 假设此函数在外部定义
                 }
             };
 
             myChart.setOption(option);
 
             
+            // 监听缩放事件，动态调整标签显示
             myChart.on('georoam', function () {
                 
                 const zoom = myChart.getModel().getComponent('geo').coordinateSystem.getZoom();
@@ -213,13 +221,14 @@
                 });
             });
 
+            // 监听点击事件
             myChart.on('click', function(params) {
                 console.log(params.componentType);
                 if (params.componentType === 'series') {
-             
+                    // 点击球队点，跳转到球队详情页
                     window.location.href = "./team/" + params.name.replace(/\s+/g, '').toLowerCase() + ".html";
                 } else if (params.componentType === 'geo') {
-                    
+                    // 点击地图区域，跳转到区域详情页
                     const districtName = params.name;
              
                     const regionName = districtToRegionMap[districtName];
